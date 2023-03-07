@@ -1,0 +1,10 @@
+# sorted alphabetically
+ghp-import
+jupyter-book==0.12.3
+matplotlib>=3.5.3
+numpy
+pandas
+scikit-learn
+seaborn
+sphinx_proof
+statsmodels

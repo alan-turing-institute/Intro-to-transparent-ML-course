@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/datarootsio/databooks
+    rev: 1.2.5
+    hooks:
+      - id: databooks-meta
+        args: ["--cell-meta-keep=tags", "--nb-meta-keep=kernelspec"]  #, "--nb-meta-keep=language_info"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^data/
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude: ^data/
+      - id: mixed-line-ending
+        exclude: ^data/
+      - id: check-added-large-files
+        args: ['--maxkb=9000']
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+        name: nbstripout
+        description: 'nbstripout: strip output from Jupyter and IPython notebooks'
+        entry: nbstripout
+        language: python
+        types: [jupyter]
+  - repo: https://github.com/tomcatling/black-nb
+    rev: "0.7"
+    hooks:
+      - id: black-nb
+        description: strip output and black source
+        additional_dependencies: ['black[jupyter]']
+        args: ["--clear-output"]
+  - repo: https://github.com/psf/black
+    rev: "22.10.0"
+    hooks:
+    - id: black

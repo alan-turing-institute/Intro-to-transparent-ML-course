@@ -1,0 +1,145 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+title: Introduction
+parts:
+- chapters:
+  - url: https://github.com/pykale/transparentML/discussions
+    title: Discussion forum
+  - file: 00-prereq/overview
+    title: Prerequisites
+    sections:
+    - file: 00-prereq/linear-algebra-and-notations
+      title: Linear algebra
+    - file: 00-prereq/basic-python
+      title: Python basics
+    - file: 00-prereq/numerical-programming
+      title: Numerical programming
+    - file: 00-prereq/graphics
+      title: Graphics
+    - file: 00-prereq/loading-data
+      title: Loading data
+    - file: 00-prereq/quiz-sum-ref
+      title: Quiz & summary
+- caption: Primary
+  numbered: true
+  chapters:
+  - file: 01-intro/overview
+    title: Intro ML & transparency
+    sections:
+    - file: 01-intro/what-is-ml
+      title: What is ML?
+    - file: 01-intro/ml-systems
+      title: ML systems
+    - file: 01-intro/ml-process
+      title: ML process
+    - file: 01-intro/ml-transp
+      title: ML transparency
+    - file: 01-intro/knn
+      title: K-NN classifier
+    - file: 01-intro/organisation
+    - file: 01-intro/quiz-sum-ref
+      title: Quiz & summary
+  - file: 02-linear-reg/overview
+    title: Linear regression
+    sections:
+    - file: 02-linear-reg/simple-linear-regression
+      title: Simple linear regression
+    - file: 02-linear-reg/multi-linear-regression
+      title: Multiple linear regression
+    - file: 02-linear-reg/extension-limitation
+      title: Extensions & limitations
+    - file: 02-linear-reg/quiz-sum-ref
+      title: Quiz & summary
+  - file: 03-logistic-reg/overview
+    title: Logistic regression
+    sections:
+    - file: 03-logistic-reg/regress-to-classify
+      title: Regress to classify?
+    - file: 03-logistic-reg/logistic-regression
+      title: Logistic regression
+    - file: 03-logistic-reg/quiz-sum-ref
+      title: Quiz & summary
+  - file: 04-hypo-test-sw-dev/overview
+    title: Hypothesis test & software dev
+    sections:
+    - file: 04-hypo-test-sw-dev/hypothesis-testing
+      title: Hypothesis testing
+    - file: 04-hypo-test-sw-dev/software-development
+      title: Software development
+    - file: 04-hypo-test-sw-dev/quiz-sum-ref
+      title: Quiz & summary
+  - file: 05-cross-val-bootstrap/overview
+    title: Cross validation & bootstrap
+    sections:
+    - file: 05-cross-val-bootstrap/cross-validation
+      title: Cross-validation
+    - file: 05-cross-val-bootstrap/bootstrap
+      title: Bootstrap
+    - file: 05-cross-val-bootstrap/quiz-sum-ref
+      title: Quiz & summary
+- caption: Secondary
+  numbered: true
+  chapters:
+  - file: 06-ftr-select-regularise/overview
+    title: Feature selection/regularisation
+    sections:
+    - file: 06-ftr-select-regularise/feature-select
+      title: Feature selection
+    - file: 06-ftr-select-regularise/regularisation
+      title: Regularisation
+    - file: 06-ftr-select-regularise/quiz-sum-ref
+      title: Quiz & summary
+  - file: 07-trees-ensembles/overview
+    title: Trees & ensembles
+    sections:
+    - file: 07-trees-ensembles/regression-trees
+      title: Regression trees
+    - file: 07-trees-ensembles/classification-trees
+      title: Classification trees
+    - file: 07-trees-ensembles/ensembles
+      title: Ensemble learning
+    - file: 07-trees-ensembles/quiz-sum-ref
+      title: Quiz & summary
+  - file: 08-glm-svm/overview
+    title: GLM & SVM
+    sections:
+    - file: 08-glm-svm/glm
+      title: Generalised linear models
+    - file: 08-glm-svm/support-vec-classifier
+      title: Support vector classifiers
+    - file: 08-glm-svm/svm
+      title: Support vector machines
+    - file: 08-glm-svm/quiz-sum-ref
+      title: Quiz & summary
+  - file: 09-pca-clustering/overview
+    title: PCA & clustering
+    sections:
+    - file: 09-pca-clustering/pca
+      title: Principal comp. analysis
+    - file: 09-pca-clustering/clustering
+      title: Clustering
+    - file: 09-pca-clustering/quiz-sum-ref
+      title: Quiz & summary
+  - file: 10-deep-cnn-rnn/overview
+    title: Neural nets & deep learning
+    sections:
+    - file: 10-deep-cnn-rnn/multilayer-nn
+      title: Multilayer neural nets
+    - file: 10-deep-cnn-rnn/convolutional-nn
+      title: Convolutional neural nets
+    - file: 10-deep-cnn-rnn/recurrent-nn
+      title: Recurrent neural nets
+    - file: 10-deep-cnn-rnn/quiz-sum-ref
+      title: Quiz & summary
+- caption: Appendices
+  numbered: false
+  chapters:
+  - file: appendix/system-transp
+    title: System transparency
+  - file: appendix/process-transp
+    title: Process transparency
+  - file: appendix/bibliography
+    title: Bibliography
