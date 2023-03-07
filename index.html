@@ -1,0 +1,903 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overview &#8212; Transparent ML Intro</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Prerequisites" href="00-prereq/overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="#">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 current">
+  <a class="reference internal" href="#">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/index.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/index.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-objectives-los">
+   Learning objectives [LOs]
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#target-audience">
+   Target audience
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#discussion-forum-for-q-a-etc">
+   Discussion forum for Q&amp;A etc
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-go-through-the-course">
+   How to go through the course
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#course-outline-and-structure">
+   Course outline and structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instructors-and-contributors">
+   Instructors and contributors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-references">
+   Key references
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#acknowledgements">
+   Acknowledgements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#license">
+   License
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Overview</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-objectives-los">
+   Learning objectives [LOs]
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#target-audience">
+   Target audience
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#discussion-forum-for-q-a-etc">
+   Discussion forum for Q&amp;A etc
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-go-through-the-course">
+   How to go through the course
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#course-outline-and-structure">
+   Course outline and structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instructors-and-contributors">
+   Instructors and contributors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-references">
+   Key references
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#acknowledgements">
+   Acknowledgements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#license">
+   License
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p><strong><a class="reference external" href="https://learn.turing.ac.uk/course/view.php?id=24">Turing Course: An Introduction to Transparent Machine Learning</a></strong></p>
+<p>Welcome to <a class="reference external" href="https://www.turing.ac.uk/introduction-transparent-machine-learning">An Introduction to Transparent Machine Learning</a>, part of the <a class="reference external" href="https://www.turing.ac.uk/">Alan Turing Institute</a>’s <a class="reference external" href="https://www.turing.ac.uk/funding-call-online-learning-courses-responsible-ai">online learning courses in responsible AI</a>. This self-paced online learning course aims to introduce essential materials on transparent machine learning for learners of diverse backgrounds to understand and apply transparent machine learning in real-world applications with confidence and trust, targeting a missing gap in the online educational space.</p>
+<p>We recast selected contents from a popular, award-winning textbook <a class="reference external" href="https://www.statlearning.com/">An Introduction to Statistical Learning with Applications in R</a> <span id="id1">[<a class="reference internal" href="appendix/bibliography.html#id7" title="Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani. An Introduction to Statistical Learning. Springer, 2nd edition, 2021. https://www.statlearning.com/.">James <em>et al.</em>, 2021</a>]</span> into the perspective of system and process transparency under the AI transparency framework in <a class="reference external" href="https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf">AI in Financial Services</a> report <span id="id2">[<a class="reference internal" href="appendix/bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> from the Alan Turing Institute, using Python. The chosen textbook is widely used as standard in many university courses on machine learning, written by leading academics, and explains topics in a highly accessible way. Under the chosen <a class="reference external" href="https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf">AI transparency framework</a>, transparent machine learning systems will cover fully transparent machine learning models such as linear regression and “semi-transparent” machine learning models such as deep learning, and transparent machine learning processes will cover machine learning model evaluation and software development methodologies such as cross validation and software development life cycle.</p>
+<p>This course is developed as <a class="reference external" href="https://github.com/pykale/transparentML">a PyKale repository</a> for deployment as <a class="reference external" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/">an Alan Turing Institute repository</a>. Welcome your feedback/contribution via opening <a class="reference external" href="https://github.com/pykale/transparentML/issues">issues</a>, <a class="reference external" href="https://github.com/pykale/transparentML/discussions">discussions</a>, and/or <a class="reference external" href="https://github.com/pykale/transparentML/pulls">pull requests</a>.</p>
+<p>Watch the 10-minute video below for a conversation on this course between <a class="reference external" href="https://www.linkedin.com/in/lily-clements-9788a512a/">Lily Clements</a> and <a class="reference external" href="https://www.linkedin.com/in/haiping-lu-4821206/">Haiping Lu</a>.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/e69-0hG0IqM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/e69-0hG0IqM">Conversation on Turing Course - An Introduction to Transparent Machine Learning</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="section" id="learning-objectives-los">
+<h2>Learning objectives [LOs]<a class="headerlink" href="#learning-objectives-los" title="Permalink to this headline">¶</a></h2>
+<p>By the end of the course, we expect a learner can demonstrate the ability to:</p>
+<ul class="simple">
+<li><p>[LO1] Understand the theoretical issues and wider context related to transparent machine learning systems and processes.</p></li>
+<li><p>[LO2] Understand the inner-working of a selected number of transparent machine learning algorithms with the capability of interpret the modelling process and the input-output relationships.</p></li>
+<li><p>[LO3] Deploy a practical implementation of transparent machine learning systems and processes in a real-world setting using Python libraries such as scikit-learn.</p></li>
+<li><p>[LO4] Visualise, interpret, and explain transparent machine learning systems and processes in a real-world setting to help stakeholders understand these systems and processes.</p></li>
+<li><p>[LO5] Gain the skills to confidently apply machine learning to your area of work, regardless of your background.</p></li>
+</ul>
+</div>
+<div class="section" id="target-audience">
+<h2>Target audience<a class="headerlink" href="#target-audience" title="Permalink to this headline">¶</a></h2>
+<p>Learners from diverse backgrounds, preferably with knowledge and skills of basic mathematics (particularly probability and linear algebra) and Python programming for machine learning. We suggest those lacking such knowledge and skills to go through <a class="reference internal" href="00-prereq/overview.html"><span class="doc">Prerequisites</span></a> to pass the quiz there first.</p>
+</div>
+<div class="section" id="discussion-forum-for-q-a-etc">
+<h2>Discussion forum for Q&amp;A etc<a class="headerlink" href="#discussion-forum-for-q-a-etc" title="Permalink to this headline">¶</a></h2>
+<p>We have a <a class="reference external" href="https://github.com/pykale/transparentML/discussions">discussion forum</a> as our primary communication channel, e.g. for Q&amp;A, information sharing, and discussion. We also provide a rich set of <a class="reference external" href="https://github.com/pykale/transparentML/labels">labels</a> for you to label your posted messages so that similar messages can be easily found. Please ask questions or post information there, rather than emailing the instructors directly. This will help others to benefit from the answers and help build an engaging community. You will need a <a class="reference external" href="https://github.com/join">GitHub account</a> to post questions. Please follow the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a> when using the discussion forum.</p>
+</div>
+<div class="section" id="how-to-go-through-the-course">
+<h2>How to go through the course<a class="headerlink" href="#how-to-go-through-the-course" title="Permalink to this headline">¶</a></h2>
+<p>The course is designed to be self-paced and self-directed. The course materials are organised into a <a class="reference external" href="https://jupyterbook.org/">Jupyter Book</a> consisting of 10 chapters, plus prerequisites. Each chapter has a number of sections. Each section is a self-contained unit of learning, mostly taking no more than 30 minutes to complete and ending with an exercise. Answers to exercises are provided but hidden so that you should solve the exercises before checking the solutions, in most cases. Each chapter will have a quiz for assessment. Answers for quizzes will NOT be provided. <em>You are advised to score at least <strong>50%</strong> to proceed to the next topic</em>.</p>
+<p>For sections prepared in executable Jupyter notebooks, you will see a rocket icon <i class="fas fa-rocket"></i> at the top (mid-right) . For these sections, we suggest you to go through the materials in the browser (html) first and then launch (via <i class="fas fa-rocket"></i>) the corresponding Jupyter notebook (better in Colab) to run the code and complete the exercises. <em>Optional: You can also download the Jupyter notebooks and <a class="reference external" href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html">run them locally on your machine</a> after <a class="reference external" href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/install.html">installation</a>.</em></p>
+<p>We design this course to be self-contained so that most users can complete in 40 hours. For those short of time and those having relevant knowledge and skills already, going through the materials here should be sufficient. For those lacking such knowledge and skills, those who want to go deeper, and those with more time available, we suggest you to (re)read the textbook <a class="reference external" href="https://www.statlearning.com/">An Introduction to Statistical Learning</a> alongside this course. You can <a class="reference external" href="https://www.amazon.co.uk/Introduction-Statistical-Learning-Applications-Statistics/dp/1071614177">buy the book</a> or read the <a class="reference external" href="https://hastie.su.domains/ISLR2/ISLRv2_website.pdf">free online version in PDF</a>.</p>
+</div>
+<div class="section" id="course-outline-and-structure">
+<h2>Course outline and structure<a class="headerlink" href="#course-outline-and-structure" title="Permalink to this headline">¶</a></h2>
+<p>Besides the prerequisites, the 10 chapters can be grouped into two parts: part one covers primary topics and part two covers secondary topics.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/00-prereq/overview.html">Prerequisites</a>: Basic mathematics and Python programming for machine learning</p></li>
+</ul>
+<p><strong>Primary topics</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/01-intro/overview.html">Chapter 1</a>: [System and Process] Introduction to machine learning and transparency</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/overview.html">Chapter 2</a>: [System] Linear regression</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/03-logistic-reg/overview.html">Chapter 3</a>: [System] Logistic regression</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/04-hypo-test-sw-dev/overview.html">Chapter 4</a>: [Process] Hypothesis testing and software development</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/05-cross-val-bootstrap/overview.html">Chapter 5</a>: [Process] Cross validation and bootstrap</p></li>
+</ul>
+<!-- and linear discriminant analysis -->
+<p><strong>Secondary topics</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/06-ftr-select-regularise/overview.html">Chapter 6</a>: [Process and System] Feature selection and regularisation</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/07-trees-ensembles/overview.html">Chapter 7</a>: [System and Process] Trees and ensembles</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/08-nb-glm-svm/overview.html">Chapter 8</a>: [System] Generalised linear models and support vector machines</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/09-pca-clustering/overview.html">Chapter 9</a>: [System] Principal component analysis and <span class="math notranslate nohighlight">\(K\)</span>-means/hierarchical clustering</p></li>
+<li><p><a class="reference external" href="https://pykale.github.io/transparentML/10-deep-cnn-rnn/overview.html">Chapter 10</a>: [System] Neural networks and deep learning</p></li>
+</ul>
+</div>
+<div class="section" id="instructors-and-contributors">
+<h2>Instructors and contributors<a class="headerlink" href="#instructors-and-contributors" title="Permalink to this headline">¶</a></h2>
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://haipinglu.github.io/"><img src="https://raw.githubusercontent.com/haipinglu/hugo-academic/main/content/authors/haiping-lu/avatar.png" width="200px;" alt="Haiping Lu"/><br /><sub><b>Haiping Lu</b></sub></a></td>
+      <td align="center"><a href="https://shuo-zhou.github.io/"><img src="https://raw.githubusercontent.com/shuo-zhou/shuo-zhou.github.io/master/assets/img/profile.png" width="200px;" alt="Shuo Zhou"/><br /><sub><b>Shuo Zhou</b></sub></a></td>
+    </tr>
+  </tbody>
+</table>
+<p>This course is developed by <a class="reference external" href="https://haipinglu.github.io/">Haiping Lu</a>, a Professor of Machine Learning, and <a class="reference external" href="https://shuo-zhou.github.io/">Shuo Zhou</a>, an Academic Fellow in Machine Learning, both at the <a class="reference external" href="https://www.sheffield.ac.uk/dcs">Department of Computer Science</a>, <a class="reference external" href="https://www.sheffield.ac.uk/">The University of Sheffield</a>. H. Lu has developed and taught two machine learning courses <a class="reference external" href="https://github.com/maalvarezl/MLAI">Machine Learning and Adaptive Intelligence</a> from 2018 to 2021 and <a class="reference external" href="https://github.com/haipinglu/ScalableML">Scalable Machine Learning</a> since 2017. S. Zhou was a head teaching assistant of the <a class="reference external" href="https://github.com/maalvarezl/MLAI">Machine Learning and Adaptive Intelligence</a> course in fall 2019 and he has been teaching the <a class="reference external" href="https://github.com/haipinglu/ScalableML">Scalable Machine Learning</a> course since spring 2023.</p>
+<p><a class="reference external" href="https://github.com/Mdnaimulislam">Mohammod Naimul Islam Suvon</a> contributed all the course exercises and quizzes. <a class="reference external" href="https://github.com/Schobs">Lawrence Schobs</a> reviewed all teaching materials, provided detailed comments, added summaries and references, and refined the materials. After that, H. Lu and S. Zhou checked and refined the materials again for the release.</p>
+<p>We thank valuable feedback received from <a class="reference external" href="https://www.linkedin.com/in/catherineinness/">Catherine Inness</a>, a Data Science Senior Manager at <a class="reference external" href="https://www.accenture.com/gb-en">Accenture</a>.</p>
+<p>We welcome and recognise all contributions. You can see a list of current contributors in the <a class="reference external" href="https://github.com/pykale/transparentML/graphs/contributors">contributors tab</a>.</p>
+</div>
+<div class="section" id="key-references">
+<h2>Key references<a class="headerlink" href="#key-references" title="Permalink to this headline">¶</a></h2>
+<p>We design this course based on the following key references.</p>
+<ul class="simple">
+<li><p>Book</p>
+<ul>
+<li><p><strong>The Textbook:</strong> James G, Witten D, Hastie T, Tibshirani R., <a class="reference external" href="https://www.statlearning.com/">An Introduction to Statistical Learning</a>, Second Edition,  Springer, 2021. <a class="reference external" href="https://hastie.su.domains/ISLR2/ISLRv2_website.pdf">PDF</a> <span id="id3">[<a class="reference internal" href="appendix/bibliography.html#id7" title="Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani. An Introduction to Statistical Learning. Springer, 2nd edition, 2021. https://www.statlearning.com/.">James <em>et al.</em>, 2021</a>]</span></p></li>
+<li><p>Ostmann F, Dorobantu C., <a class="reference external" href="https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf">AI in Financial Services</a>, <a class="reference external" href="https://www.turing.ac.uk/">Alan Turing Institute</a>, 2021. <span id="id4">[<a class="reference internal" href="appendix/bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span></p></li>
+<li><p>The Turing Way Community, <a class="reference external" href="https://the-turing-way.netlify.app/">The Turing Way: A Handbook for Reproducible Data Science</a> <span id="id5">[<a class="reference internal" href="appendix/bibliography.html#id6" title="The Turing Way Community, Becky Arnold, Louise Bowler, Sarah Gibson, Patricia Herterich, Rosie Higman, Anna Krystalli, Alexander Morley, Martin O'Reilly, Kirstie Whitaker, and others. The Turing way: a handbook for reproducible data science. Zenodo, 2022.">Community <em>et al.</em>, 2022</a>]</span></p></li>
+</ul>
+</li>
+<li><p>Code</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/qx0731/Sharing_ISL_python">ISL_python: An Introduction to Statistical Learning with Applications in PYTHON</a></p></li>
+<li><p><a class="reference external" href="https://github.com/JWarmenhoven/ISLR-python">ISLR-python</a></p></li>
+<li><p><a class="reference external" href="https://github.com/swcarpentry/python-novice-gapminder/tree/gh-pages/_episodes">python-novice-gapminder</a></p></li>
+</ul>
+</li>
+<li><p>Course</p>
+<ul>
+<li><p><a class="reference external" href="https://inria.github.io/scikit-learn-mooc/index.html">Scikit-learn Course</a></p></li>
+<li><p><a class="reference external" href="https://dmol.pub/">Deep Learning for Molecules &amp; Materials</a></p></li>
+<li><p><a class="reference external" href="https://aeturrell.github.io/coding-for-economists/">Coding for Economists</a></p></li>
+<li><p><a class="reference external" href="https://wfdb.io/mimic_wfdb_tutorials/">MIMIC WFDB Tutorials</a></p></li>
+<li><p><a class="reference external" href="https://bvanderlei.github.io/jupyter-guide-to-linear-algebra/intro.html">Jupyter Guide to Linear Algebra</a></p></li>
+<li><p><a class="reference external" href="https://github.com/maalvarezl/MLAI">Machine Learning and Adaptive Intelligence</a></p></li>
+<li><p><a class="reference external" href="https://github.com/haipinglu/ScalableML">Scalable Machine Learning</a></p></li>
+</ul>
+</li>
+<li><p>Teaching</p>
+<ul>
+<li><p><a class="reference external" href="https://onlinelearning.london.ac.uk/2020/06/08/good-practice-by-design/">Good practice by design</a></p></li>
+<li><p><a class="reference external" href="https://onlinelearning.london.ac.uk/2020/05/24/planning-your-online-module-diy-lockdown-style/">Planning your online module (DIY, lockdown style)</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="acknowledgements">
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>This development is supported by the <a class="reference external" href="https://www.turing.ac.uk/funding-call-online-learning-courses-responsible-ai">Funding call for online learning courses in responsible AI</a> from the <a class="reference external" href="https://www.turing.ac.uk/">Alan Turing Institute</a>.</p></li>
+<li><p>We have used <a class="reference external" href="https://copilot.github.com/">GitHub Copilot</a> to generate some of the teaching materials.</p></li>
+</ul>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>All content except for YouTube videos is released under the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/LICENSE">MIT License</a>. YouTube videos are embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='right-next' id="next-link" href="00-prereq/overview.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Prerequisites</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

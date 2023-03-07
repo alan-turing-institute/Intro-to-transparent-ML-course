@@ -1,0 +1,1644 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2.2. Multiple linear regression &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.3. Extensions/limitations of linear regression" href="extension-limitation.html" />
+    <link rel="prev" title="2.1. Simple linear regression" href="simple-linear-regression.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   2. Linear regression
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/02-linear-reg/multi-linear-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F02-linear-reg/multi-linear-regression.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/02-linear-reg/multi-linear-regression.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/02-linear-reg/multi-linear-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/02-linear-reg/multi-linear-regression.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-libraries">
+   2.2.1. Install libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   2.2.2. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-the-regression-coefficients">
+   2.2.3. Estimating the regression coefficients
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interpreting-the-results">
+   2.2.4. Interpreting the results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#important-questions-in-multiple-linear-regression">
+   2.2.5. Important questions in multiple linear regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-at-least-one-of-the-predictors-x-1-x-2-x-d-useful-in-predicting-the-response">
+     2.2.5.1. Is at least one of the predictors
+     <span class="math notranslate nohighlight">
+      \(x_1, x_2, ..., x_D\)
+     </span>
+     useful in predicting the response?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#do-all-the-predictors-help-to-explain-y-or-is-only-a-subset-of-the-predictors-useful">
+     2.2.5.2. Do all the predictors help to explain
+     <span class="math notranslate nohighlight">
+      \(y\)
+     </span>
+     , or is only a subset of the predictors useful?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-well-does-the-model-fit-the-data">
+     2.2.5.3. How well does the model fit the data?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#given-a-set-of-predictor-values-what-response-value-should-we-predict-and-how-accurate-is-our-prediction">
+     2.2.5.4. Given a set of predictor values, what response value should we predict, and how accurate is our prediction?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise">
+   2.2.6. Exercise
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Multiple linear regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-libraries">
+   2.2.1. Install libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   2.2.2. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-the-regression-coefficients">
+   2.2.3. Estimating the regression coefficients
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interpreting-the-results">
+   2.2.4. Interpreting the results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#important-questions-in-multiple-linear-regression">
+   2.2.5. Important questions in multiple linear regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-at-least-one-of-the-predictors-x-1-x-2-x-d-useful-in-predicting-the-response">
+     2.2.5.1. Is at least one of the predictors
+     <span class="math notranslate nohighlight">
+      \(x_1, x_2, ..., x_D\)
+     </span>
+     useful in predicting the response?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#do-all-the-predictors-help-to-explain-y-or-is-only-a-subset-of-the-predictors-useful">
+     2.2.5.2. Do all the predictors help to explain
+     <span class="math notranslate nohighlight">
+      \(y\)
+     </span>
+     , or is only a subset of the predictors useful?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-well-does-the-model-fit-the-data">
+     2.2.5.3. How well does the model fit the data?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#given-a-set-of-predictor-values-what-response-value-should-we-predict-and-how-accurate-is-our-prediction">
+     2.2.5.4. Given a set of predictor values, what response value should we predict, and how accurate is our prediction?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise">
+   2.2.6. Exercise
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="multiple-linear-regression">
+<h1><span class="section-number">2.2. </span>Multiple linear regression<a class="headerlink" href="#multiple-linear-regression" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-read-then-launch admonition">
+<p class="admonition-title">Read then Launch </p>
+<p>This content is best viewed in html because jupyter notebook cannot display some content (e.g. figures, equations) properly. You should finish reading this page first and then launch it as an interactive notebook in Google Colab (faster, Google account needed) or Binder by clicking the rocket symbol (<i class="fas fa-rocket"></i>) at the top.</p>
+</div>
+<p>We have examined the relationship between <code class="docutils literal notranslate"><span class="pre">sale</span></code> and <code class="docutils literal notranslate"><span class="pre">TV</span></code> of the <code class="docutils literal notranslate"><span class="pre">Advertising</span></code> dataset for simple linear regression. There are two more predictor variables <code class="docutils literal notranslate"><span class="pre">radio</span></code> and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> in the dataset. How can we account for the effect of these two variables in the model?</p>
+<p>Watch the 5-minute video below for a visual explanation of multiple linear regression.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/EkAQAi3a4js?start=21" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+<p><a class="reference external" href="https://www.youtube.com/embed/EkAQAi3a4js?start=21">Explaining Multiple Linear Regression by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>Then study the following sections to learn more about multiple linear regression with examples in the textbook.</p>
+<div class="section" id="install-libraries">
+<h2><span class="section-number">2.2.1. </span>Install libraries<a class="headerlink" href="#install-libraries" title="Permalink to this headline">¶</a></h2>
+<!-- The following `matplotlib` upgrade is necessary when using Google Colab (as of 19/11/2022) for this notebook. You may comment it if you are running the code locally on your own computer: --><p>If you are using Google Colab, please uncomment the following code to update the version of <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. Once complete, click the <code class="docutils literal notranslate"><span class="pre">RESTART</span> <span class="pre">RUNTIME</span></code> button to restart the runtime in order to use newly installed versions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install -q mpl_toolkits statsmodels</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="import-libraries-and-load-data">
+<h2><span class="section-number">2.2.2. </span>Import libraries and load data<a class="headerlink" href="#import-libraries-and-load-data" title="Permalink to this headline">¶</a></h2>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %load ../standard_import.txt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">axes3d</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Load Datasets</strong></p>
+<p>Load the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Advertising.csv">Advertising dataset</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Advertising.csv&quot;</span>
+<span class="n">advertising_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To accommodate multiple predictor variables, one option is to run simple linear regression separately for each predictor variable.</p>
+<p>The following code runs a simple linear regression model of <code class="docutils literal notranslate"><span class="pre">radio</span></code>, and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> onto <code class="docutils literal notranslate"><span class="pre">sales</span></code> using <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, respectively (Table 3.3 in the textbook).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;Sales ~ Radio&quot;</span><span class="p">,</span> <span class="n">advertising_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>    9.3116</td> <td>    0.563</td> <td>   16.542</td> <td> 0.000</td> <td>    8.202</td> <td>   10.422</td>
+</tr>
+<tr>
+  <th>Radio</th>     <td>    0.2025</td> <td>    0.020</td> <td>    9.921</td> <td> 0.000</td> <td>    0.162</td> <td>    0.243</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;Sales ~ Newspaper&quot;</span><span class="p">,</span> <span class="n">advertising_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>   12.3514</td> <td>    0.621</td> <td>   19.876</td> <td> 0.000</td> <td>   11.126</td> <td>   13.577</td>
+</tr>
+<tr>
+  <th>Newspaper</th> <td>    0.0547</td> <td>    0.017</td> <td>    3.300</td> <td> 0.001</td> <td>    0.022</td> <td>    0.087</td>
+</tr>
+</table></div></div>
+</div>
+<p>However, fitting a separate simple linear regression model for each predictor is problematic: 1) It is unclear how to make a single prediction given the three advertising media budgets; 2) each separate linear regression model ignores  the effect of the other two predictors, which can lead to misleading estimates.</p>
+<p>A better approach is to use <em>multiple linear regression</em>. Multiple linear regression is an extension of simple linear regression. It allows us to predict a quantitative response using more than one predictor variable. The equation for a multiple linear regression model with <span class="math notranslate nohighlight">\(D\)</span> predictor variables is given by:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-6e30aae5-c62c-4f11-acfb-eb4237062b85">
+<span class="eqno">(2.13)<a class="headerlink" href="#equation-6e30aae5-c62c-4f11-acfb-eb4237062b85" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_D x_D + \epsilon,
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(y\)</span> is the response, <span class="math notranslate nohighlight">\(x_1, x_2, ..., x_D\)</span> are the <span class="math notranslate nohighlight">\(D\)</span> predictors, <span class="math notranslate nohighlight">\(D\)</span> is the total number of predictor variables (features), and <span class="math notranslate nohighlight">\(\epsilon\)</span> is the error term. The <span class="math notranslate nohighlight">\(\beta\)</span>s are called the <em>regression coefficients</em>, where <span class="math notranslate nohighlight">\(\beta_0\)</span> is the bias (intercept), and <span class="math notranslate nohighlight">\(\beta_1, \beta_2, ..., \beta_D\)</span> are the weights (slopes). Considering <span class="math notranslate nohighlight">\(N\)</span> samples, the equation can be written in matrix form as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-eb6a170a-0548-4c06-a5fb-b4bdedf0e41c">
+<span class="eqno">(2.14)<a class="headerlink" href="#equation-eb6a170a-0548-4c06-a5fb-b4bdedf0e41c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon},
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is an <span class="math notranslate nohighlight">\(N \times 1\)</span> vector of responses, <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> is an <span class="math notranslate nohighlight">\(N \times (D+1)\)</span> matrix of predictors, <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> is a <span class="math notranslate nohighlight">\((D+1) \times 1\)</span> vector of regression coefficients, and <span class="math notranslate nohighlight">\(\boldsymbol{\epsilon}\)</span> is an <span class="math notranslate nohighlight">\(N \times 1\)</span> vector of errors. The predictor (feature) matrix <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> contains a column of 1s to account for the intercept. The vector <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> contains the intercept in the first position and the slopes for the remaining <span class="math notranslate nohighlight">\(D\)</span> predictors. The vector <span class="math notranslate nohighlight">\(\boldsymbol{\epsilon}\)</span> contains the error terms for each observation.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">Advertising</span></code> dataset as an example, we can fit a multiple linear regression model to the three predictor variables <code class="docutils literal notranslate"><span class="pre">TV</span></code>, <code class="docutils literal notranslate"><span class="pre">radio</span></code>, and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> to predict <code class="docutils literal notranslate"><span class="pre">sales</span></code> as follows:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-089e4585-d37d-4b80-a1ce-004ab0108c5d">
+<span class="eqno">(2.15)<a class="headerlink" href="#equation-089e4585-d37d-4b80-a1ce-004ab0108c5d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\text{Sales} = \beta_0 + \beta_1 \times \text{TV} + \beta_2 \times \text{Radio} + \beta_3 \times \text{Newspaper} + \epsilon.
+\end{equation}\]</div>
+</div>
+<div class="section" id="estimating-the-regression-coefficients">
+<h2><span class="section-number">2.2.3. </span>Estimating the regression coefficients<a class="headerlink" href="#estimating-the-regression-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>Similar to simple linear regression, we can estimate the regression coefficients using least squares. The least squares estimates for the regression coefficients are given by:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a873a45e-3b6d-46df-b458-45c79cd01576">
+<span class="eqno">(2.16)<a class="headerlink" href="#equation-a873a45e-3b6d-46df-b458-45c79cd01576" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\begin{aligned}
+\text{RSS} = &amp; \sum_{i=1}^N (y_i - \hat{y}_i)^2 \\
+= &amp; \sum_{i=1}^N (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_{i1} - \hat{\beta}_2 x_{i2} - ... - \hat{\beta}_D x_{iD})^2,
+\end{aligned}
+\end{align}\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>th response, <span class="math notranslate nohighlight">\(\hat{y}_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>th predicted response, <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is the intercept, <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> is the slope for <span class="math notranslate nohighlight">\(x_{i1}\)</span>, <span class="math notranslate nohighlight">\(\hat{\beta}_2\)</span> is the slope for <span class="math notranslate nohighlight">\(x_{i2}\)</span>, and so on. <span class="math notranslate nohighlight">\(\hat{\beta}\)</span>s are the least squares estimates for the regression coefficients, which can be obtained in matrix form as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-220e606d-2a7b-4db6-b2fe-7c7ee30cfbe3">
+<span class="eqno">(2.17)<a class="headerlink" href="#equation-220e606d-2a7b-4db6-b2fe-7c7ee30cfbe3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{y}.
+\end{equation}\]</div>
+<p>The following code run a multiple linear regression model to regress <code class="docutils literal notranslate"><span class="pre">TV</span></code>, <code class="docutils literal notranslate"><span class="pre">radio</span></code>, and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> onto <code class="docutils literal notranslate"><span class="pre">sales</span></code> using <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and display the learnt coefficients (Table 3.4 in the textbook).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;Sales ~ TV + Radio + Newspaper&quot;</span><span class="p">,</span> <span class="n">advertising_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>Sales</td>      <th>  R-squared:         </th> <td>   0.897</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.896</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   570.3</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 07 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>1.58e-96</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>08:24:34</td>     <th>  Log-Likelihood:    </th> <td> -386.18</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   200</td>      <th>  AIC:               </th> <td>   780.4</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>   196</td>      <th>  BIC:               </th> <td>   793.6</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>    2.9389</td> <td>    0.312</td> <td>    9.422</td> <td> 0.000</td> <td>    2.324</td> <td>    3.554</td>
+</tr>
+<tr>
+  <th>TV</th>        <td>    0.0458</td> <td>    0.001</td> <td>   32.809</td> <td> 0.000</td> <td>    0.043</td> <td>    0.049</td>
+</tr>
+<tr>
+  <th>Radio</th>     <td>    0.1885</td> <td>    0.009</td> <td>   21.893</td> <td> 0.000</td> <td>    0.172</td> <td>    0.206</td>
+</tr>
+<tr>
+  <th>Newspaper</th> <td>   -0.0010</td> <td>    0.006</td> <td>   -0.177</td> <td> 0.860</td> <td>   -0.013</td> <td>    0.011</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>60.414</td> <th>  Durbin-Watson:     </th> <td>   2.084</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td> 151.241</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-1.327</td> <th>  Prob(JB):          </th> <td>1.44e-33</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 6.332</td> <th>  Cond. No.          </th> <td>    454.</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+</div>
+<div class="section" id="interpreting-the-results">
+<h2><span class="section-number">2.2.4. </span>Interpreting the results<a class="headerlink" href="#interpreting-the-results" title="Permalink to this headline">¶</a></h2>
+<p>We have interpreted the results of simple linear regression in the <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#example-explanation-of-system-transparency">previous section</a>. The interpretation of the results of multiple linear regression is similar. The only difference is that there are now three coefficients to interpret.</p>
+<div class="important admonition">
+<p class="admonition-title">Challenge</p>
+<p>Interpret the results of the multiple linear regression model above based on the <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#example-explanation-of-system-transparency">previous section</a> and then click the following to compare the provided interpretation with yours.</p>
+</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">How to interpret the results? </p>
+<p>We interpret these results above as follows:</p>
+<ul class="simple">
+<li><p>For a <strong>given</strong> (i.e. fixed) amount of <code class="docutils literal notranslate"><span class="pre">TV</span></code> and <code class="docutils literal notranslate"><span class="pre">newspaper</span> </code>advertising budgets, spending an additional $1,000 on <code class="docutils literal notranslate"><span class="pre">radio</span></code> advertising is associated with approximately 189 units of additional <code class="docutils literal notranslate"><span class="pre">sales</span></code> (<em>recall the units of the variables</em>).</p></li>
+<li><p>Comparing these coefficients to the estimates in simple linear regression, we notice that the multiple regression coefficient estimates for <code class="docutils literal notranslate"><span class="pre">TV</span></code> and <code class="docutils literal notranslate"><span class="pre">radio</span></code> are pretty similar to the simple linear regression coefficient estimates. However, while the <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> regression coefficient estimate in simple linear regression was significantly non-zero, the coefficient estimate for <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> in the multiple regression model is close to zero, and the corresponding <span class="math notranslate nohighlight">\(p\)</span>-value is no longer significant, with a value around 0.86.</p></li>
+<li><p>This illustrates that the simple and multiple regression coefficients can be quite different. This difference stems from the fact that in the simple regression case, the slope term represents the average increase in product sales associated with a $1,000 increase in newspaper advertising, ignoring other predictors such as <code class="docutils literal notranslate"><span class="pre">TV</span></code> and <code class="docutils literal notranslate"><span class="pre">radio</span></code>. By contrast, in the multiple regression setting, the coefficient for <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> represents the average increase in product <code class="docutils literal notranslate"><span class="pre">sales</span></code> associated with increasing <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> spending by $1,000 while holding <code class="docutils literal notranslate"><span class="pre">TV</span></code> and <code class="docutils literal notranslate"><span class="pre">radio</span></code> <strong>fixed</strong>.</p></li>
+</ul>
+</div>
+<p>Why the relationship between <code class="docutils literal notranslate"><span class="pre">sales</span></code> and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> are opposite in the simple linear regression and multiple linear regression? Use following code displays the correlation matrix of the <code class="docutils literal notranslate"><span class="pre">Advertising</span></code> dataset for further analysis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">advertising_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>Radio</th>
+      <th>Newspaper</th>
+      <th>Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>TV</th>
+      <td>1.000000</td>
+      <td>0.054809</td>
+      <td>0.056648</td>
+      <td>0.782224</td>
+    </tr>
+    <tr>
+      <th>Radio</th>
+      <td>0.054809</td>
+      <td>1.000000</td>
+      <td>0.354104</td>
+      <td>0.576223</td>
+    </tr>
+    <tr>
+      <th>Newspaper</th>
+      <td>0.056648</td>
+      <td>0.354104</td>
+      <td>1.000000</td>
+      <td>0.228299</td>
+    </tr>
+    <tr>
+      <th>Sales</th>
+      <td>0.782224</td>
+      <td>0.576223</td>
+      <td>0.228299</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">How to interpret the results?</p>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Correlation">correlation</a> between <code class="docutils literal notranslate"><span class="pre">radio</span></code> and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> is 0.35, which is much higher than the other pair-wise correlations among the three medias. This indicates that in those markets spending more on <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> (<code class="docutils literal notranslate"><span class="pre">radio</span></code>) advertising, there is a tendency to spend more on <code class="docutils literal notranslate"><span class="pre">radio</span></code> (<code class="docutils literal notranslate"><span class="pre">newspaper</span></code>) advertising as well.</p>
+<p>Now suppose that the multiple regression is correct and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> advertising is not associated with sales, but <code class="docutils literal notranslate"><span class="pre">radio</span></code> advertising is associated with <code class="docutils literal notranslate"><span class="pre">sales</span></code>. Then in markets where we spend more on <code class="docutils literal notranslate"><span class="pre">radio</span></code>, our sales will tend to be higher. As our correlation matrix shows, we also tend to spend more on <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> advertising in those same markets. Hence, in a simple linear regression which only examines sales versus <code class="docutils literal notranslate"><span class="pre">newspaper</span></code>, we will observe that higher values of <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> tend to be associated with higher values of <code class="docutils literal notranslate"><span class="pre">sales</span></code>, even though <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> advertising is not directly associated with <code class="docutils literal notranslate"><span class="pre">sales</span></code>. So <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> advertising is a surrogate for <code class="docutils literal notranslate"><span class="pre">radio</span></code> advertising; <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> gets “credit” for the association between <code class="docutils literal notranslate"><span class="pre">radio</span></code> on <code class="docutils literal notranslate"><span class="pre">sales</span></code>.</p>
+</div>
+</div>
+<div class="section" id="important-questions-in-multiple-linear-regression">
+<h2><span class="section-number">2.2.5. </span>Important questions in multiple linear regression<a class="headerlink" href="#important-questions-in-multiple-linear-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="is-at-least-one-of-the-predictors-x-1-x-2-x-d-useful-in-predicting-the-response">
+<h3><span class="section-number">2.2.5.1. </span>Is at least one of the predictors <span class="math notranslate nohighlight">\(x_1, x_2, ..., x_D\)</span> useful in predicting the response?<a class="headerlink" href="#is-at-least-one-of-the-predictors-x-1-x-2-x-d-useful-in-predicting-the-response" title="Permalink to this headline">¶</a></h3>
+<p>We can answer this question by testing the <a class="reference external" href="https://en.wikipedia.org/wiki/Null_hypothesis">null hypothesis</a> that all the regression coefficients are zero, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+H_0: \beta_1 = \beta_2 = ... = \beta_D = 0.
+\]</div>
+<p>versus the <a class="reference external" href="https://en.wikipedia.org/wiki/Alternative_hypothesis">alternative hypothesis</a> that at least one of the regression coefficients is non-zero, i.e.:</p>
+<div class="math notranslate nohighlight">
+\[
+H_1: \text{at least one of the regression coefficients is non-zero}. 
+\]</div>
+<p>This hypothesis test is performed by computing the <a class="reference external" href="https://en.wikipedia.org/wiki/F-test"><span class="math notranslate nohighlight">\(F\)</span>-statistic</a>, which is defined as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c48354d9-b546-4e6a-95bb-154cb5d780d9">
+<span class="eqno">(2.18)<a class="headerlink" href="#equation-c48354d9-b546-4e6a-95bb-154cb5d780d9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+F = \frac{(\text{TSS} - \text{RSS})/D}{\text{RSS}/(N-D-1)},
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\text{TSS} = \sum(y_i - \bar{y})^2\)</span> and <span class="math notranslate nohighlight">\(\text{RSS} = \sum(y_i - \hat{y}_i)^2\)</span>. Remember, <span class="math notranslate nohighlight">\(y_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>th target, <span class="math notranslate nohighlight">\(\hat{y}_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>th prediction and <span class="math notranslate nohighlight">\(\bar{y}\)</span> is the sample mean. When there is no relationship between the response and predictors, one would expect the <span class="math notranslate nohighlight">\(F\)</span>-statistic to take on a value close to 1. On the other hand, if <span class="math notranslate nohighlight">\(H_1\)</span> a is true, we can expect <span class="math notranslate nohighlight">\(F\)</span> to be greater than 1.</p>
+<p>The <span class="math notranslate nohighlight">\(F\)</span>-statistic for the multiple linear regression model obtained by regressing <code class="docutils literal notranslate"><span class="pre">sales</span></code> onto <code class="docutils literal notranslate"><span class="pre">radio</span></code>, <code class="docutils literal notranslate"><span class="pre">TV</span></code>, and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code> is 570.3 (displayed in the first regression results in <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/multi-linear-regression.html#estimating-the-regression-coefficients">a previous section</a>). Since this is far greater than 1, it provides compelling evidence against the null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>. In other words, the large <span class="math notranslate nohighlight">\(F\)</span>-statistic suggests that at least one of the advertising media must be related to <code class="docutils literal notranslate"><span class="pre">sales</span></code>.</p>
+<p>Watch the following 9-minute video excerpt to learn more about the <span class="math notranslate nohighlight">\(F\)</span>-statistic.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/7ArmBVF2dCs?start=969&end=1525" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+<p><a class="reference external" href="https://www.youtube.com/embed/7ArmBVF2dCs?start=969&amp;end=1525">Calculating a <span class="math notranslate nohighlight">\(p\)</span>-value for <span class="math notranslate nohighlight">\(R^2\)</span> by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<!-- then $E\{\text{TSS} - \text{RSS}/p\} > \sigma^2$, where $\sigma$ is the standard deviation of the error term, so we expect $F$ to be greater than 1. -->
+<!-- The numerator of the F-statistic is the ratio of the total sum of squares to the residual sum of squares, and the denominator is the ratio of the residual sum of squares to the degrees of freedom. The F-statistic has an $F$ distribution with $p$ and $n-p-1$ degrees of freedom. The null hypothesis is that all the regression coefficients are zero, and the alternative hypothesis is that at least one of the regression coefficients is non-zero.  -->
+</div>
+<div class="section" id="do-all-the-predictors-help-to-explain-y-or-is-only-a-subset-of-the-predictors-useful">
+<h3><span class="section-number">2.2.5.2. </span>Do all the predictors help to explain <span class="math notranslate nohighlight">\(y\)</span>, or is only a subset of the predictors useful?<a class="headerlink" href="#do-all-the-predictors-help-to-explain-y-or-is-only-a-subset-of-the-predictors-useful" title="Permalink to this headline">¶</a></h3>
+<p>It is possible that the response is only associated with a subset of the predictors. The task of determining which subset of predictors are (most) associated with the response is referred to as <em>variable selection</em> (or <em>feature selection</em>). This will be discussed in more detail in <a class="reference internal" href="../06-ftr-select-regularise/overview.html"><span class="doc">Feature Selection and Regularisation</span></a>.</p>
+<!-- in order to fit a single model involving only those predictors,  -->
+<p>There are three common approaches to variable selection:</p>
+<ul class="simple">
+<li><p>Forward selection. We begin with a model containing no predictors, and then consider adding predictors one at a time until all predictors have been considered. The best single predictor is added to the model, and the process is repeated until all predictors have been added to the model. This is a greedy algorithm, and it is not guaranteed to find the best model containing a subset of the predictors.</p></li>
+<li><p>Backward selection. We begin with a model containing all predictors, and then consider removing predictors one at a time until no predictors remain. The worst single predictor is removed from the model, and the process is repeated until no predictors remain in the model. This is also a greedy algorithm, and it is not guaranteed to find the best model containing a subset of the predictors.</p></li>
+<li><p>Mixed selection. We begin with some initial model containing a subset of the predictors. We then consider adding or removing each predictor individually, and retain the best model that results. This is also a greedy algorithm, and it is not guaranteed to find the best model containing a subset of the predictors.</p></li>
+</ul>
+</div>
+<div class="section" id="how-well-does-the-model-fit-the-data">
+<h3><span class="section-number">2.2.5.3. </span>How well does the model fit the data?<a class="headerlink" href="#how-well-does-the-model-fit-the-data" title="Permalink to this headline">¶</a></h3>
+<p>Similar to simple linear regression. We can answer this question by computing the <span class="math notranslate nohighlight">\(R^2\)</span> and RSE statistics. The <span class="math notranslate nohighlight">\(R^2\)</span> for multiple linear regression is defined in the same way as in simple linear regression as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-51be40a3-7b30-4dd4-b3c1-153a0c187358">
+<span class="eqno">(2.19)<a class="headerlink" href="#equation-51be40a3-7b30-4dd4-b3c1-153a0c187358" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+R^2 = 1 - \frac{\text{RSS}}{\text{TSS}} = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}.
+\end{equation}\]</div>
+<p>The <span class="math notranslate nohighlight">\(R^2\)</span> statistic provides an indication of the proportion of the variance in the response that is predictable from the predictors. In this case, the <span class="math notranslate nohighlight">\(R^2\)</span> statistic is 0.897, which indicates that 89.7% of the variance in <code class="docutils literal notranslate"><span class="pre">sales</span></code> is predictable from <code class="docutils literal notranslate"><span class="pre">TV</span></code>, <code class="docutils literal notranslate"><span class="pre">radio</span></code>, and <code class="docutils literal notranslate"><span class="pre">newspaper</span></code>.</p>
+<p>The RSE for multiple linear regression is defined as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-24d36b7d-64a7-4a21-bd88-5369477728c7">
+<span class="eqno">(2.20)<a class="headerlink" href="#equation-24d36b7d-64a7-4a21-bd88-5369477728c7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\text{RSE} = \sqrt{\frac{\text{RSS}}{N-D-1}} = \sqrt{\frac{\sum(y_i - \hat{y}_i)^2}{N-D-1}}.
+\end{equation}\]</div>
+<p>You can verify that when <span class="math notranslate nohighlight">\(D=1\)</span>, the RSE for multiple linear regression is the same as the RSE for <a class="reference internal" href="simple-linear-regression.html"><span class="doc">simple linear regression</span></a>.</p>
+<p>Run the following code to fit and then evaluate a multiple linear regression model using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>:</p>
+<p>Firstly, fit a linear regression to <code class="docutils literal notranslate"><span class="pre">sales</span></code> using <code class="docutils literal notranslate"><span class="pre">TV</span></code> and <code class="docutils literal notranslate"><span class="pre">radio</span></code> as predictors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="p">[[</span><span class="s2">&quot;Radio&quot;</span><span class="p">,</span> <span class="s2">&quot;TV&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span>
+
+<span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.18799423 0.04575482]
+2.9210999124051398
+</pre></div>
+</div>
+</div>
+</div>
+<p>Find out the min/max values of Radio &amp; TV to set up the grid (range) for plotting.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">advertising_df</span><span class="p">[[</span><span class="s2">&quot;Radio&quot;</span><span class="p">,</span> <span class="s2">&quot;TV&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Radio</th>
+      <th>TV</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>200.000000</td>
+      <td>200.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>23.264000</td>
+      <td>147.042500</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>14.846809</td>
+      <td>85.854236</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.700000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>9.975000</td>
+      <td>74.375000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>22.900000</td>
+      <td>149.750000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>36.525000</td>
+      <td>218.825000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>49.600000</td>
+      <td>296.400000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Create a coordinate grid</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">radio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">tv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+
+<span class="n">beta_1</span><span class="p">,</span> <span class="n">beta_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">radio</span><span class="p">,</span> <span class="n">tv</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tv</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">radio</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndenumerate</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">beta_1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta_2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create 3D plot of <code class="docutils literal notranslate"><span class="pre">sales</span></code> vs <code class="docutils literal notranslate"><span class="pre">TV</span></code> and <code class="docutils literal notranslate"><span class="pre">radio</span></code>.</p>
+<!-- [ToDo] If possible, change the following to stem plot, such as in the [stem3d_demo](https://matplotlib.org/stable/gallery/mplot3d/stem3d_demo.html) to better visualisation as the textbook. --><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Regression: Sales ~ Radio + TV Advertising&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes3d</span><span class="o">.</span><span class="n">Axes3D</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">auto_add_to_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">beta_1</span><span class="p">,</span> <span class="n">beta_2</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter3D</span><span class="p">(</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">Radio</span><span class="p">,</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">TV</span><span class="p">,</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Radio&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;TV&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;Sales&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/multi-linear-regression_25_0.png" src="../_images/multi-linear-regression_25_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="given-a-set-of-predictor-values-what-response-value-should-we-predict-and-how-accurate-is-our-prediction">
+<h3><span class="section-number">2.2.5.4. </span>Given a set of predictor values, what response value should we predict, and how accurate is our prediction?<a class="headerlink" href="#given-a-set-of-predictor-values-what-response-value-should-we-predict-and-how-accurate-is-our-prediction" title="Permalink to this headline">¶</a></h3>
+<!-- **[Advanced, add more content of prediction interval/or remove this sub-section later]** -->
+<p>Once we have fit a multiple linear regression model, we can use the model to make predictions of the response for a given set of predictor values.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-34b8cfd3-3de1-4ed3-8db4-221f4d5323a1">
+<span class="eqno">(2.21)<a class="headerlink" href="#equation-34b8cfd3-3de1-4ed3-8db4-221f4d5323a1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_D x_D.
+\end{equation}\]</div>
+<p>However, we must be careful when making predictions, because the observed values of the predictors may not have been part of the data used to fit the model. In this case, the prediction may not be very accurate and using a confidence interval can help quantify the uncertainty associated with the prediction.</p>
+</div>
+</div>
+<div class="section" id="exercise">
+<h2><span class="section-number">2.2.6. </span>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. All the following exercises involve the use of the <strong><a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Carseats.csv">Carseats</a></strong> dataset. Fit a multiple regression model to predict <strong>Sales</strong> using <strong>Price</strong>, <strong>Income</strong>, and <strong>CompPrice</strong>. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/multi-linear-regression.html#important-questions-in-multiple-linear-regression">2.2.5</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Load data</span>
+<span class="n">carseats_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Carseats.csv&quot;</span>
+<span class="p">)</span>
+
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="p">[[</span><span class="s2">&quot;Price&quot;</span><span class="p">,</span> <span class="s2">&quot;Income&quot;</span><span class="p">,</span> <span class="s2">&quot;CompPrice&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">Sales</span>
+
+<span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Regression model slop/coeffcient (weight):&quot;</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Regression model intercept (bias):&quot;</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Regression model slop/coeffcient (weight): [-0.08719674  0.01525145  0.09278583]
+Regression model intercept (bias): 4.95023560366637
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>i</strong>. How well does the model fit the data?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">regr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R2 score:&quot;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># The model didn&#39;t fit the data well as the R2 score is still way below 1.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R2 score: 0.3805237817874102
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>ii</strong>. Does multiple linear regression help the model fit the data better than simpler linear regression (see simple linear regression <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#exercise">exercises</a>).</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>Yes. The</strong> <span class="math notranslate nohighlight">\(R^2\)</span> <strong>score has increased in multiple linear regression, and the MSE has decreased, which means the model performed better than simpler linear regression in terms of fitting the data.</strong></p>
+</div>
+<p><strong>iii</strong>. Write out the model in equation form.</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><span class="math notranslate nohighlight">\(\hat{y} = 4.95 + (-0.08719674 * Price) + (0.01525145 * Income) + (0.09278583 * CompPrice)\)</span></p>
+</div>
+<p><strong>2</strong>. Find the correlation between <strong>Sales, Price, Income, and CompPrice</strong> and interpret the result. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/multi-linear-regression.html#interpreting-the-results">2.2.4</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carseats_df</span><span class="p">[[</span><span class="s2">&quot;Sales&quot;</span><span class="p">,</span> <span class="s2">&quot;Price&quot;</span><span class="p">,</span> <span class="s2">&quot;Income&quot;</span><span class="p">,</span> <span class="s2">&quot;CompPrice&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+
+<span class="c1"># The correlation between Price and CompPrice is 0.58, which is much higher than the other pair-wise correlations. This indicates that by increasing the component price(Price) of a caraseat, there is a tendency for the overall price(CompPrice) to increase as well.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+      <th>Price</th>
+      <th>Income</th>
+      <th>CompPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Sales</th>
+      <td>1.000000</td>
+      <td>-0.444951</td>
+      <td>0.151951</td>
+      <td>0.064079</td>
+    </tr>
+    <tr>
+      <th>Price</th>
+      <td>-0.444951</td>
+      <td>1.000000</td>
+      <td>-0.056698</td>
+      <td>0.584848</td>
+    </tr>
+    <tr>
+      <th>Income</th>
+      <td>0.151951</td>
+      <td>-0.056698</td>
+      <td>1.000000</td>
+      <td>-0.080653</td>
+    </tr>
+    <tr>
+      <th>CompPrice</th>
+      <td>0.064079</td>
+      <td>0.584848</td>
+      <td>-0.080653</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>3</strong>. Perform a multiple linear regression using <strong>statsmodels</strong> library with <strong>Sales</strong> as the response and <strong>Price</strong>, <strong>Income</strong>, and <strong>CompPrice</strong> as predictors. Use the <strong>summary()</strong> function to print the results. Compare the regression coefficients/weights with <strong>Exercise 1</strong>. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/multi-linear-regression.html#estimating-the-regression-coefficients">2.2.3</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">patsy</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="s2">&quot;Sales ~ Price + Income + CompPrice&quot;</span>
+<span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrices</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">carseats_df</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;dataframe&quot;</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># The regression coeffcients are same as scikit learn model</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  Sales   R-squared:                       0.381
+Model:                            OLS   Adj. R-squared:                  0.376
+Method:                 Least Squares   F-statistic:                     81.08
+Date:                Tue, 07 Mar 2023   Prob (F-statistic):           6.52e-41
+Time:                        08:24:35   Log-Likelihood:                -886.58
+No. Observations:                 400   AIC:                             1781.
+Df Residuals:                     396   BIC:                             1797.
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      4.9502      0.981      5.044      0.000       3.021       6.880
+Price         -0.0872      0.006    -14.991      0.000      -0.099      -0.076
+Income         0.0153      0.004      3.809      0.000       0.007       0.023
+CompPrice      0.0928      0.009     10.315      0.000       0.075       0.110
+==============================================================================
+Omnibus:                        7.331   Durbin-Watson:                   1.884
+Prob(Omnibus):                  0.026   Jarque-Bera (JB):                7.077
+Skew:                           0.285   Prob(JB):                       0.0291
+Kurtosis:                       2.683   Cond. No.                     1.63e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.63e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>4</strong>. From the model fitted in <strong>Exercise 3</strong>, for which predictors can you reject the null hypothesis <span class="math notranslate nohighlight">\(H_0 : \beta_j = 0\)</span> ? <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/multi-linear-regression.html#important-questions-in-multiple-linear-regression">2.2.5</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The following predictors have p-values &lt; 0.05 which suggests we can reject the null hypothesis</span>
+<span class="n">model</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">pvalues</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Price        1.475505e-40
+CompPrice    2.972755e-22
+Intercept    6.951811e-07
+Income       1.619686e-04
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>i</strong>. Which predictors appear to have a <strong>statistically significant</strong> relationship with the response?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>All predictors appear to have a statistically significant relationship to the response.</strong></p>
+</div>
+<p><strong>ii</strong>. What does the coefficient for the income variable suggest?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>The coefficient for the income variable suggests that there is a positive relationship between income and sales, where the response variable increases as income increases.</strong></p>
+</div>
+<p><strong>5</strong>. Using the fitted model from <strong>Exercise 3</strong>, obtain <strong><span class="math notranslate nohighlight">\(95\%\)</span></strong> confidence intervals for the coefficients. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#confidence-intervals">2.1.9</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract 95% confidence intervals</span>
+<span class="n">conf_inter_95</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">conf_int</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">conf_inter_95</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;min.&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;max.&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min.</th>
+      <th>max.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>3.020863</td>
+      <td>6.879608</td>
+    </tr>
+    <tr>
+      <th>Price</th>
+      <td>-0.098632</td>
+      <td>-0.075762</td>
+    </tr>
+    <tr>
+      <th>Income</th>
+      <td>0.007379</td>
+      <td>0.023124</td>
+    </tr>
+    <tr>
+      <th>CompPrice</th>
+      <td>0.075101</td>
+      <td>0.110471</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./02-linear-reg"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="simple-linear-regression.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2.1. </span>Simple linear regression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="extension-limitation.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.3. </span>Extensions/limitations of linear regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

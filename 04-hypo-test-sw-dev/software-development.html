@@ -1,0 +1,924 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4.2. Software development &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.3. Quiz and summary" href="quiz-sum-ref.html" />
+    <link rel="prev" title="4.1. Hypothesis testing" href="hypothesis-testing.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/04-hypo-test-sw-dev/software-development.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F04-hypo-test-sw-dev/software-development.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/04-hypo-test-sw-dev/software-development.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#software-development-life-cycle">
+   4.2.1. Software development life cycle
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lifecycle-phases">
+     4.2.1.1. Lifecycle phases
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#software-development-models">
+     4.2.1.2. Software development models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#good-software-development-practices">
+     4.2.1.3. Good software development practices
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#github-for-software-development">
+   4.2.2. GitHub for software development
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-use-github">
+     4.2.2.1. Why use GitHub?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-to-use-github">
+     4.2.2.2. How to use GitHub?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#randomness-and-reproducibility">
+   4.2.3. Randomness and reproducibility
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-numbers">
+     4.2.3.1. Random numbers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-seeds-for-reproducibility">
+     4.2.3.2. Random seeds for reproducibility
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   4.2.4. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Software development</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#software-development-life-cycle">
+   4.2.1. Software development life cycle
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lifecycle-phases">
+     4.2.1.1. Lifecycle phases
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#software-development-models">
+     4.2.1.2. Software development models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#good-software-development-practices">
+     4.2.1.3. Good software development practices
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#github-for-software-development">
+   4.2.2. GitHub for software development
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-use-github">
+     4.2.2.1. Why use GitHub?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-to-use-github">
+     4.2.2.2. How to use GitHub?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#randomness-and-reproducibility">
+   4.2.3. Randomness and reproducibility
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-numbers">
+     4.2.3.1. Random numbers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-seeds-for-reproducibility">
+     4.2.3.2. Random seeds for reproducibility
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   4.2.4. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="software-development">
+<h1><span class="section-number">4.2. </span>Software development<a class="headerlink" href="#software-development" title="Permalink to this headline">¶</a></h1>
+<p>Machine learning works essentially through running software on hardware. Most (if not all) of our efforts in machine learning are focused on developing software on purchased hardware. Machine learning software is no different from other software. It is written in programming languages, it is tested, it is deployed, it is maintained, and it is updated. In this section, we will discuss the software development process, which can help you create machine learning models more efficiently and professionally.</p>
+<p>You should view software development as a process, not as a one-time event. A virtue of software is that it is relatively easy to change, particularly compared to hardware. Software development is a continuous process that involves many different stages, including planning, design, implementation, testing, deployment, and maintenance. In this section, we will discuss the software development process briefly, starting with the software development life cycle (SDLC).</p>
+<div class="section" id="software-development-life-cycle">
+<h2><span class="section-number">4.2.1. </span>Software development life cycle<a class="headerlink" href="#software-development-life-cycle" title="Permalink to this headline">¶</a></h2>
+<p>Watch the 9-minute video below for a visual explanation of the software development life cycle.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/i-QyW8D3ei0?start=00" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/i-QyW8D3ei0?start=00">Software Development Life Cycle by Testaholic</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">software development life cycle (SDLC)</a> is a process used by the software industry to design, develop, and test high quality software. The SDLC aims to produce a high-quality software that meets or exceeds customer expectations, reaches completion within times and cost estimates. The SDLC describes the stages from an initial feasibility study through maintenance of the completed application, and can be mapped to more general management control processes as shown in <a class="reference internal" href="#sdlc-to-management"><span class="std std-numref">Fig. 4.1</span></a> below.</p>
+<div class="figure align-default" id="sdlc-to-management">
+<a class="reference internal image-reference" href="https://upload.wikimedia.org/wikipedia/commons/a/a2/SDLC_Phases_Related_to_Management_Controls.jpg"><img alt="https://upload.wikimedia.org/wikipedia/commons/a/a2/SDLC_Phases_Related_to_Management_Controls.jpg" src="https://upload.wikimedia.org/wikipedia/commons/a/a2/SDLC_Phases_Related_to_Management_Controls.jpg" style="height: 350px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 4.1 </span><span class="caption-text">How the SDLC phases are related to management controls  <span id="id1">[<a class="reference internal" href="../appendix/bibliography.html#id3" title="U.S. House-of-Representatives. Systems development life-cycle policy. U.S. House of Representatives, 1999. https://web.archive.org/web/20131019091833/http://www.house.gov/content/cao/procurement/ref-docs/SDLCPOL.pdf.">House-of-Representatives, 1999</a>]</span>.</span><a class="headerlink" href="#sdlc-to-management" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="lifecycle-phases">
+<h3><span class="section-number">4.2.1.1. </span>Lifecycle phases<a class="headerlink" href="#lifecycle-phases" title="Permalink to this headline">¶</a></h3>
+<p>The SDLC typically includes the following key phases:</p>
+<ul class="simple">
+<li><p><strong>Inception</strong> phase: The inception phase is the first phase of the SDLC. It is the phase in which the project is initiated with rationale, scope, and vision. It is also known as the feasibility study phase. Its purpose is to determine whether the project is feasible and to identify the project’s scope. It is also used to determine whether the project should proceed to the next phase. It is also used to determine the project’s scope and to identify the project’s stakeholders.</p></li>
+<li><p><strong>Elaboration</strong> phase (“Design/Details”): The elaboration phase is the second phase of the SDLC. Its purpose is to define the project’s objectives and requirements. It involves both high-level analysis/design and detailed requirements.</p></li>
+<li><p><strong>Construction</strong> phase (“Do it”): The construction phase is the third phase of the SDLC. Its purpose is to build the software. This phase is typically the longest phase of the SDLC. Software is typically built in increments, tested and integrated, each satisfying a subset of the requirements (see the <a class="reference external" href="https://en.wikipedia.org/wiki/Agile_software_development">Agile software development</a> model below).</p></li>
+<li><p><strong>Transition</strong> phase (“Deploy it”): The transition phase is the fourth phase of the SDLC. Its purpose is to transition the software from the development environment to the production environment. This typically involves installing the software on the production hardware, beta testing, performance tuning, training the users, and transferring the software to the operations and maintenance team.</p></li>
+</ul>
+</div>
+<div class="section" id="software-development-models">
+<h3><span class="section-number">4.2.1.2. </span>Software development models<a class="headerlink" href="#software-development-models" title="Permalink to this headline">¶</a></h3>
+<p>There are several different SDLC models. We study three most popular ones below.</p>
+<ul class="simple">
+<li><p><strong>Waterfall model</strong>: The waterfall model is a <em>linear, sequential</em> approach, where progress is seen as flowing steadily downwards (like a waterfall) through the phases of Conception, Initiation, Analysis, Design, Construction, Testing, Production/Implementation and Maintenance. This is the traditional SDLC model. It is a simple model and easy to understand. However, it has several shortcomings, including the following:</p>
+<ul>
+<li><p>It is not very flexible. Once a phase is completed, it cannot be revisited.</p></li>
+<li><p>It is not very good at handling change. If requirements change during the project, the entire project may need to be restarted.</p></li>
+<li><p>It is not very good at managing risk. If a problem is discovered late in the project, it may be too late to fix it.</p></li>
+<li><p>It is not very good at managing quality. Quality is typically inspected at the end of the project, when it is too late to fix problems.</p></li>
+</ul>
+</li>
+<li><p><strong>Agile model</strong>: The <a class="reference external" href="https://en.wikipedia.org/wiki/Agile_software_development">agile model</a> is an <em>iterative and incremental</em> approach, where requirements and solutions evolve through collaboration between self-organizing, cross-functional teams. An incremental approach partitions a system into a number of components by functionality, and then builds each component in sequence. Typically, it will deliver an early release of a small, functional subsystem and then incrementally add more functionality to the system in later releases. The process is repeated iteratively to improve the overall system in each release.</p></li>
+<li><p><strong>Phased approach</strong>: The phased approach is a hybrid of the waterfall and agile models. It is a <em>sequential</em> approach, where progress is seen as flowing steadily downwards (like a waterfall) through the phases of Conception, Initiation, Analysis, Design, Construction, Testing, Production/Implementation and Maintenance. However, it is also an <em>iterative</em> development in that each phase is repeated until the project is completed, where requirements and solutions evolve through collaboration between self-organizing, cross-functional teams. This will reduce cycle time, deliver software in pieces, let users have some functionality while developing the rest. It often have two or more systems in parallel: the operational/production system in use by customers, and the development system to replace the current release when it is ready.</p></li>
+</ul>
+<p>The agile/phased model is more popular in the software industry today. It allows for changes in requirements and solutions. It is also a more collaborative approach that can involve more people in the development process more effectively. The agile model is also more suitable for machine learning projects, which are often iterative and incremental in nature.</p>
+</div>
+<div class="section" id="good-software-development-practices">
+<h3><span class="section-number">4.2.1.3. </span>Good software development practices<a class="headerlink" href="#good-software-development-practices" title="Permalink to this headline">¶</a></h3>
+<p>In development software, you should plan for changes from the beginning and be aware of the cost involved. In developing machine learning software, it will be useful to follow the following good software development practices:</p>
+<ul class="simple">
+<li><p>Get a small subset of your dataset or a reduced version of your system to study, develop, debug, and test.</p></li>
+<li><p>Break down big/difficult problem into smaller/easier sub-steps (avoid black-box debugging).</p></li>
+<li><p>Be structured, organised, and logical throughout the development process.</p></li>
+<li><p>Keep good documentation of your code and your development process. Provide standard documentation, including a README file, a requirements file, and a license file. Add comments to your code to explain what it does and why it does it to facilitate and reduce the cost of software maintenance.</p></li>
+<li><p>Get help online (e.g. search) and keep the references.</p></li>
+<li><p>Make your code modular and reusable. Modularity helps manage change because modules help to isolate and localize bugs and changes. This will make it easier to maintain and update your code.</p></li>
+<li><p>Use version control software, such as Git, to track changes to your code. This will make it easier to maintain and update your code, as well as collaborate with others. This will be the next topic we will discuss in this section.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="github-for-software-development">
+<h2><span class="section-number">4.2.2. </span>GitHub for software development<a class="headerlink" href="#github-for-software-development" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/GitHub">GitHub</a> is a web-based hosting service for version control using <a class="reference external" href="https://en.wikipedia.org/wiki/Git">Git</a>. It is mostly used for computer code. It offers all of the distributed version control and source code management (SCM) functionality of Git as well as adding its own features. It provides access control and several collaboration features such as bug tracking, feature requests, task management, and wikis for every project. GitHub is a subsidiary of Microsoft, which acquired the company in 2018 for US$7.5 billion.</p>
+<div class="section" id="why-use-github">
+<h3><span class="section-number">4.2.2.1. </span>Why use GitHub?<a class="headerlink" href="#why-use-github" title="Permalink to this headline">¶</a></h3>
+<p>GitHub is a popular platform for software development. It is used by many software developers, including us, the instructors, for both teaching and research. For example, this course is hosted on GitHub. It is also used by many companies for their software development, including Google, Facebook, Microsoft, and Amazon, by many open-source projects, including the Linux kernel and the Python programming language, and by many research projects, including the <a class="reference external" href="https://scikit-learn.org/stable/">scikit-learn</a> machine learning library and the <a class="reference external" href="https://pytorch.org/">PyTorch</a> machine learning library.</p>
+<p>GitHub is a good place to store your code and collaborate with others. It is also a good place to showcase your work to potential employers and learn from others. You can also use GitHub to host your website. Some employers may ask you to provide a link to your GitHub profile as part of your job application. Therefore, we strongly encourage you to <a class="reference external" href="https://github.com/join">create a GitHub account</a> and use it for your software development.</p>
+</div>
+<div class="section" id="how-to-use-github">
+<h3><span class="section-number">4.2.2.2. </span>How to use GitHub?<a class="headerlink" href="#how-to-use-github" title="Permalink to this headline">¶</a></h3>
+<p>Watch the 8-minute video below for a visual explanation of how to use GitHub for software development.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/iv8rSLsi1xo?start=01" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/iv8rSLsi1xo?start=01">GitHub Tutorial - Beginner’s Training Guide by Anson Alexander</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>We recommend you to use <a class="reference external" href="https://code.visualstudio.com/">Visual Studio Code (VS Code)</a> as your code editor, which has a <a class="reference external" href="https://code.visualstudio.com/docs/editor/github">GitHub extension</a> to help you use GitHub. It is a free, open-source, cross-platform code editor developed by Microsoft. It is available for Windows, macOS, and Linux. It is a very popular code editor among software developers. You can also use other code editors such as <a class="reference external" href="https://www.jetbrains.com/pycharm/">PyCharm</a>, <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>, and <a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a>. <a class="reference external" href="https://desktop.github.com/">GitHub Desktop</a> is a popular application dedicated to manage your GitHub repositories. You can also read the <a class="reference external" href="https://guides.github.com/">GitHub Guides</a> for more information.</p>
+</div>
+</div>
+<div class="section" id="randomness-and-reproducibility">
+<h2><span class="section-number">4.2.3. </span>Randomness and reproducibility<a class="headerlink" href="#randomness-and-reproducibility" title="Permalink to this headline">¶</a></h2>
+<p>In machine learning, we often use random numbers to generate random data, shuffle data, and initialise parameters. We also use random numbers to split data into training, validation, and test sets, and to select hyperparameters. Therefore, it is important to understand how to generate random numbers and how to make your code reproducible.</p>
+<div class="section" id="random-numbers">
+<h3><span class="section-number">4.2.3.1. </span>Random numbers<a class="headerlink" href="#random-numbers" title="Permalink to this headline">¶</a></h3>
+<p>A random number is a number that is generated by a random process, typically is governed by a probability distribution in programming. In Python, we can use the <a class="reference external" href="https://docs.python.org/3/library/random.html">random</a> module to generate random numbers for various distributions. Many Python libraries have their own random number generators, such as <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html">NumPy</a>, <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/random">TensorFlow</a>, and <a class="reference external" href="https://pytorch.org/docs/stable/torch.html#random-number-generation">PyTorch</a>.</p>
+</div>
+<div class="section" id="random-seeds-for-reproducibility">
+<h3><span class="section-number">4.2.3.2. </span>Random seeds for reproducibility<a class="headerlink" href="#random-seeds-for-reproducibility" title="Permalink to this headline">¶</a></h3>
+<p>When there are randomness in the machine learning process, we need to set a random seed to make the results reproducible, typically at the beginning of our code. A random seed is a number used to initialize a pseudorandom number generator. It is used to generate a sequence of numbers that can be predicted/reproduced when running multiple times. In Python, we can use the <a class="reference external" href="https://docs.python.org/3/library/random.html#random.seed">random.seed</a> function to set the random seed. We can also use the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.seed.html">numpy.random.seed</a> function to set the random seed for NumPy. We can also use the <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.manual_seed.html">torch.manual_seed</a> function to set the random seed for PyTorch.</p>
+<p>For example, in <a class="reference external" href="https://pykale.github.io/transparentML/04-hypo-test-sw-dev/hypothesis-testing.html#hypothesis-testing-on-synthetic-data">Hypothesis testing on synthetic dat</a>, we used the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html">NumPy</a> module to generate random numbers for the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html">NumPy</a> array via <code class="docutils literal notranslate"><span class="pre">np.random.seed(2022)</span></code> so that the results are reproducible on my machine and yours. When using multiple libraries with randomness involved, you need to set the random seed for each library. You can take a look at how we set seeds for commonly used libraries in our own <a class="reference external" href="https://github.com/pykale/pykale">PyKale</a> library <a class="reference external" href="https://github.com/pykale/pykale/blob/main/kale/utils/seed.py">here</a>.</p>
+<p>To make your code reproducible, setting random seeds is only the most basic step. Version control software, such as Git, is also needed to track changes to your code, which is one of the reasons we recommend you to use GitHub for your software development. You can also use <a class="reference external" href="https://www.docker.com/">Docker</a> to package your code and its dependencies into a container image, which can be used to run your code in a reproducible environment. More advanced methods include the use of <a class="reference external" href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration (CI)</a> to automatically run your code and tests on a remote server every time you push your code to GitHub, which we have used for the course website as well as our own <a class="reference external" href="https://github.com/pykale/pykale">PyKale</a> library via GitHub Actions (workflows).</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">4.2.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. The <strong>SDLC elaboration phase</strong> aims to determine whether the project is feasible and to identify the project’s scope.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. False. The <strong>SDLC inception phase</strong></strong> aims it.</p>
+</div>
+<p><strong>2</strong>. <strong>Agile model</strong> is an <strong>iterative</strong> and <strong>incremental</strong> approach, where requirements and solutions evolve through collaboration between self-organising, cross-functional teams.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>a. True</strong></p>
+</div>
+<p><strong>3</strong>. Create a <strong>Github</strong> profile of your own (if you don’t have any) and try to upload <strong>one</strong> of the exercise notebooks you have <strong>completed</strong> in this course. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/04-hypo-test-sw-dev/software-development.html#github-for-software-development">4.2.2</a></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./04-hypo-test-sw-dev"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="hypothesis-testing.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">4.1. </span>Hypothesis testing</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="quiz-sum-ref.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.3. </span>Quiz and summary</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

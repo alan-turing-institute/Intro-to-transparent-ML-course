@@ -1,0 +1,1547 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7.1. Regression trees &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.2. Classification trees" href="classification-trees.html" />
+    <link rel="prev" title="7. Trees and Ensembles" href="overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/07-trees-ensembles/regression-trees.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F07-trees-ensembles/regression-trees.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/07-trees-ensembles/regression-trees.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/07-trees-ensembles/regression-trees.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/07-trees-ensembles/regression-trees.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regression-trees-for-salary-prediction">
+   7.1.1. Regression trees for salary prediction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-build-learn-a-regression-tree">
+   7.1.2. How to build/learn a regression tree?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recursive-binary-splitting">
+     7.1.2.1. Recursive binary splitting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cost-function">
+     7.1.2.2. Cost function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#when-to-stop-splitting">
+     7.1.2.3. When to stop splitting?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regression-trees-for-income-prediction">
+   7.1.3. Regression trees for income prediction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   7.1.4. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Regression trees</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regression-trees-for-salary-prediction">
+   7.1.1. Regression trees for salary prediction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-build-learn-a-regression-tree">
+   7.1.2. How to build/learn a regression tree?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recursive-binary-splitting">
+     7.1.2.1. Recursive binary splitting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cost-function">
+     7.1.2.2. Cost function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#when-to-stop-splitting">
+     7.1.2.3. When to stop splitting?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regression-trees-for-income-prediction">
+   7.1.3. Regression trees for income prediction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   7.1.4. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="regression-trees">
+<h1><span class="section-number">7.1. </span>Regression trees<a class="headerlink" href="#regression-trees" title="Permalink to this headline">¶</a></h1>
+<p>We will start with regression trees, a type of decision tree model that can be used for regression problems.</p>
+<p>Watch the 22-minute video below for a visual explanation of regression trees.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/g9c66TUylZ4?start=41" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+<p><a class="reference external" href="https://www.youtube.com/embed/g9c66TUylZ4?start=41">Explaining Regression Trees by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="section" id="regression-trees-for-salary-prediction">
+<h2><span class="section-number">7.1.1. </span>Regression trees for salary prediction<a class="headerlink" href="#regression-trees-for-salary-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span><span class="p">,</span> <span class="n">plot_tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set a random seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Hitters.csv">Hitters dataset</a> (click to explore) to predict a baseball player’s <code class="docutils literal notranslate"><span class="pre">Salary</span></code> based on <code class="docutils literal notranslate"><span class="pre">Years</span></code> (the number of years that the player has played in the major leagues) and <code class="docutils literal notranslate"><span class="pre">Hits</span></code> (the number of hits that the player has made in the major leagues).</p>
+<p>Load the dataset and <em>remove the rows with missing values</em>. Inspect the first few rows of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hitters_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Hitters.csv&quot;</span>
+
+<span class="n">hitters_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">hitters_url</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">hitters_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AtBat</th>
+      <th>Hits</th>
+      <th>HmRun</th>
+      <th>Runs</th>
+      <th>RBI</th>
+      <th>Walks</th>
+      <th>Years</th>
+      <th>CAtBat</th>
+      <th>CHits</th>
+      <th>CHmRun</th>
+      <th>CRuns</th>
+      <th>CRBI</th>
+      <th>CWalks</th>
+      <th>League</th>
+      <th>Division</th>
+      <th>PutOuts</th>
+      <th>Assists</th>
+      <th>Errors</th>
+      <th>Salary</th>
+      <th>NewLeague</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>315</td>
+      <td>81</td>
+      <td>7</td>
+      <td>24</td>
+      <td>38</td>
+      <td>39</td>
+      <td>14</td>
+      <td>3449</td>
+      <td>835</td>
+      <td>69</td>
+      <td>321</td>
+      <td>414</td>
+      <td>375</td>
+      <td>N</td>
+      <td>W</td>
+      <td>632</td>
+      <td>43</td>
+      <td>10</td>
+      <td>475.0</td>
+      <td>N</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>479</td>
+      <td>130</td>
+      <td>18</td>
+      <td>66</td>
+      <td>72</td>
+      <td>76</td>
+      <td>3</td>
+      <td>1624</td>
+      <td>457</td>
+      <td>63</td>
+      <td>224</td>
+      <td>266</td>
+      <td>263</td>
+      <td>A</td>
+      <td>W</td>
+      <td>880</td>
+      <td>82</td>
+      <td>14</td>
+      <td>480.0</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>496</td>
+      <td>141</td>
+      <td>20</td>
+      <td>65</td>
+      <td>78</td>
+      <td>37</td>
+      <td>11</td>
+      <td>5628</td>
+      <td>1575</td>
+      <td>225</td>
+      <td>828</td>
+      <td>838</td>
+      <td>354</td>
+      <td>N</td>
+      <td>E</td>
+      <td>200</td>
+      <td>11</td>
+      <td>3</td>
+      <td>500.0</td>
+      <td>N</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>321</td>
+      <td>87</td>
+      <td>10</td>
+      <td>39</td>
+      <td>42</td>
+      <td>30</td>
+      <td>2</td>
+      <td>396</td>
+      <td>101</td>
+      <td>12</td>
+      <td>48</td>
+      <td>46</td>
+      <td>33</td>
+      <td>N</td>
+      <td>E</td>
+      <td>805</td>
+      <td>40</td>
+      <td>4</td>
+      <td>91.5</td>
+      <td>N</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>594</td>
+      <td>169</td>
+      <td>4</td>
+      <td>74</td>
+      <td>51</td>
+      <td>35</td>
+      <td>11</td>
+      <td>4408</td>
+      <td>1133</td>
+      <td>19</td>
+      <td>501</td>
+      <td>336</td>
+      <td>194</td>
+      <td>A</td>
+      <td>W</td>
+      <td>282</td>
+      <td>421</td>
+      <td>25</td>
+      <td>750.0</td>
+      <td>A</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Take a look at the structure of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hitters_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 263 entries, 1 to 321
+Data columns (total 20 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   AtBat      263 non-null    int64  
+ 1   Hits       263 non-null    int64  
+ 2   HmRun      263 non-null    int64  
+ 3   Runs       263 non-null    int64  
+ 4   RBI        263 non-null    int64  
+ 5   Walks      263 non-null    int64  
+ 6   Years      263 non-null    int64  
+ 7   CAtBat     263 non-null    int64  
+ 8   CHits      263 non-null    int64  
+ 9   CHmRun     263 non-null    int64  
+ 10  CRuns      263 non-null    int64  
+ 11  CRBI       263 non-null    int64  
+ 12  CWalks     263 non-null    int64  
+ 13  League     263 non-null    object 
+ 14  Division   263 non-null    object 
+ 15  PutOuts    263 non-null    int64  
+ 16  Assists    263 non-null    int64  
+ 17  Errors     263 non-null    int64  
+ 18  Salary     263 non-null    float64
+ 19  NewLeague  263 non-null    object 
+dtypes: float64(1), int64(16), object(3)
+memory usage: 43.1+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Decision trees typically do not require feature scaling. However, take a look at the distribution of the <code class="docutils literal notranslate"><span class="pre">Salary</span></code> variable on the original scale and on the log scale, via a histogram below. We can see that the distribution of <code class="docutils literal notranslate"><span class="pre">Salary</span></code> is skewed (to the left), and that the log distribution is more symmetric, closer to a bell shape, i.e. the normal/Gaussian distribution that is preferred in many machine learning models. Therefore, we will use the <em>log-transform</em> of <code class="docutils literal notranslate"><span class="pre">Salary</span></code> as the target variable in our regression tree model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">hitters_df</span><span class="p">[[</span><span class="s2">&quot;Years&quot;</span><span class="p">,</span> <span class="s2">&quot;Hits&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;Salary&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>  <span class="c1"># log transform the target variable</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">hitters_df</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Salary&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Log(Salary)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/regression-trees_9_0.png" src="../_images/regression-trees_9_0.png" />
+</div>
+</div>
+<p>Let’s fit a regression tree to the data. We will use the <code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressor</span></code> class from the <code class="docutils literal notranslate"><span class="pre">sklearn.tree</span></code> module. We will set the <code class="docutils literal notranslate"><span class="pre">max_leaf_nodes</span></code> hyperparameter to 3, which means that the tree will have at most 3 leaf nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regr</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_leaf_nodes=3)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeRegressor</label><div class="sk-toggleable__content"><pre>DecisionTreeRegressor(max_leaf_nodes=3)</pre></div></div></div></div></div></div></div>
+</div>
+<p>One attractive feature of a tree-based model is visualisation.  Let us visualise the learnt tree using the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.plot_tree.html"><code class="docutils literal notranslate"><span class="pre">plot_tree</span></code> function</a> from the <code class="docutils literal notranslate"><span class="pre">sklearn.tree</span></code> module. We will set the <code class="docutils literal notranslate"><span class="pre">filled</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">True</span></code> to colour the leaf nodes according to the predicted value (the larger the value, the darker the colour). We will set the <code class="docutils literal notranslate"><span class="pre">feature_names</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">['Years',</span> <span class="pre">'Hits']</span></code> to label the features.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># customize according to the size of your tree</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">regr</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Years&quot;</span><span class="p">,</span> <span class="s2">&quot;Hits&quot;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/regression-trees_13_0.png" src="../_images/regression-trees_13_0.png" />
+</div>
+</div>
+<p>The above depicts a regression tree fitted to the data. The tree has three leaf nodes, and each leaf node corresponds to a region in the feature space. The predicted value for each region is the average value of the <code class="docutils literal notranslate"><span class="pre">Salary</span></code> variable in the training data that falls into that region. We can examine the system logic of this simple regression tree to reveal its system transparency.</p>
+<div class="important admonition">
+<p class="admonition-title">System transparency</p>
+<ul class="simple">
+<li><p>When <code class="docutils literal notranslate"><span class="pre">Years</span></code> <span class="math notranslate nohighlight">\(=5\)</span> and <code class="docutils literal notranslate"><span class="pre">Hits</span></code> <span class="math notranslate nohighlight">\(=100\)</span>, the predicted <code class="docutils literal notranslate"><span class="pre">Salary</span></code> <span class="math notranslate nohighlight">\(=\)</span> $<span class="math notranslate nohighlight">\(1000\times e^{5.998}\approx 403,000\)</span>, which can be read out from the tree above by following the right branch from the top first and then the left branch of the next level, reaching the leaf node in the middle.</p></li>
+<li><p>To produce an estimated <code class="docutils literal notranslate"><span class="pre">Salary</span></code> of $<span class="math notranslate nohighlight">\(1000\times e^{6.6}\approx 735,095\)</span>, we find the leaf node that has a predicted value closest to <span class="math notranslate nohighlight">\(6.6\)</span>, which is the right most leaf node, and follow the path from that leaf node to the top to get that we should have <code class="docutils literal notranslate"><span class="pre">Years</span></code> <span class="math notranslate nohighlight">\(&gt;4.5\)</span> and <code class="docutils literal notranslate"><span class="pre">Hits</span></code> <span class="math notranslate nohighlight">\(&gt;117.5\)</span>, e.g. <code class="docutils literal notranslate"><span class="pre">Years</span></code> <span class="math notranslate nohighlight">\(=5\)</span> and <code class="docutils literal notranslate"><span class="pre">Hits</span></code> <span class="math notranslate nohighlight">\(=120\)</span>, for a <code class="docutils literal notranslate"><span class="pre">Salary</span></code> closest to $<span class="math notranslate nohighlight">\(735,095\)</span>. As we can see here, the estimation from the tree above is quite coarse, and we can get a more accurate estimation by increasing the number of leaf nodes.</p></li>
+</ul>
+</div>
+<p>We can see that this tree consists of a series of splitting rules starting from the top. Each rule is used to divide the feature space into two regions. For example, the first splitting rule is <code class="docutils literal notranslate"><span class="pre">Years</span> <span class="pre">&lt;=</span> <span class="pre">4.5</span></code>, which means that if the number of years that a player has played in the major leagues is less than or equal to 4.5, then the player will be assigned to the left child node, with a predicted salary of $<span class="math notranslate nohighlight">\(1000\times e^{5.107}\approx 165,000\)</span>. Otherwise, the player will be assigned to the right child node. The second splitting rule is <code class="docutils literal notranslate"><span class="pre">Hits</span> <span class="pre">&lt;=</span> <span class="pre">117.5</span></code>, which means that if the number of hits that a player has made in the major leagues is less than or equal to  117.5 then the player will be assigned to the left child node, with a predicted salary of $<span class="math notranslate nohighlight">\(1000\times e^{5.998}\approx 403,000\)</span>. Otherwise, the player will be assigned to the right child node, with a predicted salary of $<span class="math notranslate nohighlight">\(1000\times e^{6.740}\approx 845,000\)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">How to interpret this tree?</p>
+<p>From the above, <code class="docutils literal notranslate"><span class="pre">Years</span></code> is the most important factor (among two factors considered) in determining Salary, and players with less experience earn lower salaries than more experienced players. Given that a player is less experienced, the number of hits that he made in the previous year seems to play little role in his salary. But among players who have been in the major leagues for five or more years, the number of hits made in the previous year does affect salary, and players who made more hits last year tend to have higher salaries.</p>
+</div>
+<p>Thus, the tree is a piecewise linear function of the features. The predicted value for a new data point is the average value of the <code class="docutils literal notranslate"><span class="pre">Salary</span></code> variable in the training data that falls into the region that the new data point falls into. It is easier to interpret, and has a nice graphical representation.</p>
+<p>We can further visualise the tree by plotting the regions in the feature space.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hitters_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;Years&quot;</span><span class="p">,</span> <span class="s2">&quot;Hits&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;scatter&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mi">24</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">117.5</span><span class="p">,</span> <span class="mi">238</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">117.5</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">4.5</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;R1&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">117.5</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;R2&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;R3&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/regression-trees_15_0.png" src="../_images/regression-trees_15_0.png" />
+</div>
+</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">How to interpret this plot?</p>
+<p>Thus, the tree divides the feature space into tree regions: R1, R2, and R3. The first region R1 is the region where the number of years that a player has played in the major leagues is less than or equal to 4.5. The second region R2 is the region where the number of years that a player has played in the major leagues is greater than 4.5, and the number of hits that a player has made in the major leagues is less or equal to 117.5. The third region R3 is the region where the number of years that a player has played in the major leagues is greater than 4.5, and the number of hits that a player has made in the major leagues is greater than 117.5.</p>
+</div>
+<p>Decision trees are typically drawn upside down, with the <em>root node</em> at the top and the <em>leaves</em> at the bottom. The root node is the first splitting rule, and the leaves are the <em>terminal nodes</em>, regions R1, R2, and R3 in this example. The points along the tree where the feature space is divided into two regions are called <em>internal nodes</em> or <em>splitting nodes</em>. The splitting rules are the conditions that are used to divide the feature space into two regions. The splitting rules are represented by the lines that connect the internal nodes to the leaves. These lines are called <em>branches</em> and
+the splitting rules are also called <em>decision rules</em>.</p>
+</div>
+<div class="section" id="how-to-build-learn-a-regression-tree">
+<h2><span class="section-number">7.1.2. </span>How to build/learn a regression tree?<a class="headerlink" href="#how-to-build-learn-a-regression-tree" title="Permalink to this headline">¶</a></h2>
+<p>How to build (i.e. learn) a regression tree? In other words, how to find <span class="math notranslate nohighlight">\(J\)</span> regions best dividing (partitioning) the feature space for prediction? Unfortunately, it is computationally infeasible to consider every possible partition of the feature space into <span class="math notranslate nohighlight">\(J\)</span> regions. Instead, again, we take a top-down, greedy approach like in the <a class="reference external" href="https://pykale.github.io/transparentML/06-ftr-select-regularise/feature-select.html#stepwise-selection">stepwise feature selection</a> that is known as <a class="reference external" href="https://en.wikipedia.org/wiki/Recursive_partitioning">recursive binary splitting (recursive partitioning)</a>.</p>
+<div class="section" id="recursive-binary-splitting">
+<h3><span class="section-number">7.1.2.1. </span>Recursive binary splitting<a class="headerlink" href="#recursive-binary-splitting" title="Permalink to this headline">¶</a></h3>
+<p>In recursive binary splitting, we start with the entire feature space as the root node (one single region), and then we successively split the feature space into two regions, in <span class="math notranslate nohighlight">\(J-1\)</span> steps. In each step <span class="math notranslate nohighlight">\(j\)</span>, we consider all features and all possible values of the threshold <span class="math notranslate nohighlight">\(T_d\)</span> (cutpoint, or splitting point) for each feature <span class="math notranslate nohighlight">\(x_d\)</span>, and then choose the feature and threshold such that if using it to split one of the existing <span class="math notranslate nohighlight">\(j\)</span> regions, the resulting tree has the lowest cost (best performance). In other words, the splitting rule is chosen by finding the the feature <span class="math notranslate nohighlight">\(j\)</span> out of a total of <span class="math notranslate nohighlight">\(D\)</span> features <span class="math notranslate nohighlight">\(x_1, \cdots , x_D\)</span>, with a threshold <span class="math notranslate nohighlight">\(T_j\)</span> that splits one existing region to minimise a <em>cost function</em> (<em>splitting criterion</em>). Thus, each step <span class="math notranslate nohighlight">\(j\)</span> consists of <span class="math notranslate nohighlight">\(D\)</span> sub-steps, one for each feature. In each sub-step <span class="math notranslate nohighlight">\(d\)</span>, we find the optimal threshold <span class="math notranslate nohighlight">\(T_d\)</span> that minimises the cost function for feature <span class="math notranslate nohighlight">\(x_d\)</span> after splitting an existing region. Then we choose the <span class="math notranslate nohighlight">\(j\)</span>th feature <span class="math notranslate nohighlight">\(x_j\)</span> (with its optimal threshold <span class="math notranslate nohighlight">\(T_j\)</span>) that minimises the cost function. The splitting rule for step <span class="math notranslate nohighlight">\(j\)</span> is then given by <span class="math notranslate nohighlight">\(x_j \leq T_j\)</span>.</p>
+<p>This recursive binary splitting method is <a class="reference external" href="https://en.wikipedia.org/wiki/Greedy_algorithm">greedy</a> because at each step of the tree-building process, the best split is made at that particular step, rather than looking ahead and picking a split that will lead to a better tree in some future step, as in <a class="reference external" href="https://pykale.github.io/transparentML/06-ftr-select-regularise/feature-select.html#stepwise-selection">stepwise feature selection</a>. Therefore, it is also susceptible to overfitting.</p>
+</div>
+<div class="section" id="cost-function">
+<h3><span class="section-number">7.1.2.2. </span>Cost function<a class="headerlink" href="#cost-function" title="Permalink to this headline">¶</a></h3>
+<p>Cost functions for regression trees can be any performance metric for regression, such as the residual sum of squares (RSS) defined in <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#estimating-the-coefficients">simple linear regression</a> (Equation <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html#equation-rssdef">(2.3)</a>) or the mean squared error (MSE) defined in <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#assessing-model-accuracy-via-r-2">simple linear regression</a> (Equation <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html#equation-msedef">(2.8)</a>).</p>
+</div>
+<div class="section" id="when-to-stop-splitting">
+<h3><span class="section-number">7.1.2.3. </span>When to stop splitting?<a class="headerlink" href="#when-to-stop-splitting" title="Permalink to this headline">¶</a></h3>
+<p>In regression trees, instead of specifying the number of regions <span class="math notranslate nohighlight">\(J\)</span> in advance, we stop splitting using a stopping criteria. The most common stopping criteria is to stop splitting when the number of data points in a region is less than or equal to a pre-specified number <span class="math notranslate nohighlight">\(R\)</span> (e.g. 5). This is called <em>pre-pruning</em> or early stopping. Another stopping criteria is to stop splitting when the cost function (or its changes over the last <span class="math notranslate nohighlight">\(K\)</span> steps) is less than or equal to a pre-specified number <span class="math notranslate nohighlight">\(\epsilon\)</span> (e.g. 0.01). This is called <em>post-pruning</em> or late stopping.</p>
+<p>You may refer to the advantages and disadvantages of decision trees and tips on practical use in the <a class="reference external" href="https://scikit-learn.org/stable/modules/tree.html#tree"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> documentation</a>.</p>
+</div>
+</div>
+<div class="section" id="regression-trees-for-income-prediction">
+<h2><span class="section-number">7.1.3. </span>Regression trees for income prediction<a class="headerlink" href="#regression-trees-for-income-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Next, let us study the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Boston.csv">Boston dataset</a>  (click to explore). In this dataset, we want to predict the median value of owner-occupied homes in $1000s in Boston, based on 13 features (predictors) such as crime rate, average number of rooms per dwelling, and proportion of non-retail business acres per town.</p>
+<p>Load the dataset and inspect the first few rows of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boston_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Boston.csv&quot;</span>
+
+<span class="n">boston_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">boston_url</span><span class="p">)</span>
+<span class="n">boston_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>crim</th>
+      <th>zn</th>
+      <th>indus</th>
+      <th>chas</th>
+      <th>nox</th>
+      <th>rm</th>
+      <th>age</th>
+      <th>dis</th>
+      <th>rad</th>
+      <th>tax</th>
+      <th>ptratio</th>
+      <th>black</th>
+      <th>lstat</th>
+      <th>medv</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.00632</td>
+      <td>18.0</td>
+      <td>2.31</td>
+      <td>0</td>
+      <td>0.538</td>
+      <td>6.575</td>
+      <td>65.2</td>
+      <td>4.0900</td>
+      <td>1</td>
+      <td>296</td>
+      <td>15.3</td>
+      <td>396.90</td>
+      <td>4.98</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.02731</td>
+      <td>0.0</td>
+      <td>7.07</td>
+      <td>0</td>
+      <td>0.469</td>
+      <td>6.421</td>
+      <td>78.9</td>
+      <td>4.9671</td>
+      <td>2</td>
+      <td>242</td>
+      <td>17.8</td>
+      <td>396.90</td>
+      <td>9.14</td>
+      <td>21.6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.02729</td>
+      <td>0.0</td>
+      <td>7.07</td>
+      <td>0</td>
+      <td>0.469</td>
+      <td>7.185</td>
+      <td>61.1</td>
+      <td>4.9671</td>
+      <td>2</td>
+      <td>242</td>
+      <td>17.8</td>
+      <td>392.83</td>
+      <td>4.03</td>
+      <td>34.7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.03237</td>
+      <td>0.0</td>
+      <td>2.18</td>
+      <td>0</td>
+      <td>0.458</td>
+      <td>6.998</td>
+      <td>45.8</td>
+      <td>6.0622</td>
+      <td>3</td>
+      <td>222</td>
+      <td>18.7</td>
+      <td>394.63</td>
+      <td>2.94</td>
+      <td>33.4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.06905</td>
+      <td>0.0</td>
+      <td>2.18</td>
+      <td>0</td>
+      <td>0.458</td>
+      <td>7.147</td>
+      <td>54.2</td>
+      <td>6.0622</td>
+      <td>3</td>
+      <td>222</td>
+      <td>18.7</td>
+      <td>396.90</td>
+      <td>5.33</td>
+      <td>36.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Take a look at the structure of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boston_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 506 entries, 0 to 505
+Data columns (total 14 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   crim     506 non-null    float64
+ 1   zn       506 non-null    float64
+ 2   indus    506 non-null    float64
+ 3   chas     506 non-null    int64  
+ 4   nox      506 non-null    float64
+ 5   rm       506 non-null    float64
+ 6   age      506 non-null    float64
+ 7   dis      506 non-null    float64
+ 8   rad      506 non-null    int64  
+ 9   tax      506 non-null    int64  
+ 10  ptratio  506 non-null    float64
+ 11  black    506 non-null    float64
+ 12  lstat    506 non-null    float64
+ 13  medv     506 non-null    float64
+dtypes: float64(11), int64(3)
+memory usage: 55.5 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Split the dataset into training (50%) and test sets and fit a regression tree.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;medv&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">medv</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">)</span>
+<span class="n">regr_tree</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+<span class="n">regr_tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {color: black;background-color: white;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_depth=3)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeRegressor</label><div class="sk-toggleable__content"><pre>DecisionTreeRegressor(max_depth=3)</pre></div></div></div></div></div></div></div>
+</div>
+<p>Visualise the tree.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># customize according to the size of your tree</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">regr_tree</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">X2</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/regression-trees_24_0.png" src="../_images/regression-trees_24_0.png" />
+</div>
+</div>
+<p>Compute the test set MSEs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">regr_tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>29.741127328020855
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">7.1.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1.</strong> All the following exercises use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Carseats.csv">Carseats</a> dataset.</p>
+<p>Load the <strong>Carseats</strong> dataset, convert the values of variables (predictors) from categorical data to numerical data, and inspect the first five rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">carseat_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Carseats.csv&quot;</span>
+
+<span class="n">carseat_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">carseat_url</span><span class="p">)</span>
+<span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;ShelveLoc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;ShelveLoc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;Urban&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;Urban&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">carseat_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+      <th>CompPrice</th>
+      <th>Income</th>
+      <th>Advertising</th>
+      <th>Population</th>
+      <th>Price</th>
+      <th>ShelveLoc</th>
+      <th>Age</th>
+      <th>Education</th>
+      <th>Urban</th>
+      <th>US</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9.50</td>
+      <td>138</td>
+      <td>73</td>
+      <td>11</td>
+      <td>276</td>
+      <td>120</td>
+      <td>0</td>
+      <td>42</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11.22</td>
+      <td>111</td>
+      <td>48</td>
+      <td>16</td>
+      <td>260</td>
+      <td>83</td>
+      <td>1</td>
+      <td>65</td>
+      <td>10</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.06</td>
+      <td>113</td>
+      <td>35</td>
+      <td>10</td>
+      <td>269</td>
+      <td>80</td>
+      <td>2</td>
+      <td>59</td>
+      <td>12</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7.40</td>
+      <td>117</td>
+      <td>100</td>
+      <td>4</td>
+      <td>466</td>
+      <td>97</td>
+      <td>2</td>
+      <td>55</td>
+      <td>14</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.15</td>
+      <td>141</td>
+      <td>64</td>
+      <td>3</td>
+      <td>340</td>
+      <td>128</td>
+      <td>0</td>
+      <td>38</td>
+      <td>13</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>2.</strong> Create a training set using <span class="math notranslate nohighlight">\(80\%\)</span> of the data from <strong>Exercise 1</strong> and use the remaining <span class="math notranslate nohighlight">\(20\%\)</span> for testing. Fit a <strong>Decision Tree Regressor</strong> to the data, predicting the <strong>Sales</strong> of the carseats. Calculate the <strong>MSE</strong> and <span class="math notranslate nohighlight">\(R^2\)</span> score of the model. Use <span class="math notranslate nohighlight">\(2022\)</span> as the random state value for <strong>train_test_split</strong> and your <strong>DecisionTreeRegressor</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Sales&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="o">.</span><span class="n">Sales</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2022</span>
+<span class="p">)</span>
+<span class="n">regr_tree</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2022</span><span class="p">)</span>
+<span class="n">regr_tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">regr_tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.411861458676102
+0.3428686250711688
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Now, plot the <strong>model tree</strong> of the trained model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># customize according to the size of your tree</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">regr_tree</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">X2</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/regression-trees_39_0.png" src="../_images/regression-trees_39_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./07-trees-ensembles"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">7. </span>Trees and Ensembles</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="classification-trees.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7.2. </span>Classification trees</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

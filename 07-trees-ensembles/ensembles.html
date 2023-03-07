@@ -1,0 +1,1281 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7.3. Ensemble learning &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.4. Quiz and summary" href="quiz-sum-ref.html" />
+    <link rel="prev" title="7.2. Classification trees" href="classification-trees.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/07-trees-ensembles/ensembles.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F07-trees-ensembles/ensembles.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/07-trees-ensembles/ensembles.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/07-trees-ensembles/ensembles.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/07-trees-ensembles/ensembles.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bagging">
+   7.3.1. Bagging
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#out-of-bag-oob-error">
+     7.3.1.1. Out-of-bag (OOB) error
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#feature-importance-measures">
+     7.3.1.2. Feature importance measures
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#random-forests">
+   7.3.2. Random forests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#boosting">
+   7.3.3. Boosting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ensembles-for-income-prediction">
+   7.3.4. Ensembles for income prediction
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compare-the-performance-of-bagging-random-forests-and-boosting">
+     7.3.4.1. Compare the performance of bagging, random forests, and boosting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examine-feature-importance">
+     7.3.4.2. Examine feature importance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   7.3.5. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Ensemble learning</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bagging">
+   7.3.1. Bagging
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#out-of-bag-oob-error">
+     7.3.1.1. Out-of-bag (OOB) error
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#feature-importance-measures">
+     7.3.1.2. Feature importance measures
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#random-forests">
+   7.3.2. Random forests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#boosting">
+   7.3.3. Boosting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ensembles-for-income-prediction">
+   7.3.4. Ensembles for income prediction
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compare-the-performance-of-bagging-random-forests-and-boosting">
+     7.3.4.1. Compare the performance of bagging, random forests, and boosting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examine-feature-importance">
+     7.3.4.2. Examine feature importance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   7.3.5. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="ensemble-learning">
+<h1><span class="section-number">7.3. </span>Ensemble learning<a class="headerlink" href="#ensemble-learning" title="Permalink to this headline">¶</a></h1>
+<p>As mentioned in the previous sections, fitting a single decision tree, a regression/classification tree, to a dataset is prone to overfitting. To overcome this problem, we can use <a class="reference external" href="https://en.wikipedia.org/wiki/Ensemble_learning">ensemble learning</a> methods, which combine multiple simple “building block” models such as decision trees to produce a single, potentially more powerful model for a single consensus prediction. These simple building block models are called “weak learners” so an ensemble learning method aim to leverage many weak learners to produce a single strong learner that is less prone to overfitting and has better predictive power. However, ensemble learning methods are more difficult to interpret than single decision trees.</p>
+<p>In this section, we will study three ensemble learning methods that use decision trees as building blocks: bagging, random forests, and boosting.</p>
+<p>Watch the 9-minute video below for a visual explanation of random forests.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/J4Wdy0Wc_xQ?start=22" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+<p><a class="reference external" href="https://www.youtube.com/embed/J4Wdy0Wc_xQ?start=22">Explaining Random Forests by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="section" id="bagging">
+<h2><span class="section-number">7.3.1. </span>Bagging<a class="headerlink" href="#bagging" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Bootstrap_aggregating">Bagging</a> stands for “bootstrap aggregating”. It is a general ensemble learning method that can be used with <em>any</em> model, not just decision trees. The idea is to fit multiple copies of the same model to different subsets of the data, and then combine the predictions of all the models to produce a single consensus prediction. The subsets of the data are sampled <em>with replacement</em>, which means that some observations may be sampled more than once, and some observations may not be sampled at all. This is called “bootstrapping”, covered earlier in <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html"><span class="doc">Chapter 5</span></a>). The term “aggregating” refers to the fact that the predictions of all the models are combined to produce a single consensus prediction.</p>
+<p>Decision trees suffer from high variance. If we split the training data into two subsets, and fit a decision tree to each subset, the two trees will be very different. Bagging reduces the variance of a single decision tree by fitting <span class="math notranslate nohighlight">\(B\)</span> regression/classification trees to <span class="math notranslate nohighlight">\(B\)</span> bootstrapped training sets, sampled with replacement from the original training set. The predictions of all the <span class="math notranslate nohighlight">\(B\)</span> trees are then combined to produce a single consensus prediction. The consensus prediction is the average of the predictions of all the <span class="math notranslate nohighlight">\(B\)</span> trees for regression trees, and the majority vote of the predictions of all the <span class="math notranslate nohighlight">\(B\)</span> trees for classification trees.</p>
+<div class="section" id="out-of-bag-oob-error">
+<h3><span class="section-number">7.3.1.1. </span>Out-of-bag (OOB) error<a class="headerlink" href="#out-of-bag-oob-error" title="Permalink to this headline">¶</a></h3>
+<p>In bagging, each bootstrap sample is sampled with replacement from the original training set. This means that some observations may not be sampled at all in a bootstrap sample. These observations are called “out-of-bag” (OOB) observations. The predictions of the <span class="math notranslate nohighlight">\(B\)</span> trees for the OOB observations are then used to estimate the OOB error. The OOB error is a good estimate of the test error, and can be used to tune the hyperparameters of the model. With <span class="math notranslate nohighlight">\(B\)</span> sufficiently large, the OOB error is virtually equivalent to leave-one-out cross-validation error.</p>
+</div>
+<div class="section" id="feature-importance-measures">
+<h3><span class="section-number">7.3.1.2. </span>Feature importance measures<a class="headerlink" href="#feature-importance-measures" title="Permalink to this headline">¶</a></h3>
+<p>Bagging typically leads to a better predictive performance than a single decision tree. However, the resulting model is more difficult to interpret than a single decision tree. One way to interpret the bagging model is to look at the average feature importance measures across all the <span class="math notranslate nohighlight">\(B\)</span> trees, where the feature importance measures of a single decision tree are the average decrease in the cost function, e.g. the mean squared error for regression trees, and the Gini index for classification trees.</p>
+<p>Bagging is a very simple ensemble learning method that is easy to implement and understand. However, it is not as powerful as random forests and boosting, which we will discuss next.</p>
+</div>
+</div>
+<div class="section" id="random-forests">
+<h2><span class="section-number">7.3.2. </span>Random forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Random_forest">Random forests</a> is a popular ensemble learning method that uses decision trees as building blocks. It is a generalization of bagging that uses a slightly different approach to combine the predictions of the <span class="math notranslate nohighlight">\(B\)</span> trees. It still fits <span class="math notranslate nohighlight">\(B\)</span> regression/classification trees to <span class="math notranslate nohighlight">\(B\)</span> bootstrapped training sets, sampled with replacement from the original training set. However, instead of using all the <span class="math notranslate nohighlight">\(D\)</span> features to fit each tree, random forests use a <em>random subset</em> of the <span class="math notranslate nohighlight">\(D\)</span> features to fit each tree. This is called <em>“feature bagging”</em>. The number of features to use in each tree is typically chosen to be <span class="math notranslate nohighlight">\(\sqrt{D}\)</span>, where <span class="math notranslate nohighlight">\(D\)</span> is the total number of features. In this way, random forests decorrelates the trees, which reduces the variance of the ensemble learning method.</p>
+<p>The building blocks of random forests are weaker learners than the building blocks of bagging, but the resulting model is more powerful, due to the decorrelation of the trees and the resulting <em>diversity</em> that enables the model to capture more complementary information from the data.</p>
+</div>
+<div class="section" id="boosting">
+<h2><span class="section-number">7.3.3. </span>Boosting<a class="headerlink" href="#boosting" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Boosting_(machine_learning)">Boosting</a> is another popular ensemble learning method that can use any model as building blocks, though we will consider only decision trees here. It is another generalization of bagging that uses a slightly different approach to combine the predictions of the <span class="math notranslate nohighlight">\(B\)</span> trees. It still fits <span class="math notranslate nohighlight">\(B\)</span> regression/classification trees to <span class="math notranslate nohighlight">\(B\)</span> bootstrapped training sets, sampled with replacement from the original training set. However, instead of fitting each tree <em>independently</em>, boosting fits each tree <em>sequentially</em>, where each tree is fit to the residuals of the previous tree. This is called <em>“boosting”</em>.</p>
+<p>The first tree is fit to the original training data, and each subsequent tree is fit to a modified version of the training data. The modification of the training data is done by assigning a <em>weight</em> to each observation in the training data, and then fitting the tree to the training data using these weights. The weights are updated after each tree is fit, so that the subsequent trees are fit to the training data that are <em>more difficult to predict</em>, i.e. focusing on the challenging samples that are harder to predict at the current stage of the boosting process. The predictions of all the trees are then combined to produce a single consensus prediction.</p>
+<p>Boosting is a powerful ensemble learning method that can be used to fit very accurate models. However, it is more difficult to implement and interpret than bagging and random forests.</p>
+</div>
+<div class="section" id="ensembles-for-income-prediction">
+<h2><span class="section-number">7.3.4. </span>Ensembles for income prediction<a class="headerlink" href="#ensembles-for-income-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Let’s apply bagging, random forests, and boosting to the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Boston.csv">Boston dataset</a> for regression.</p>
+<p>Import the APIs and set a random seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaggingRegressor</span><span class="p">,</span>
+    <span class="n">GradientBoostingRegressor</span><span class="p">,</span>
+    <span class="n">RandomForestRegressor</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>  <span class="c1"># set random seed for reproducibility</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="compare-the-performance-of-bagging-random-forests-and-boosting">
+<h3><span class="section-number">7.3.4.1. </span>Compare the performance of bagging, random forests, and boosting<a class="headerlink" href="#compare-the-performance-of-bagging-random-forests-and-boosting" title="Permalink to this headline">¶</a></h3>
+<p>Load the Boston dataset and split it into training and test sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boston_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Boston.csv&quot;</span>
+<span class="n">boston_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">boston_url</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;medv&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">medv</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Apply bagging, random forests, and boosting to the Boston dataset for regression.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">regr_bagging</span> <span class="o">=</span> <span class="n">BaggingRegressor</span><span class="p">(</span>
+    <span class="n">base_estimator</span><span class="o">=</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">),</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">max_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
+    <span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">regr_bagging</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_bagging</span> <span class="o">=</span> <span class="n">regr_bagging</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_bagging</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_bagging</span><span class="p">)</span>
+
+<span class="n">max_features</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num_features</span><span class="p">))</span>
+<span class="n">regr_rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="n">max_features</span><span class="p">)</span>
+<span class="n">regr_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_rf</span> <span class="o">=</span> <span class="n">regr_rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_rf</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+
+<span class="n">regr_boosting</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">()</span>
+<span class="n">regr_boosting</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_boosting</span> <span class="o">=</span> <span class="n">regr_boosting</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_boosting</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_boosting</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSE for Bagging: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mse_bagging</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSE for Random Forest: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mse_rf</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSE for Boosting: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mse_boosting</span><span class="p">))</span>
+
+<span class="n">mses</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;Bagging&quot;</span><span class="p">:</span> <span class="n">mse_bagging</span><span class="p">,</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="n">mse_rf</span><span class="p">,</span> <span class="s2">&quot;Boosting&quot;</span><span class="p">:</span> <span class="n">mse_boosting</span><span class="p">},</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MSE&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">mses</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/sklearn/ensemble/_base.py:166: FutureWarning: `base_estimator` was renamed to `estimator` in version 1.2 and will be removed in 1.4.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MSE for Bagging: 16.26
+MSE for Random Forest: 15.01
+MSE for Boosting: 12.58
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/ensembles_5_3.png" src="../_images/ensembles_5_3.png" />
+</div>
+</div>
+</div>
+<div class="section" id="examine-feature-importance">
+<h3><span class="section-number">7.3.4.2. </span>Examine feature importance<a class="headerlink" href="#examine-feature-importance" title="Permalink to this headline">¶</a></h3>
+<p>Let us examine the feature importance for random forests and boosting.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rf_importances</span> <span class="o">=</span> <span class="n">regr_rf</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">rf_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">rf_importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">rf_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rf_indices</span><span class="p">]</span>
+
+<span class="n">boosting_importances</span> <span class="o">=</span> <span class="n">regr_boosting</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">boosting_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">boosting_importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">boosting_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">boosting_indices</span><span class="p">]</span>
+
+<span class="n">importances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;feature&quot;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+        <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="n">rf_importances</span><span class="p">,</span>
+        <span class="s2">&quot;Boosting&quot;</span><span class="p">:</span> <span class="n">boosting_importances</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="n">importances</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">)</span>
+<span class="n">sorted_importances</span> <span class="o">=</span> <span class="n">importances</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sorted_importances</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">rot</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;feature&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/ensembles_7_1.png" src="../_images/ensembles_7_1.png" />
+</div>
+</div>
+<p>We can see that random forests and boosting agree on the top two most important features, i.e. <code class="docutils literal notranslate"><span class="pre">LSTAT</span></code> and <code class="docutils literal notranslate"><span class="pre">RM</span></code>, but the level of importance is different. Also, they start to disagree on which features are the next most important features from the third most important feature onwards. Random forests consider <code class="docutils literal notranslate"><span class="pre">CRIM</span></code> to be the third most important feature, while boosting considers <code class="docutils literal notranslate"><span class="pre">DIS</span></code> to be the third most important feature.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">7.3.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1.</strong> All the following exercises use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Hitters.csv">Hitters</a> dataset.</p>
+<p>Load the <strong>Hitters</strong> dataset, convert the values of variables (predictors) from categorical values to numerical values, and inspect the first five rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>  <span class="c1"># set random seed for reproducibility</span>
+
+<span class="n">hitters_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Hitters.csv&quot;</span>
+<span class="n">hitters_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">hitters_url</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;League&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;League&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;Division&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;Division&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;NewLeague&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hitters_df</span><span class="p">[</span><span class="s2">&quot;NewLeague&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">hitters_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AtBat</th>
+      <th>Hits</th>
+      <th>HmRun</th>
+      <th>Runs</th>
+      <th>RBI</th>
+      <th>Walks</th>
+      <th>Years</th>
+      <th>CAtBat</th>
+      <th>CHits</th>
+      <th>CHmRun</th>
+      <th>CRuns</th>
+      <th>CRBI</th>
+      <th>CWalks</th>
+      <th>League</th>
+      <th>Division</th>
+      <th>PutOuts</th>
+      <th>Assists</th>
+      <th>Errors</th>
+      <th>Salary</th>
+      <th>NewLeague</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>315</td>
+      <td>81</td>
+      <td>7</td>
+      <td>24</td>
+      <td>38</td>
+      <td>39</td>
+      <td>14</td>
+      <td>3449</td>
+      <td>835</td>
+      <td>69</td>
+      <td>321</td>
+      <td>414</td>
+      <td>375</td>
+      <td>0</td>
+      <td>0</td>
+      <td>632</td>
+      <td>43</td>
+      <td>10</td>
+      <td>475.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>479</td>
+      <td>130</td>
+      <td>18</td>
+      <td>66</td>
+      <td>72</td>
+      <td>76</td>
+      <td>3</td>
+      <td>1624</td>
+      <td>457</td>
+      <td>63</td>
+      <td>224</td>
+      <td>266</td>
+      <td>263</td>
+      <td>1</td>
+      <td>0</td>
+      <td>880</td>
+      <td>82</td>
+      <td>14</td>
+      <td>480.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>496</td>
+      <td>141</td>
+      <td>20</td>
+      <td>65</td>
+      <td>78</td>
+      <td>37</td>
+      <td>11</td>
+      <td>5628</td>
+      <td>1575</td>
+      <td>225</td>
+      <td>828</td>
+      <td>838</td>
+      <td>354</td>
+      <td>0</td>
+      <td>1</td>
+      <td>200</td>
+      <td>11</td>
+      <td>3</td>
+      <td>500.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>321</td>
+      <td>87</td>
+      <td>10</td>
+      <td>39</td>
+      <td>42</td>
+      <td>30</td>
+      <td>2</td>
+      <td>396</td>
+      <td>101</td>
+      <td>12</td>
+      <td>48</td>
+      <td>46</td>
+      <td>33</td>
+      <td>0</td>
+      <td>1</td>
+      <td>805</td>
+      <td>40</td>
+      <td>4</td>
+      <td>91.5</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>594</td>
+      <td>169</td>
+      <td>4</td>
+      <td>74</td>
+      <td>51</td>
+      <td>35</td>
+      <td>11</td>
+      <td>4408</td>
+      <td>1133</td>
+      <td>19</td>
+      <td>501</td>
+      <td>336</td>
+      <td>194</td>
+      <td>1</td>
+      <td>0</td>
+      <td>282</td>
+      <td>421</td>
+      <td>25</td>
+      <td>750.0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>2.</strong> Train three models on the dataset loaded in <strong>Exercise 1</strong> using the bagging, random forests, and boosting methods, and compare their performance on the test dataset using MSE as the evaluation metric.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaggingRegressor</span><span class="p">,</span>
+    <span class="n">GradientBoostingRegressor</span><span class="p">,</span>
+    <span class="n">RandomForestRegressor</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">hitters_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Salary&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">hitters_df</span><span class="o">.</span><span class="n">Salary</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">)</span>
+
+
+<span class="n">num_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">regr_bagging</span> <span class="o">=</span> <span class="n">BaggingRegressor</span><span class="p">(</span>
+    <span class="n">base_estimator</span><span class="o">=</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">),</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">max_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
+    <span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">regr_bagging</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_bagging</span> <span class="o">=</span> <span class="n">regr_bagging</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_bagging</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_bagging</span><span class="p">)</span>
+
+<span class="n">max_features</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num_features</span><span class="p">))</span>
+<span class="n">regr_rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="n">max_features</span><span class="p">)</span>
+<span class="n">regr_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_rf</span> <span class="o">=</span> <span class="n">regr_rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_rf</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+
+<span class="n">regr_boosting</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">()</span>
+<span class="n">regr_boosting</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_boosting</span> <span class="o">=</span> <span class="n">regr_boosting</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_boosting</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_boosting</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSE for Bagging: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mse_bagging</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSE for Random Forest: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mse_rf</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSE for Boosting: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mse_boosting</span><span class="p">))</span>
+
+<span class="n">mses</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;Bagging&quot;</span><span class="p">:</span> <span class="n">mse_bagging</span><span class="p">,</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="n">mse_rf</span><span class="p">,</span> <span class="s2">&quot;Boosting&quot;</span><span class="p">:</span> <span class="n">mse_boosting</span><span class="p">},</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MSE&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">mses</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/sklearn/ensemble/_base.py:166: FutureWarning: `base_estimator` was renamed to `estimator` in version 1.2 and will be removed in 1.4.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MSE for Bagging: 85200.41
+MSE for Random Forest: 86194.81
+MSE for Boosting: 90029.64
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/ensembles_17_3.png" src="../_images/ensembles_17_3.png" />
+</div>
+</div>
+<p><strong>3.</strong> Find and compare the important features of the random forest and boosting models.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rf_importances</span> <span class="o">=</span> <span class="n">regr_rf</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">boosting_importances</span> <span class="o">=</span> <span class="n">regr_boosting</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">boosting_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">boosting_importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">boosting_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">boosting_indices</span><span class="p">]</span>
+
+
+<span class="n">importances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;feature&quot;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+        <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="n">rf_importances</span><span class="p">,</span>
+        <span class="s2">&quot;Boosting&quot;</span><span class="p">:</span> <span class="n">boosting_importances</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="n">importances</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">)</span>
+<span class="n">sorted_importances</span> <span class="o">=</span> <span class="n">importances</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sorted_importances</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">rot</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;feature&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/ensembles_21_1.png" src="../_images/ensembles_21_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./07-trees-ensembles"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="classification-trees.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">7.2. </span>Classification trees</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="quiz-sum-ref.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7.4. </span>Quiz and summary</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

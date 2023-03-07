@@ -1,0 +1,1525 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>8.1. Generalised linear models &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8.2. Support vector classifiers" href="support-vec-classifier.html" />
+    <link rel="prev" title="8. GLM and SVM" href="overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/08-glm-svm/glm.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F08-glm-svm/glm.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/08-glm-svm/glm.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/08-glm-svm/glm.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/08-glm-svm/glm.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#count-data">
+   8.1.1. Count data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-for-predicting-the-number-of-bikers">
+   8.1.2. Linear regression for predicting the number of bikers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#poisson-regression-for-predicting-the-number-of-bikers">
+   8.1.3. Poisson regression for predicting the number of bikers
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-poisson-distribution">
+     8.1.3.1. The Poisson distribution
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-poisson-regression-model">
+     8.1.3.2. The Poisson regression model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#key-distinctions-between-poisson-and-linear-regression">
+     8.1.3.3. Key distinctions between Poisson and linear regression
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#glm-characteristics">
+   8.1.4. GLM characteristics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   8.1.5. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Generalised linear models</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#count-data">
+   8.1.1. Count data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-for-predicting-the-number-of-bikers">
+   8.1.2. Linear regression for predicting the number of bikers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#poisson-regression-for-predicting-the-number-of-bikers">
+   8.1.3. Poisson regression for predicting the number of bikers
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-poisson-distribution">
+     8.1.3.1. The Poisson distribution
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-poisson-regression-model">
+     8.1.3.2. The Poisson regression model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#key-distinctions-between-poisson-and-linear-regression">
+     8.1.3.3. Key distinctions between Poisson and linear regression
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#glm-characteristics">
+   8.1.4. GLM characteristics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   8.1.5. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="generalised-linear-models">
+<h1><span class="section-number">8.1. </span>Generalised linear models<a class="headerlink" href="#generalised-linear-models" title="Permalink to this headline">¶</a></h1>
+<p>This section will focus on poisson regression, which is a generalised linear model (GLM) for count data.</p>
+<!-- We will first introduce the poisson distribution and then show how to fit a poisson regression model to data. We will also discuss the interpretation of the fitted model. -->
+<div class="section" id="count-data">
+<h2><span class="section-number">8.1.1. </span>Count data<a class="headerlink" href="#count-data" title="Permalink to this headline">¶</a></h2>
+<p>In previous chapters, we learnt about linear regression for predicting quantitative (continuous) variables and logistic regression for predicting qualitative (categorical) variables. In this section, we will learn about regression for predicting count data. Count data is a special type of discrete data, where the values are non-negative integers. Examples of count data include the number of cars passing a toll booth, the number of people in a room, the number of times a word appears in a document, the number of times a user clicks on a link, and the number of times a user purchases a product.</p>
+<p>To study the problem of predicting count data, we will use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Bikeshare.csv">Bikeshare dataset</a>. The response is <code class="docutils literal notranslate"><span class="pre">bikers</span></code>, the number of hourly users of a bike sharing program in Washington, DC. Thus, this response variable is neither qualitative nor quantitative. Instead, it takes on non-negative integer values, or counts. We will consider predicting <code class="docutils literal notranslate"><span class="pre">bikers</span></code> using the features <code class="docutils literal notranslate"><span class="pre">mnth</span></code> (month of the year), <code class="docutils literal notranslate"><span class="pre">hr</span></code> (hour of the day, from 0 to 23), <code class="docutils literal notranslate"><span class="pre">workingday</span></code> (an indicator variable that equals 1 if it is neither a weekend nor a holiday), <code class="docutils literal notranslate"><span class="pre">temp</span></code> (the normalised temperature, in Celsius), and <code class="docutils literal notranslate"><span class="pre">weathersit</span></code> (a qualitative variable that takes on one of four possible values: clear; misty or cloudy; light rain or light snow; or heavy rain or heavy snow).</p>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span><span class="p">,</span> <span class="n">poisson</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Load the data, indicate the type of the <code class="docutils literal notranslate"><span class="pre">mnth</span></code> and <code class="docutils literal notranslate"><span class="pre">hr</span></code> features, and display the first few rows.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Bikeshare.csv&quot;</span>
+
+<span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;mnth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;mnth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;hr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;hr&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mnth</th>
+      <th>day</th>
+      <th>hr</th>
+      <th>holiday</th>
+      <th>weekday</th>
+      <th>workingday</th>
+      <th>weathersit</th>
+      <th>temp</th>
+      <th>atemp</th>
+      <th>hum</th>
+      <th>windspeed</th>
+      <th>casual</th>
+      <th>registered</th>
+      <th>bikers</th>
+    </tr>
+    <tr>
+      <th>season</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Jan</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>0</td>
+      <td>clear</td>
+      <td>0.24</td>
+      <td>0.2879</td>
+      <td>0.81</td>
+      <td>0.0</td>
+      <td>3</td>
+      <td>13</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Jan</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>6</td>
+      <td>0</td>
+      <td>clear</td>
+      <td>0.22</td>
+      <td>0.2727</td>
+      <td>0.80</td>
+      <td>0.0</td>
+      <td>8</td>
+      <td>32</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Jan</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>6</td>
+      <td>0</td>
+      <td>clear</td>
+      <td>0.22</td>
+      <td>0.2727</td>
+      <td>0.80</td>
+      <td>0.0</td>
+      <td>5</td>
+      <td>27</td>
+      <td>32</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="linear-regression-for-predicting-the-number-of-bikers">
+<h2><span class="section-number">8.1.2. </span>Linear regression for predicting the number of bikers<a class="headerlink" href="#linear-regression-for-predicting-the-number-of-bikers" title="Permalink to this headline">¶</a></h2>
+<p>As in the case of motivating logistic regression, let us predict <code class="docutils literal notranslate"><span class="pre">bikers</span></code> using linear regression first using the <code class="docutils literal notranslate"><span class="pre">ols</span></code> function from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> library. We will use the <code class="docutils literal notranslate"><span class="pre">mnth</span></code>, <code class="docutils literal notranslate"><span class="pre">hr</span></code>, <code class="docutils literal notranslate"><span class="pre">workingday</span></code>, <code class="docutils literal notranslate"><span class="pre">temp</span></code>, and <code class="docutils literal notranslate"><span class="pre">weathersit</span></code> features as predictors.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;bikers ~ mnth + hr + temp + workingday + weathersit&quot;</span><span class="p">,</span> <span class="n">data_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>         <td>bikers</td>      <th>  R-squared:         </th> <td>   0.675</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.673</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   457.3</td> 
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 07 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>08:26:22</td>     <th>  Log-Likelihood:    </th> <td> -49743.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  8645</td>      <th>  AIC:               </th> <td>9.957e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  8605</td>      <th>  BIC:               </th> <td>9.985e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    39</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+                <td></td>                   <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                     <td>  -27.2068</td> <td>    6.715</td> <td>   -4.052</td> <td> 0.000</td> <td>  -40.370</td> <td>  -14.044</td>
+</tr>
+<tr>
+  <th>mnth[T.Aug]</th>                   <td>   11.8181</td> <td>    4.698</td> <td>    2.515</td> <td> 0.012</td> <td>    2.609</td> <td>   21.028</td>
+</tr>
+<tr>
+  <th>mnth[T.Dec]</th>                   <td>    5.0328</td> <td>    4.280</td> <td>    1.176</td> <td> 0.240</td> <td>   -3.357</td> <td>   13.423</td>
+</tr>
+<tr>
+  <th>mnth[T.Feb]</th>                   <td>  -34.5797</td> <td>    4.575</td> <td>   -7.558</td> <td> 0.000</td> <td>  -43.548</td> <td>  -25.611</td>
+</tr>
+<tr>
+  <th>mnth[T.Jan]</th>                   <td>  -41.4249</td> <td>    4.972</td> <td>   -8.331</td> <td> 0.000</td> <td>  -51.172</td> <td>  -31.678</td>
+</tr>
+<tr>
+  <th>mnth[T.July]</th>                  <td>    3.8996</td> <td>    5.003</td> <td>    0.779</td> <td> 0.436</td> <td>   -5.907</td> <td>   13.706</td>
+</tr>
+<tr>
+  <th>mnth[T.June]</th>                  <td>   26.3938</td> <td>    4.642</td> <td>    5.686</td> <td> 0.000</td> <td>   17.294</td> <td>   35.493</td>
+</tr>
+<tr>
+  <th>mnth[T.March]</th>                 <td>  -24.8735</td> <td>    4.277</td> <td>   -5.815</td> <td> 0.000</td> <td>  -33.258</td> <td>  -16.489</td>
+</tr>
+<tr>
+  <th>mnth[T.May]</th>                   <td>   31.1322</td> <td>    4.150</td> <td>    7.501</td> <td> 0.000</td> <td>   22.997</td> <td>   39.268</td>
+</tr>
+<tr>
+  <th>mnth[T.Nov]</th>                   <td>   18.8851</td> <td>    4.099</td> <td>    4.607</td> <td> 0.000</td> <td>   10.850</td> <td>   26.920</td>
+</tr>
+<tr>
+  <th>mnth[T.Oct]</th>                   <td>   34.4093</td> <td>    4.006</td> <td>    8.589</td> <td> 0.000</td> <td>   26.556</td> <td>   42.262</td>
+</tr>
+<tr>
+  <th>mnth[T.Sept]</th>                  <td>   25.2534</td> <td>    4.293</td> <td>    5.883</td> <td> 0.000</td> <td>   16.839</td> <td>   33.668</td>
+</tr>
+<tr>
+  <th>hr[T.1]</th>                       <td>  -14.5793</td> <td>    5.699</td> <td>   -2.558</td> <td> 0.011</td> <td>  -25.750</td> <td>   -3.408</td>
+</tr>
+<tr>
+  <th>hr[T.2]</th>                       <td>  -21.5791</td> <td>    5.733</td> <td>   -3.764</td> <td> 0.000</td> <td>  -32.817</td> <td>  -10.341</td>
+</tr>
+<tr>
+  <th>hr[T.3]</th>                       <td>  -31.1408</td> <td>    5.778</td> <td>   -5.389</td> <td> 0.000</td> <td>  -42.468</td> <td>  -19.814</td>
+</tr>
+<tr>
+  <th>hr[T.4]</th>                       <td>  -36.9075</td> <td>    5.802</td> <td>   -6.361</td> <td> 0.000</td> <td>  -48.281</td> <td>  -25.534</td>
+</tr>
+<tr>
+  <th>hr[T.5]</th>                       <td>  -24.1355</td> <td>    5.737</td> <td>   -4.207</td> <td> 0.000</td> <td>  -35.381</td> <td>  -12.890</td>
+</tr>
+<tr>
+  <th>hr[T.6]</th>                       <td>   20.5997</td> <td>    5.704</td> <td>    3.612</td> <td> 0.000</td> <td>    9.419</td> <td>   31.781</td>
+</tr>
+<tr>
+  <th>hr[T.7]</th>                       <td>  120.0931</td> <td>    5.693</td> <td>   21.095</td> <td> 0.000</td> <td>  108.934</td> <td>  131.253</td>
+</tr>
+<tr>
+  <th>hr[T.8]</th>                       <td>  223.6619</td> <td>    5.690</td> <td>   39.310</td> <td> 0.000</td> <td>  212.509</td> <td>  234.815</td>
+</tr>
+<tr>
+  <th>hr[T.9]</th>                       <td>  120.5819</td> <td>    5.693</td> <td>   21.182</td> <td> 0.000</td> <td>  109.423</td> <td>  131.741</td>
+</tr>
+<tr>
+  <th>hr[T.10]</th>                      <td>   83.8013</td> <td>    5.705</td> <td>   14.689</td> <td> 0.000</td> <td>   72.618</td> <td>   94.985</td>
+</tr>
+<tr>
+  <th>hr[T.11]</th>                      <td>  105.4234</td> <td>    5.722</td> <td>   18.424</td> <td> 0.000</td> <td>   94.207</td> <td>  116.640</td>
+</tr>
+<tr>
+  <th>hr[T.12]</th>                      <td>  137.2837</td> <td>    5.740</td> <td>   23.916</td> <td> 0.000</td> <td>  126.032</td> <td>  148.536</td>
+</tr>
+<tr>
+  <th>hr[T.13]</th>                      <td>  136.0359</td> <td>    5.760</td> <td>   23.617</td> <td> 0.000</td> <td>  124.745</td> <td>  147.327</td>
+</tr>
+<tr>
+  <th>hr[T.14]</th>                      <td>  126.6361</td> <td>    5.776</td> <td>   21.923</td> <td> 0.000</td> <td>  115.313</td> <td>  137.959</td>
+</tr>
+<tr>
+  <th>hr[T.15]</th>                      <td>  132.0865</td> <td>    5.780</td> <td>   22.852</td> <td> 0.000</td> <td>  120.756</td> <td>  143.417</td>
+</tr>
+<tr>
+  <th>hr[T.16]</th>                      <td>  178.5206</td> <td>    5.772</td> <td>   30.927</td> <td> 0.000</td> <td>  167.206</td> <td>  189.836</td>
+</tr>
+<tr>
+  <th>hr[T.17]</th>                      <td>  296.2670</td> <td>    5.749</td> <td>   51.537</td> <td> 0.000</td> <td>  284.998</td> <td>  307.536</td>
+</tr>
+<tr>
+  <th>hr[T.18]</th>                      <td>  269.4409</td> <td>    5.736</td> <td>   46.976</td> <td> 0.000</td> <td>  258.198</td> <td>  280.684</td>
+</tr>
+<tr>
+  <th>hr[T.19]</th>                      <td>  186.2558</td> <td>    5.714</td> <td>   32.596</td> <td> 0.000</td> <td>  175.055</td> <td>  197.457</td>
+</tr>
+<tr>
+  <th>hr[T.20]</th>                      <td>  125.5492</td> <td>    5.704</td> <td>   22.012</td> <td> 0.000</td> <td>  114.369</td> <td>  136.730</td>
+</tr>
+<tr>
+  <th>hr[T.21]</th>                      <td>   87.5537</td> <td>    5.693</td> <td>   15.378</td> <td> 0.000</td> <td>   76.393</td> <td>   98.714</td>
+</tr>
+<tr>
+  <th>hr[T.22]</th>                      <td>   59.1226</td> <td>    5.689</td> <td>   10.392</td> <td> 0.000</td> <td>   47.970</td> <td>   70.275</td>
+</tr>
+<tr>
+  <th>hr[T.23]</th>                      <td>   26.8376</td> <td>    5.688</td> <td>    4.719</td> <td> 0.000</td> <td>   15.688</td> <td>   37.987</td>
+</tr>
+<tr>
+  <th>weathersit[T.cloudy/misty]</th>    <td>  -12.8903</td> <td>    1.964</td> <td>   -6.562</td> <td> 0.000</td> <td>  -16.741</td> <td>   -9.040</td>
+</tr>
+<tr>
+  <th>weathersit[T.heavy rain/snow]</th> <td> -109.7446</td> <td>   76.667</td> <td>   -1.431</td> <td> 0.152</td> <td> -260.031</td> <td>   40.542</td>
+</tr>
+<tr>
+  <th>weathersit[T.light rain/snow]</th> <td>  -66.4944</td> <td>    2.965</td> <td>  -22.425</td> <td> 0.000</td> <td>  -72.307</td> <td>  -60.682</td>
+</tr>
+<tr>
+  <th>temp</th>                          <td>  157.2094</td> <td>   10.261</td> <td>   15.321</td> <td> 0.000</td> <td>  137.095</td> <td>  177.324</td>
+</tr>
+<tr>
+  <th>workingday</th>                    <td>    1.2696</td> <td>    1.784</td> <td>    0.711</td> <td> 0.477</td> <td>   -2.228</td> <td>    4.768</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>288.526</td> <th>  Durbin-Watson:     </th> <td>   0.519</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td> 518.512</td> 
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.273</td>  <th>  Prob(JB):          </th> <td>2.55e-113</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 4.068</td>  <th>  Cond. No.          </th> <td>    131.</td> 
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<p>From the above, we can see that a progression of weather from clear to cloudy results in 12.89 fewer bikers per hour on average. If the weather progresses further (from cloudy) to light rain or snow, then this further results in <span class="math notranslate nohighlight">\(-12.89 - (-66.49) = 53.60\)</span> fewer bikers per hour.</p>
+<p>Let us study the coefficients of the <code class="docutils literal notranslate"><span class="pre">mnth</span></code> and <code class="docutils literal notranslate"><span class="pre">hr</span></code> features to understand the effect of these features on the response.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># months = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;Aug&quot;, &quot;Sept&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;]</span>
+<span class="n">months</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Jan&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Feb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;March&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;May&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;June&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;July&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Aug&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sept&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Oct&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Nov&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dec&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">coef_mnth</span> <span class="o">=</span> <span class="p">[</span><span class="n">est</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;mnth[T.</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">_m</span><span class="p">]</span> <span class="k">for</span> <span class="n">_m</span> <span class="ow">in</span> <span class="n">months</span><span class="p">]</span>
+<span class="n">coef_hr</span> <span class="o">=</span> <span class="p">[</span><span class="n">est</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;hr[T.</span><span class="si">%d</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">_h</span><span class="p">]</span> <span class="k">for</span> <span class="n">_h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Visualise the coefficients of the <code class="docutils literal notranslate"><span class="pre">mnth</span></code> and <code class="docutils literal notranslate"><span class="pre">hr</span></code> features using plots.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="n">coef_mnth</span><span class="p">,</span> <span class="s2">&quot;bo-&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Month&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">coef_hr</span><span class="p">,</span> <span class="s2">&quot;bo-&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Hour&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Coefficient&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/glm_9_0.png" src="../_images/glm_9_0.png" />
+</div>
+</div>
+<p>From the above figures, we can see that bike usage is highest in the spring and fall, and lowest during the winter months. Furthermore, bike usage is greatest around rush hour (9 AM and 6 PM), and lowest overnight. Thus, at first glance, fitting a linear regression model to the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> dataset seems to provide reasonable and intuitive results.</p>
+<p>Let us examine the distribution of the estimated response values. We will use the <code class="docutils literal notranslate"><span class="pre">predict</span></code> function from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> library to obtain the predicted values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;mnth&quot;</span><span class="p">,</span> <span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="s2">&quot;workingday&quot;</span><span class="p">,</span> <span class="s2">&quot;weathersit&quot;</span><span class="p">]])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/glm_11_0.png" src="../_images/glm_11_0.png" />
+</div>
+</div>
+<p>By careful inspection, we can identify several issues from the figure above, e.g. 9.6% of the fitted values are negative! Thus, the linear regression model predicts a negative number of users during 9.6% of the hours in the dataset, which does not make sense. Furthermore, the fitted values are not integers, which is also not desirable.</p>
+<p>This casts doubt on the suitability of linear regression for performing meaningful predictions on the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> data. It also raises concerns about the accuracy of the coefficient estimates, confidence intervals, and other outputs of the regression model.</p>
+<p>Let us further examine the distribution of the response variable <code class="docutils literal notranslate"><span class="pre">bikers</span></code> against the <code class="docutils literal notranslate"><span class="pre">hr</span></code> feature using the original scale and the log scale.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bikers&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;.2&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hr&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bikers&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;vlag&quot;</span><span class="p">,</span>
+    <span class="n">meanline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">showmeans</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Bikers&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bikers&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;.2&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hr&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bikers&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;vlag&quot;</span><span class="p">,</span>
+    <span class="n">meanline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">showmeans</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;log(Number of Bikers)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Hour&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/glm_13_0.png" src="../_images/glm_13_0.png" />
+</div>
+</div>
+<p>This figure corresponds to Figure 4.14 in the textbook. Intuitively, when the expected number of bikers is small, its variance should be small as well. For example, at 2 AM during a heavy December snow storm, we expect that extremely few people will use a bike, and moreover that there should be little variance associated with the number of users during those conditions. This is borne out in the data: between 1 AM and 4 AM, in December, January, and February, when it is raining, there are 5.05 users, on average, with a standard deviation of 3.73. By contrast, between 7 AM and 10 AM, in April, May, and June, when skies are clear, there are 243.59 users, on average, with a standard deviation of 131.7. The mean-variance relationship is displayed in the left-hand panel of the figure above. This is a major violation of the assumptions of a linear model, which state that <span class="math notranslate nohighlight">\(y = \sum_{d=1}^{D}x_d\beta_d + \epsilon\)</span>, where <span class="math notranslate nohighlight">\(\epsilon\)</span> is a mean-zero error term with variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> that is constant, and not a function of the features (covariates). Therefore, the heteroscedasticity of the data calls into question the suitability of a linear regression model.</p>
+<p>Finally, the response <code class="docutils literal notranslate"><span class="pre">bikers</span></code> is integer-valued. But under a linear model, <span class="math notranslate nohighlight">\(y = \beta_0 + \sum_{d=1}^{D}x_d\beta_d + \epsilon\)</span>, where <span class="math notranslate nohighlight">\(\epsilon\)</span> is a continuous-valued error term. This means that in a linear model, the response <span class="math notranslate nohighlight">\(y\)</span> is necessarily continuous-valued (quantitative). Thus, the integer nature of the response <code class="docutils literal notranslate"><span class="pre">bikers</span></code> suggests that a linear regression model is not entirely satisfactory for this dataset.</p>
+<p>Some of the problems that arise when fitting a linear regression model to the Bikeshare data can be overcome by transforming the response; for instance, we can fit the model</p>
+<div class="math notranslate nohighlight">
+\[
+\log(y) = \beta_0 + \sum_{d=1}^{D}x_d\beta_d + \epsilon.
+\]</div>
+<p>Transforming the response <em>avoids the possibility of negative predictions</em>, and it <em>overcomes much of the heteroscedasticity in the untransformed data</em>, as is shown in the right-hand panel of the figure above.</p>
+<p>However, it is not quite a satisfactory solution, since predictions and inference are made in terms of the log of the response, rather than the response. This leads to challenges in <em>interpretation</em>, e.g. a one-unit increase in <span class="math notranslate nohighlight">\(x_d\)</span> is associated with an increase in the mean of the log of <span class="math notranslate nohighlight">\(y\)</span> by an amount <span class="math notranslate nohighlight">\(\beta_d\)</span>. Furthermore, a log transformation of the response cannot be applied in settings where the response can take on a value of 0. Thus, while fitting a linear model to a transformation of the response may be an adequate approach for some count-valued datasets, it often leaves something to be desired. This motivates the development of a Poisson regression model that provides a much more natural and elegant approach for this task.</p>
+</div>
+<div class="section" id="poisson-regression-for-predicting-the-number-of-bikers">
+<h2><span class="section-number">8.1.3. </span>Poisson regression for predicting the number of bikers<a class="headerlink" href="#poisson-regression-for-predicting-the-number-of-bikers" title="Permalink to this headline">¶</a></h2>
+<p>To overcome the inadequacies of linear regression for analysing the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> dataset, we will study a GLM approach called Poisson regression.</p>
+<div class="section" id="the-poisson-distribution">
+<h3><span class="section-number">8.1.3.1. </span>The Poisson distribution<a class="headerlink" href="#the-poisson-distribution" title="Permalink to this headline">¶</a></h3>
+<p>Let us first introduce the Poisson distribution. Suppose that a random variable <span class="math notranslate nohighlight">\(y\)</span> takes on nonnegative integer values, i.e. <span class="math notranslate nohighlight">\(y \in \{0, 1, 2, \dots\}\)</span>. If <span class="math notranslate nohighlight">\(y\)</span> follows the Poisson distribution, then</p>
+<div class="math notranslate nohighlight" id="equation-eq-poisson-distribution">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-eq-poisson-distribution" title="Permalink to this equation">¶</a></span>\[\mathbb{P}(y=t) = \frac{\lambda^t e^{-\lambda}}{t!}, \quad t = 0, 1, 2, \dots .\]</div>
+<!-- The Poisson distribution is a discrete distribution, and it is characterised by the fact that the probability of observing a particular value of $y$ does not depend on the values of the other random variables. In other words, the probability of observing $y$ is independent of the values of all other random variables. This is in contrast to the binomial distribution, which is also a discrete distribution, but which depends on the values of two random variables: the number of trials, and the probability of success on each trial. The Poisson distribution is also in contrast to the normal distribution, which is a continuous distribution, and which depends on the values of all other random variables. -->
+<p>Here, <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> is a positive real number, called the <em>rate parameter</em>, which is the expected value of <span class="math notranslate nohighlight">\(y\)</span>, i.e. <span class="math notranslate nohighlight">\(\mathbb{E}(y)\)</span>. It turns out that <span class="math notranslate nohighlight">\(\lambda\)</span> also equals the variance of <span class="math notranslate nohighlight">\(y\)</span>, i.e. <span class="math notranslate nohighlight">\(λ = \mathbb{E}(y) = \text{Var}(y)\)</span>. This means that if <span class="math notranslate nohighlight">\(y\)</span> follows the Poisson distribution, then the larger the mean of <span class="math notranslate nohighlight">\(y\)</span> , the larger its variance. The notation <span class="math notranslate nohighlight">\( t! \)</span> in Equation <a class="reference internal" href="#equation-eq-poisson-distribution">(8.1)</a> denotes the factorial of <span class="math notranslate nohighlight">\(t\)</span>, i.e. <span class="math notranslate nohighlight">\( t! = t \times (t − 1) \times (t − 2) \times \cdots \times 3 \times 2 \times 1\)</span>. The Poisson distribution is typically used to model counts, a natural choice since counts, like the Poisson distribution, take on non-negative integer values.</p>
+<div class="tip admonition">
+<p class="admonition-title">How to interpret the Poisson distribution?</p>
+<p>To see how we might use the Poisson distribution in practice, let <span class="math notranslate nohighlight">\(y\)</span> denote the number of users of the bike sharing programme during a particular hour of the day, under a particular set of weather conditions, and during a particular month of the year. We can model <span class="math notranslate nohighlight">\(y\)</span> as a Poisson distribution with mean <span class="math notranslate nohighlight">\(\mathbb{E}(y) = \lambda = 5\)</span>. This means that the probability of no users during this particular hour is <span class="math notranslate nohighlight">\(\mathbb{P}(y = 0) = \frac{e^{-5}5^0}{0!} = e^{-5} = 0.0067 \)</span>, where 0! = 1 by convention. The probability that there is exactly one user is <span class="math notranslate nohighlight">\( \mathbb{P}(y = 1) = \frac{e^{-5}5^1}{1!} = 0.034 \)</span>, the probability of two users is <span class="math notranslate nohighlight">\( \mathbb{P}(y = 2) = \frac{e^{-5}5^2}{2!} = 0.084 \)</span> and so on.</p>
+</div>
+</div>
+<div class="section" id="the-poisson-regression-model">
+<h3><span class="section-number">8.1.3.2. </span>The Poisson regression model<a class="headerlink" href="#the-poisson-regression-model" title="Permalink to this headline">¶</a></h3>
+<p>In reality, we expect the mean number of users of the bike sharing program, <span class="math notranslate nohighlight">\( \lambda = \mathbb{E}(y) \)</span>, to vary as a function of the hour of the day, the month of the year, the weather conditions, and so forth. So rather than modelling the number of bikers, <span class="math notranslate nohighlight">\(y\)</span> , as a Poisson distribution with a <em>fixed</em> mean value like <span class="math notranslate nohighlight">\(\lambda = 5 \)</span>, we would like to allow the mean to vary as a function of the features (covariates). In particular, we consider the following model for the mean <span class="math notranslate nohighlight">\( \lambda = \mathbb{E}(y) \)</span>, which we now write as <span class="math notranslate nohighlight">\( \lambda(x_1, \cdots, x_D) \)</span> to emphasise that it is a function of the features <span class="math notranslate nohighlight">\( x_1, \cdots, x_D \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\log(\lambda(x_1, \cdots, x_D)) = \beta_0 + \sum_{d=1}^{D}x_d\beta_d.
+\]</div>
+<p>or equivalently,</p>
+<div class="math notranslate nohighlight" id="equation-eq-poisson-regression">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-eq-poisson-regression" title="Permalink to this equation">¶</a></span>\[\lambda(x_1, \cdots, x_D) = e^{\beta_0 + \sum_{d=1}^{D}x_d\beta_d}.\]</div>
+<p>Here, <span class="math notranslate nohighlight">\( \beta_0, \beta_1, \cdots, \beta_D \)</span> are parameters to be estimated. Together, the above equations define the Poisson regression model.</p>
+<p>To estimate the coefficients (parameters) <span class="math notranslate nohighlight">\( \beta_0, \beta_1, \cdots, \beta_D \)</span>, we use the same maximum likelihood approach that we adopted for <a class="reference external" href="https://pykale.github.io/transparentML/03-logistic-reg/logistic-regression.html#estimating-the-coefficients-to-make-predictions">logistic regression</a>. The likelihood function for the Poisson regression model is</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\beta_0, \beta_1, \cdots, \beta_D) = \prod_{n=1}^{N} \frac{\lambda(\mathbf{x}_n)^{y_n} e^{-\lambda(\mathbf{x}_n)}}{y_n!},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda(\mathbf{x}_n) = e^{\beta_0 + \sum_{d=1}^{D}x_{nd}\beta_d}\)</span>, and <span class="math notranslate nohighlight">\(y_n\)</span> is the response for the <span class="math notranslate nohighlight">\(n\text{th}\)</span> sample (observation). We obtain the coefficient estimates as those maximise the likelihood <span class="math notranslate nohighlight">\(\ell(\beta_0, \beta_1, \cdots, \beta_D)\)</span>, i.e. those make the observed data as likely as possible.</p>
+<p>We now fit a Poisson regression model to the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> dataset using the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">poisson</span><span class="p">(</span><span class="s2">&quot;bikers ~ mnth + hr + temp + workingday + weathersit&quot;</span><span class="p">,</span> <span class="n">data_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 16.256725
+         Iterations 9
+</pre></div>
+</div>
+<div class="output text_html"><table class="simpletable">
+<caption>Poisson Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>        <td>bikers</td>      <th>  No. Observations:  </th>   <td>  8645</td>   
+</tr>
+<tr>
+  <th>Model:</th>                <td>Poisson</td>     <th>  Df Residuals:      </th>   <td>  8605</td>   
+</tr>
+<tr>
+  <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>   <td>    39</td>   
+</tr>
+<tr>
+  <th>Date:</th>            <td>Tue, 07 Mar 2023</td> <th>  Pseudo R-squ.:     </th>   <td>0.7459</td>   
+</tr>
+<tr>
+  <th>Time:</th>                <td>08:26:24</td>     <th>  Log-Likelihood:    </th> <td>-1.4054e+05</td>
+</tr>
+<tr>
+  <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td>-5.5298e+05</td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>     <td>nonrobust</td>    <th>  LLR p-value:       </th>   <td> 0.000</td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+                <td></td>                   <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                     <td>    3.3854</td> <td>    0.010</td> <td>  333.686</td> <td> 0.000</td> <td>    3.365</td> <td>    3.405</td>
+</tr>
+<tr>
+  <th>mnth[T.Aug]</th>                   <td>    0.1296</td> <td>    0.005</td> <td>   26.303</td> <td> 0.000</td> <td>    0.120</td> <td>    0.139</td>
+</tr>
+<tr>
+  <th>mnth[T.Dec]</th>                   <td>   -0.0048</td> <td>    0.005</td> <td>   -0.951</td> <td> 0.342</td> <td>   -0.015</td> <td>    0.005</td>
+</tr>
+<tr>
+  <th>mnth[T.Feb]</th>                   <td>   -0.4656</td> <td>    0.006</td> <td>  -76.909</td> <td> 0.000</td> <td>   -0.478</td> <td>   -0.454</td>
+</tr>
+<tr>
+  <th>mnth[T.Jan]</th>                   <td>   -0.6917</td> <td>    0.007</td> <td>  -98.996</td> <td> 0.000</td> <td>   -0.705</td> <td>   -0.678</td>
+</tr>
+<tr>
+  <th>mnth[T.July]</th>                  <td>    0.0821</td> <td>    0.005</td> <td>   15.545</td> <td> 0.000</td> <td>    0.072</td> <td>    0.092</td>
+</tr>
+<tr>
+  <th>mnth[T.June]</th>                  <td>    0.2017</td> <td>    0.005</td> <td>   41.673</td> <td> 0.000</td> <td>    0.192</td> <td>    0.211</td>
+</tr>
+<tr>
+  <th>mnth[T.March]</th>                 <td>   -0.3153</td> <td>    0.005</td> <td>  -58.225</td> <td> 0.000</td> <td>   -0.326</td> <td>   -0.305</td>
+</tr>
+<tr>
+  <th>mnth[T.May]</th>                   <td>    0.2189</td> <td>    0.004</td> <td>   49.792</td> <td> 0.000</td> <td>    0.210</td> <td>    0.228</td>
+</tr>
+<tr>
+  <th>mnth[T.Nov]</th>                   <td>    0.1287</td> <td>    0.005</td> <td>   27.880</td> <td> 0.000</td> <td>    0.120</td> <td>    0.138</td>
+</tr>
+<tr>
+  <th>mnth[T.Oct]</th>                   <td>    0.2460</td> <td>    0.004</td> <td>   56.949</td> <td> 0.000</td> <td>    0.238</td> <td>    0.255</td>
+</tr>
+<tr>
+  <th>mnth[T.Sept]</th>                  <td>    0.2120</td> <td>    0.005</td> <td>   46.873</td> <td> 0.000</td> <td>    0.203</td> <td>    0.221</td>
+</tr>
+<tr>
+  <th>hr[T.1]</th>                       <td>   -0.4716</td> <td>    0.013</td> <td>  -36.278</td> <td> 0.000</td> <td>   -0.497</td> <td>   -0.446</td>
+</tr>
+<tr>
+  <th>hr[T.2]</th>                       <td>   -0.8088</td> <td>    0.015</td> <td>  -55.220</td> <td> 0.000</td> <td>   -0.837</td> <td>   -0.780</td>
+</tr>
+<tr>
+  <th>hr[T.3]</th>                       <td>   -1.4439</td> <td>    0.019</td> <td>  -76.631</td> <td> 0.000</td> <td>   -1.481</td> <td>   -1.407</td>
+</tr>
+<tr>
+  <th>hr[T.4]</th>                       <td>   -2.0761</td> <td>    0.025</td> <td>  -83.728</td> <td> 0.000</td> <td>   -2.125</td> <td>   -2.027</td>
+</tr>
+<tr>
+  <th>hr[T.5]</th>                       <td>   -1.0603</td> <td>    0.016</td> <td>  -65.957</td> <td> 0.000</td> <td>   -1.092</td> <td>   -1.029</td>
+</tr>
+<tr>
+  <th>hr[T.6]</th>                       <td>    0.3245</td> <td>    0.011</td> <td>   30.585</td> <td> 0.000</td> <td>    0.304</td> <td>    0.345</td>
+</tr>
+<tr>
+  <th>hr[T.7]</th>                       <td>    1.3296</td> <td>    0.009</td> <td>  146.822</td> <td> 0.000</td> <td>    1.312</td> <td>    1.347</td>
+</tr>
+<tr>
+  <th>hr[T.8]</th>                       <td>    1.8313</td> <td>    0.009</td> <td>  211.630</td> <td> 0.000</td> <td>    1.814</td> <td>    1.848</td>
+</tr>
+<tr>
+  <th>hr[T.9]</th>                       <td>    1.3362</td> <td>    0.009</td> <td>  148.191</td> <td> 0.000</td> <td>    1.318</td> <td>    1.354</td>
+</tr>
+<tr>
+  <th>hr[T.10]</th>                      <td>    1.0912</td> <td>    0.009</td> <td>  117.831</td> <td> 0.000</td> <td>    1.073</td> <td>    1.109</td>
+</tr>
+<tr>
+  <th>hr[T.11]</th>                      <td>    1.2485</td> <td>    0.009</td> <td>  137.304</td> <td> 0.000</td> <td>    1.231</td> <td>    1.266</td>
+</tr>
+<tr>
+  <th>hr[T.12]</th>                      <td>    1.4340</td> <td>    0.009</td> <td>  160.486</td> <td> 0.000</td> <td>    1.417</td> <td>    1.452</td>
+</tr>
+<tr>
+  <th>hr[T.13]</th>                      <td>    1.4280</td> <td>    0.009</td> <td>  159.529</td> <td> 0.000</td> <td>    1.410</td> <td>    1.445</td>
+</tr>
+<tr>
+  <th>hr[T.14]</th>                      <td>    1.3793</td> <td>    0.009</td> <td>  153.266</td> <td> 0.000</td> <td>    1.362</td> <td>    1.397</td>
+</tr>
+<tr>
+  <th>hr[T.15]</th>                      <td>    1.4081</td> <td>    0.009</td> <td>  156.862</td> <td> 0.000</td> <td>    1.391</td> <td>    1.426</td>
+</tr>
+<tr>
+  <th>hr[T.16]</th>                      <td>    1.6287</td> <td>    0.009</td> <td>  184.979</td> <td> 0.000</td> <td>    1.611</td> <td>    1.646</td>
+</tr>
+<tr>
+  <th>hr[T.17]</th>                      <td>    2.0490</td> <td>    0.009</td> <td>  239.221</td> <td> 0.000</td> <td>    2.032</td> <td>    2.066</td>
+</tr>
+<tr>
+  <th>hr[T.18]</th>                      <td>    1.9667</td> <td>    0.009</td> <td>  229.065</td> <td> 0.000</td> <td>    1.950</td> <td>    1.983</td>
+</tr>
+<tr>
+  <th>hr[T.19]</th>                      <td>    1.6684</td> <td>    0.009</td> <td>  190.830</td> <td> 0.000</td> <td>    1.651</td> <td>    1.686</td>
+</tr>
+<tr>
+  <th>hr[T.20]</th>                      <td>    1.3706</td> <td>    0.009</td> <td>  152.737</td> <td> 0.000</td> <td>    1.353</td> <td>    1.388</td>
+</tr>
+<tr>
+  <th>hr[T.21]</th>                      <td>    1.1186</td> <td>    0.009</td> <td>  121.383</td> <td> 0.000</td> <td>    1.101</td> <td>    1.137</td>
+</tr>
+<tr>
+  <th>hr[T.22]</th>                      <td>    0.8719</td> <td>    0.010</td> <td>   91.429</td> <td> 0.000</td> <td>    0.853</td> <td>    0.891</td>
+</tr>
+<tr>
+  <th>hr[T.23]</th>                      <td>    0.4814</td> <td>    0.010</td> <td>   47.164</td> <td> 0.000</td> <td>    0.461</td> <td>    0.501</td>
+</tr>
+<tr>
+  <th>weathersit[T.cloudy/misty]</th>    <td>   -0.0752</td> <td>    0.002</td> <td>  -34.528</td> <td> 0.000</td> <td>   -0.080</td> <td>   -0.071</td>
+</tr>
+<tr>
+  <th>weathersit[T.heavy rain/snow]</th> <td>   -0.9263</td> <td>    0.167</td> <td>   -5.554</td> <td> 0.000</td> <td>   -1.253</td> <td>   -0.599</td>
+</tr>
+<tr>
+  <th>weathersit[T.light rain/snow]</th> <td>   -0.5758</td> <td>    0.004</td> <td> -141.905</td> <td> 0.000</td> <td>   -0.584</td> <td>   -0.568</td>
+</tr>
+<tr>
+  <th>temp</th>                          <td>    0.7853</td> <td>    0.011</td> <td>   68.434</td> <td> 0.000</td> <td>    0.763</td> <td>    0.808</td>
+</tr>
+<tr>
+  <th>workingday</th>                    <td>    0.0147</td> <td>    0.002</td> <td>    7.502</td> <td> 0.000</td> <td>    0.011</td> <td>    0.018</td>
+</tr>
+</table></div></div>
+</div>
+<p>Let us do the same plots as before to visualise the relationship between the number of bikers and the features <code class="docutils literal notranslate"><span class="pre">mnth</span></code> and <code class="docutils literal notranslate"><span class="pre">hr</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="n">coef_mnth</span><span class="p">,</span> <span class="s2">&quot;bo-&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Month&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">coef_hr</span><span class="p">,</span> <span class="s2">&quot;bo-&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Hour&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Coefficient&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/glm_18_0.png" src="../_images/glm_18_0.png" />
+</div>
+</div>
+<p>We again see that bike usage is highest in the spring and fall and during rush hour, and lowest during the winter and in the early morning hours. In general, bike usage increases as the temperature increases, and decreases as the weather worsens. Interestingly, the coefficient associated with <code class="docutils literal notranslate"><span class="pre">workingday</span></code> is statistically significant under the Poisson regression model, but not under the linear regression model.</p>
+</div>
+<div class="section" id="key-distinctions-between-poisson-and-linear-regression">
+<h3><span class="section-number">8.1.3.3. </span>Key distinctions between Poisson and linear regression<a class="headerlink" href="#key-distinctions-between-poisson-and-linear-regression" title="Permalink to this headline">¶</a></h3>
+<p>Some important distinctions between the Poisson regression model and the linear regression model are as follows:</p>
+<ul class="simple">
+<li><p><em>Interpretation</em>: To interpret the coefficients in the Poisson regression model, we must pay close attention to Equation <a class="reference internal" href="#equation-eq-poisson-regression">(8.2)</a>, which states that an increase in <span class="math notranslate nohighlight">\(x_d\)</span> by one unit is associated with a change in <span class="math notranslate nohighlight">\(\mathbb{E}(y) = \lambda\)</span> by a factor of <span class="math notranslate nohighlight">\(\textrm{exp}(\beta_d)\)</span>. For example, a change in weather from clear to cloudy skies is associated with a change in mean bike usage by a factor of <span class="math notranslate nohighlight">\(\textrm{exp}(−0.08) = 0.923\)</span>, i.e. on average, only 92.3% as many people will use bikes when it is cloudy relative to when it is clear. If the weather worsens further and it begins to rain, then the mean bike usage will further change by a factor of <span class="math notranslate nohighlight">\( \textrm{exp} (−0.5) = 0.607\)</span>, i.e. on average only 60.7% as many people will use bikes when it is rainy relative to when it is cloudy.</p></li>
+<li><p><em>Mean-variance relationship</em>: As mentioned earlier, under the Poisson model,  <span class="math notranslate nohighlight">\( \lambda = \mathbb{E}(y) = \text{Var}(y) \)</span>. Thus, by modelling bike usage with a Poisson regression, we implicitly assume that mean bike usage in a given hour equals the variance of bike usage during that hour. By contrast, under a linear regression model, the variance of bike usage always takes on a constant value. From the above figure (the one corresponding to Figure 4.14 in the textbook), in the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> data, when biking conditions are favourable, both the mean and the variance in bike usage are much higher than when conditions are unfavourable. Thus, the Poisson regression model is able to handle the mean-variance relationship seen in the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> data in a way that the linear regression model is not.</p></li>
+<li><p><em>Nonnegative fitted values</em>: There are no negative predictions using the Poisson regression model. This is because the Poisson model itself only allows for nonnegative values, as shown in Equation <a class="reference internal" href="#equation-eq-poisson-distribution">(8.1)</a>. By contrast, when we fit a linear regression model to the <code class="docutils literal notranslate"><span class="pre">Bikeshare</span></code> dataset, almost 10% of the predictions were negative.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="glm-characteristics">
+<h2><span class="section-number">8.1.4. </span>GLM characteristics<a class="headerlink" href="#glm-characteristics" title="Permalink to this headline">¶</a></h2>
+<p>Based on the two GLM models we have seen so far, the logistic regression model and the Poisson regression model, we can summarise the common characteristics of GLMs as follows:</p>
+<ol>
+<li><p>Each approach uses features (predictors) <span class="math notranslate nohighlight">\( x_1, x_2, \dots, x_D \)</span> to predict a response (output) <span class="math notranslate nohighlight">\( y \)</span>. We assume that, conditional on <span class="math notranslate nohighlight">\( x_1, x_2,\dots, x_D \)</span>, <span class="math notranslate nohighlight">\( y \)</span> belongs to a certain family of distributions. For linear regression, we typically assume that <span class="math notranslate nohighlight">\(y\)</span> follows a Gaussian (normal) distribution. For logistic regression, we assume that <span class="math notranslate nohighlight">\(y\)</span> follows a Bernoulli distribution. Finally, for Poisson regression, we assume that <span class="math notranslate nohighlight">\(y\)</span> follows a Poisson distribution.</p></li>
+<li><p>Each approach models the mean (expectation) of <span class="math notranslate nohighlight">\(y\)</span> as a function of the features (predictors). In linear regression, the mean of <span class="math notranslate nohighlight">\(y\)</span> takes the form</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbb{E}(y|x_1, x_2, \dots, x_D) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_D.
+    \]</div>
+<p>In logistic regression, the mean of <span class="math notranslate nohighlight">\(y\)</span> takes the form</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbb{E}(y|x_1, x_2, \dots, x_D) = \mathbb{P}(y=1|x_1, x_2, \dots, x_D) = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_D}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_D}}.
+    \]</div>
+<p>In Poisson regression, it takes the form</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbb{E}(y|x_1, x_2, \dots, x_D) = \lambda(x_1, x_2, \dots, x_D) = e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_D}.
+    \]</div>
+<p>The above three equations can be expressed using a <em>link function</em>, <span class="math notranslate nohighlight">\( \eta \)</span>, which applies a transformation to <span class="math notranslate nohighlight">\( \mathbb{E}(y|x_1, x_2, \dots, x_D) \)</span> so that the transformed mean is a linear function of the features (predictors). That is</p>
+<div class="math notranslate nohighlight" id="equation-eq-link-function">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-eq-link-function" title="Permalink to this equation">¶</a></span>\[\eta(\mathbb{E}(y|x_1, x_2, \dots, x_D)) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_D.\]</div>
+<p>The link functions for linear, logistic and Poisson regression are <span class="math notranslate nohighlight">\(\eta(\mu) = \mu \)</span>, <span class="math notranslate nohighlight">\( \eta(\mu) = \log(\mu/(1 − \mu)) \)</span>, and <span class="math notranslate nohighlight">\(\eta(\mu) = \log(\mu)\)</span>, respectively.</p>
+</li>
+</ol>
+<p>The Gaussian, Bernoulli and Poisson distributions are all members of a wider class of distributions, known as the <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_family">exponential family</a>. Other well known members of this family are the exponential distribution, the Gamma distribution, and the negative binomial distribution. In general, we can perform a regression by modelling the response <span class="math notranslate nohighlight">\(y\)</span> as coming from a particular member of the exponential family, and then transforming the mean of the response so that the transformed mean is a linear function of the features (predictors) via the link function above in Equation <a class="reference internal" href="#equation-eq-link-function">(8.3)</a>. Any regression approach that follows this very general recipe is known as a generalized linear model (GLM). Thus, linear regression, logistic regression, and Poisson regression are three examples of GLMs. Other examples not covered here include <em>Gamma regression</em> and <em>negative binomial regression</em>.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">8.1.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1.</strong> Logistic regression is a generalised linear model (GLM).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. True.</strong></p>
+</div>
+<p><strong>2.</strong> There are no negative predictions using the Poisson regression model.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. True.</strong></p>
+</div>
+<p><strong>3.</strong> For linear regression, we typically assume that <span class="math notranslate nohighlight">\(y\)</span> (output) follows a Bernoulli distribution.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. False. Linear regression assumes that the output (<span class="math notranslate nohighlight">\(y\)</span>) follows a Gaussian(normal) distribution</strong></p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./08-glm-svm"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">8. </span>GLM and SVM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="support-vec-classifier.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8.2. </span>Support vector classifiers</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

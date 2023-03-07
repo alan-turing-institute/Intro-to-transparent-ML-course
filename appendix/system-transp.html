@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System transparency &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Process transparency" href="process-transp.html" />
+    <link rel="prev" title="10.4. Quiz and summary" href="../10-deep-cnn-rnn/quiz-sum-ref.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/appendix/system-transp.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2Fappendix/system-transp.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/appendix/system-transp.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-relevant-information">
+   What relevant information?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-such-info">
+   Why such info?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#system-performance">
+     System performance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#system-compliance">
+     System compliance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#competent-use-human-oversight">
+     Competent use &amp; human oversight
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#providing-explanations">
+     Providing explanations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#responsiveness">
+     Responsiveness
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#social-and-economic-impact">
+     Social and economic impact
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-obtain-communicate-such-info">
+   How to obtain &amp; communicate such info?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#obtaining-system-logic-information">
+     Obtaining system logic information
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#communicating-system-logic-information">
+     Communicating system logic information
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>System transparency</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-relevant-information">
+   What relevant information?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-such-info">
+   Why such info?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#system-performance">
+     System performance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#system-compliance">
+     System compliance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#competent-use-human-oversight">
+     Competent use &amp; human oversight
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#providing-explanations">
+     Providing explanations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#responsiveness">
+     Responsiveness
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#social-and-economic-impact">
+     Social and economic impact
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-obtain-communicate-such-info">
+   How to obtain &amp; communicate such info?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#obtaining-system-logic-information">
+     Obtaining system logic information
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#communicating-system-logic-information">
+     Communicating system logic information
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="system-transparency">
+<h1>System transparency<a class="headerlink" href="#system-transparency" title="Permalink to this headline">¶</a></h1>
+<p>We will now focus on system transparency, i.e. the transparency of the system logic information. We aim to answer three questions:</p>
+<ul class="simple">
+<li><p>What types of information fall under the category of system transparency.</p></li>
+<li><p>Why different stakeholders can be interested in them.</p></li>
+<li><p>How such information can be obtained and communicated.</p></li>
+</ul>
+<p>Figure <a class="reference internal" href="#fig8-ai-transparency"><span class="std std-numref">Fig. 1</span></a> summarises system transparency in the three key questions above.</p>
+<div class="figure align-default" id="fig8-ai-transparency">
+<img alt="../_images/fig8-ai-transparency.png" src="../_images/fig8-ai-transparency.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">The what, why, and how of system transparency <span id="id1">[<a class="reference internal" href="bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#fig8-ai-transparency" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="what-relevant-information">
+<h2>What relevant information?<a class="headerlink" href="#what-relevant-information" title="Permalink to this headline">¶</a></h2>
+<p>System transparency refers to access to information about the operational logic of a system. The most transparent systems are simple systems where system logic information can be inferred purely from a system’s formal
+representation. Three types of information are considered relevant for system transparency:</p>
+<blockquote>
+<div><p>(1) The input variables that a given system relies on: what are the types of information that the system uses in operation?</p>
+<p>(2) The way in which the system transforms inputs into outputs: what is the relationship between input variables and system results?</p>
+<p>(3) The conditions under which the system would produce a certain output: for what values of the input variables would the system return a specific value of interest?</p>
+</div></blockquote>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>Let us know see illustrate how these three types of information can be inferred from the formal expression of a
+simple system below, a linear model calculates a person’s credit score <span class="math notranslate nohighlight">\(y\)</span> (the output variable) as a function of their weekly income <span class="math notranslate nohighlight">\(x\)</span> (the input variable):</p>
+<div class="math notranslate nohighlight">
+\[y = 200 + 0.5x\]</div>
+<p>This simple equation provides answers to all three questions outlined above:</p>
+<ul class="simple">
+<li><p>the model relies on a single input variable, namely weekly income <span class="math notranslate nohighlight">\(x\)</span>;</p></li>
+<li><p>the model transforms the input variable into a credit score <span class="math notranslate nohighlight">\(y\)</span> (output) by multiplying it by a coefficient of 0.5 and adding a constant of 200;</p></li>
+<li><p>in order for the model to yield an output value (credit score) of 600 (for example), the value
+of weekly income <span class="math notranslate nohighlight">\(x\)</span> would need to be £800.</p></li>
+</ul>
+<p>Given that it is possible to infer these three types of information from its formal expression,
+this simple model is <strong>fully transparent</strong>. Since the input variable <span class="math notranslate nohighlight">\(x\)</span> is an easily understandable real-world property,  this model is also <strong>full interpretable</strong>.</p>
+</div>
+<p>Many of the models that financial services firms use meet the definition of <em>interpretable models</em>. Their interpretation may require a higher level of mathematical knowledge, but their structure makes it possible to infer answers to the three questions above based on a <em>formal model expression</em>. The increases in model complexity enabled by ML methods can entail
+a decrease in or loss of model interpretability. It will generally be possible to identify the input variables that ML models rely on (information in category (1) above). Yet, model complexity can make it difficult to understand – from a formal expression of the model – how inputs are transformed into outputs (information in category (2)) or the conditions under which the model yields a specific output (information in category (3)).</p>
+<p>Decreases in interpretability can take two forms. First, as model complexity increases, interpreting models requires greater technical skills. This possibility of opacity due to non-expertise shows that interpretability is a relative concept. Whether an ML system is considered interpretable can depend on the level of technical expertise of those trying to understand it. Second, model complexity can take forms that make ML systems inscrutable, affecting their interpretability regardless of expertise. In such cases, experts may still be able to give partial answers to the question of how the model transforms inputs into outputs from a formal representation of it – for example, by providing a high-level description of the model’s structure. Yet, these partial answers fall far short of the complete understanding that can be gained from the formal expression of the simple linear model above.</p>
+<p>The lack of interpretability of certain types of models does not necessarily mean that adequate forms of system logic information are unobtainable for these ML systems. Instead of obtaining information from the formal expression of models, system logic information can also be obtained indirectly, by using auxiliary strategies and tools, such as <em>explainability methods</em>.  However, these explainability methods cannot fully compensate for the information that can be obtained from interpretable systems.</p>
+</div>
+<div class="section" id="why-such-info">
+<h2>Why such info?<a class="headerlink" href="#why-such-info" title="Permalink to this headline">¶</a></h2>
+<p>Access to system logic information can serve to address relevant concerns (e.g. ensuring trustworthiness and responsible use) as well as to provide assurance about possible concerns (e.g. demonstrating trustworthiness and responsible use), as shown in.</p>
+<div class="figure align-default" id="fig9-ai-transparency">
+<img alt="../_images/fig9-ai-transparency.png" src="../_images/fig9-ai-transparency.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Areas of concern related to system transparency <span id="id2">[<a class="reference internal" href="bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#fig9-ai-transparency" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="system-performance">
+<h3>System performance<a class="headerlink" href="#system-performance" title="Permalink to this headline">¶</a></h3>
+<p>System logic information can be vital to understanding and improving the effectiveness, reliability, and robustness of ML systems. Where testing during system development reveals shortcomings, the analysis of input-output relationships can help identify possible improvements. Knowledge of input-output relationships can also be crucial when assessing the extent of possible performance issues that may arise during deployment. Stakeholders that may be interested in system logic information for these reasons include those involved in or making decisions about the development and use of ML systems as well as those seeking assurance about an ML system’s performance (including evaluation).</p>
+</div>
+<div class="section" id="system-compliance">
+<h3>System compliance<a class="headerlink" href="#system-compliance" title="Permalink to this headline">¶</a></h3>
+<p>Knowledge of the input variables that a system relies on and other aspects of system logic can be crucial to ensuring compliance with legal and regulatory standards and rules. For example, an understanding of system logic can be critical to avoiding unlawful discrimination; ensuring the adequacy in risk management; assessing the risks; or avoiding the unlawful
+processing of personal data. As in the case of system performance, stakeholders that may be interested in system logic information for these reasons include those involved in or making decisions about the development and use of ML systems as well as those seeking assurance about system compliance.</p>
+</div>
+<div class="section" id="competent-use-human-oversight">
+<h3>Competent use &amp; human oversight<a class="headerlink" href="#competent-use-human-oversight" title="Permalink to this headline">¶</a></h3>
+<p>System users may need access to system logic information to ensure competent use. For example, knowledge of the input variables that a system relies on can be necessary to ensure that factors already accounted for in system outputs are not accounted for more than once (and therefore distort results) within a given decision process as a whole. Similarly, internal stakeholders in charge of oversight arrangements may need an understanding of system logic to determine what kind of oversight is required and to anticipate situations that call for intervention.</p>
+</div>
+<div class="section" id="providing-explanations">
+<h3>Providing explanations<a class="headerlink" href="#providing-explanations" title="Permalink to this headline">¶</a></h3>
+<p>System logic information can be at the core of explanations sought by
+decision recipients. For instance, it can provide assurance that decisions are taken in non-arbitrary
+and methodologically sound ways. In contexts such as credit or insurance underwriting, for
+example, access to system logic information can also be important in order for decision recipients
+to understand the effect that their behaviour may have on the decisions they receive.</p>
+</div>
+<div class="section" id="responsiveness">
+<h3>Responsiveness<a class="headerlink" href="#responsiveness" title="Permalink to this headline">¶</a></h3>
+<p>Customer service representatives, for example, may need to understand which
+input variables a system relies on, how the system transforms inputs into outputs, or under what
+conditions a system would yield certain results to be able to respond to customer queries.</p>
+</div>
+<div class="section" id="social-and-economic-impact">
+<h3>Social and economic impact<a class="headerlink" href="#social-and-economic-impact" title="Permalink to this headline">¶</a></h3>
+<p>System logic information can be essential to assessing potential
+social and economic impacts or providing assurance in relation to concerns about such impacts.
+For example, knowledge of the input variables used and the relationship between inputs and
+outputs can be relevant to understanding whether the system relies on inferences whose use
+may be considered ethically objectionable. Regulators, academics, or indeed wider civil society
+stakeholders may have an interest in system logic information in order to assess social and
+economic implications.</p>
+</div>
+</div>
+<div class="section" id="how-to-obtain-communicate-such-info">
+<h2>How to obtain &amp; communicate such info?<a class="headerlink" href="#how-to-obtain-communicate-such-info" title="Permalink to this headline">¶</a></h2>
+<p>We now discuss how to obtain system logic information and how to communicate it to
+relevant stakeholders.</p>
+<div class="section" id="obtaining-system-logic-information">
+<h3>Obtaining system logic information<a class="headerlink" href="#obtaining-system-logic-information" title="Permalink to this headline">¶</a></h3>
+<p>There are two methodological paths to obtaining information about an ML system’s input-output
+relationships and conditions under which it produces certain outputs:</p>
+<ul class="simple">
+<li><p>Direct interpretation: Where complexity allows, relevant information can be obtained by analysing
+a formal representation of the system (as illustrated by the <a class="reference external" href="#what-relevant-information">example of the simple linear model</a>). This will be possible for many ML systems covered in this course, including those that are linear or nonlinear but have a relatively simple structure. However, it will not be possible for all ML systems, including those that are nonlinear and have a complex structure.</p></li>
+<li><p>Indirect analysis using explainability methods: Various auxiliary methods can help shed light
+on system logic. Many of these methods are perturbation-based, including LIME (Local Interpretable
+Model-Agnostic Explanation) <span id="id3">[<a class="reference internal" href="bibliography.html#id5" title="Marco Tulio Ribeiro, Sameer Singh, and Carlos Guestrin. &quot;Why should i trust you?&quot; Explaining the predictions of any classifier. In Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining (KDD), 1135–1144. 2016.">Ribeiro <em>et al.</em>, 2016</a>]</span> and SHAP (SHapley Additive exPlanations) <span id="id4">[<a class="reference internal" href="bibliography.html#id4" title="Scott M Lundberg and Su-In Lee. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems (NeurIPS), 4768–4777. 2017.">Lundberg and Lee, 2017</a>]</span>. They rely on the analysis of changes in system outputs in response to changes in input values and can be used without access to a formal representation of the system. This is out of the scope of this course and hence will <em>NOT</em> be covered.</p></li>
+</ul>
+</div>
+<div class="section" id="communicating-system-logic-information">
+<h3>Communicating system logic information<a class="headerlink" href="#communicating-system-logic-information" title="Permalink to this headline">¶</a></h3>
+<p>System logic information is only useful if it is communicated to stakeholders in ways that are
+intelligible and meaningful.</p>
+<p>Stakeholders differ in their familiarity with technical concepts. Depending on the audience, system logic information may need to be translated from technical into plain language to make it intelligible. The form and degree of translation required can vary between audiences. For example, while customers may seek information that is presented in non-technical language, senior managers may be more comfortable with technical terms. Non-textual forms of presenting system logic information, including visuals or interactive dashboards, can also enhance intelligibility. Whether information is meaningful depends on the questions that stakeholders seek to answer. Questions can differ significantly between stakeholders, as can the level of detail expected in the answer to each question.</p>
+<p>This can be particularly relevant when comparing the transparency interests of customers with
+those involved in managing or monitoring the performance of ML systems. Three considerations
+are worth highlighting:</p>
+<ul class="simple">
+<li><p><strong>The role of counterfactuals</strong>: The interest of customers in accessing system logic information can often be driven by questions about the conditions under which a system would yield a certain output (eg a favourable decision outcome). Such counterfactual explanations differ from the types of information that are of interest to other stakeholders, eg those who want to understand system performance.</p></li>
+<li><p><strong>Relevance</strong>: Excessively detailed information or information that is irrelevant to customers’ queries can cause confusion and generate distrust.</p></li>
+<li><p><strong>Intuitiveness and simplicity</strong>: Customers may expect the logic of systems to be sufficiently intuitive and simple, so that they are able to remember it in day-to-day life and make informed choices about aspects of their behaviour that may affect decision outcomes. Intelligibility alone does not guarantee that these expectations are met.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../10-deep-cnn-rnn/quiz-sum-ref.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">10.4. </span>Quiz and summary</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="process-transp.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Process transparency</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,891 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linear algebra and notations &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Basic python programming" href="basic-python.html" />
+    <link rel="prev" title="Prerequisites" href="overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   Prerequisites
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/00-prereq/linear-algebra-and-notations.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F00-prereq/linear-algebra-and-notations.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/00-prereq/linear-algebra-and-notations.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scalars-vectors-and-matrices">
+   Scalars, vectors, and matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#operations-on-matrices">
+   Operations on matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#special-matrices">
+   Special matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Linear algebra and notations</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scalars-vectors-and-matrices">
+   Scalars, vectors, and matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#operations-on-matrices">
+   Operations on matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#special-matrices">
+   Special matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="linear-algebra-and-notations">
+<h1>Linear algebra and notations<a class="headerlink" href="#linear-algebra-and-notations" title="Permalink to this headline">¶</a></h1>
+<p>This section introduces the basic concepts of linear algebra and notations used in this course. The concepts are introduced in a self-contained manner, and you can skip this section if you are already familiar with the concepts.</p>
+<div class="section" id="scalars-vectors-and-matrices">
+<h2>Scalars, vectors, and matrices<a class="headerlink" href="#scalars-vectors-and-matrices" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Scalars: a scalar is a single number. In this course, if not specified, scalars are denoted by lowercase letters, e.g. <span class="math notranslate nohighlight">\(x = 3.14\)</span>. When introducing a scalar, we will specify its type, e.g. <span class="math notranslate nohighlight">\(x \in \mathbb{R}\)</span>, where <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> is the set of real numbers.</p></li>
+<li><p>Vectors: a vector is an array of numbers, which are arranged in order. Usually we denote vectors as lowercase letters in bold, e.g.</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{x} = \left[ \begin{array}{c c c c c} x_1 , x_2 , \dots , x_n \end{array}\right]^\top,
+  \]</div>
+<p>where the superscript <span class="math notranslate nohighlight">\(^\top\)</span> denotes a common vector/matrix operation called transpose, which flips the row and column, e.g. <span class="math notranslate nohighlight">\(\begin{bmatrix} x_1 \\ x_2 \end{bmatrix}^\top = \begin{bmatrix} x_1, x_2 \end{bmatrix}\)</span>, and <span class="math notranslate nohighlight">\(\begin{bmatrix} x_1, x_2 \end{bmatrix}^\top = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}\)</span>. The elements of a vector can be accessed by their index, and denoted as a scalar with a subscript, e.g. <span class="math notranslate nohighlight">\(x_1\)</span> is the first element of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. We can also index a set of elements of a vector. For example, we can define the set <span class="math notranslate nohighlight">\( S = \{2, 4\} \)</span> and then access the 2nd and 4th elements of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> by <span class="math notranslate nohighlight">\(S\)</span>, i.e. <span class="math notranslate nohighlight">\(\mathbf{x}_S = \begin{bmatrix} x_2, x_4 \end{bmatrix}^\top \)</span>. We can also index a set of elements of a vector by a boolean array, e.g. <span class="math notranslate nohighlight">\(\mathbf{x}_{\mathbf{b}} = \begin{bmatrix} x_1, x_3 \end{bmatrix}^\top \)</span>, where <span class="math notranslate nohighlight">\(\mathbf{b} = \begin{bmatrix} \text{True}, \text{False}, \text{True}, \dots, \text{False} \end{bmatrix}^\top \)</span>. When introducing a vector, we can specify its type, e.g. if each element in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is in <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>, we can specify it as <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^n\)</span>, where <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> is the set of <span class="math notranslate nohighlight">\(n\)</span>-dimensional real vectors.</p>
+</li>
+</ul>
+<!-- Sometimes we need to index the elements of a vector by their position, e.g. $x_1$ is the first element of $\mathbf{x}$, $x_2$ is the second element of $\mathbf{x}$, and so on. In this case, we can use the following notations: -->
+<ul>
+<li><p>Matrices: a matrix is a 2D array of numbers. Typically we denote matrices as uppercase letters in bold, e.g.</p>
+<!-- $$
+  \mathbf{X} = \begin{bmatrix} x_{1,1} & x_{1,2} & x_{1,3} \\ x_{2,1} & x_{2,2} & x_{2,3} \end{bmatrix}.
+$$  -->
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \mathbf{X} = \begin{bmatrix} x_{1,1} &amp; x_{1,2}, &amp; x_{1,3} \\ x_{2,1} &amp; x_{2,2} &amp; x_{2,3} \end{bmatrix}.
+  \end{split}\]</div>
+<p>If a real valued matrix <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> has <span class="math notranslate nohighlight">\(m\)</span> rows and <span class="math notranslate nohighlight">\(n\)</span> columns, we can specify it as <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{m \times n}\)</span>. We usually identify an element of a matrix as a scalar with its row and column indices, e.g. <span class="math notranslate nohighlight">\(x_{2,3}\)</span> is the element in the 2nd row and 3rd column of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>. We can also access an entire row of a matrix by writing “:” for the coordinate of columns, e.g. <span class="math notranslate nohighlight">\(\mathbf{x}_{2, :}\)</span> is the 2nd row of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>. We can also access columns of a matrix in the same way, e.g.,  <span class="math notranslate nohighlight">\(\mathbf{x}_{:,3}\)</span> is the 3rd column of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>. The transpose of a matrix flips the rows and columns along the diagonal, e.g.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix}^\top = \begin{bmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{bmatrix}.
+   \end{split}\]</div>
+</li>
+</ul>
+<!-- We can also index a set of elements of a matrix. For example, we can define the set $ S = {2, 4} $ and then access the 2nd and 4th rows of $\mathbf{X}$ by $S$, i.e. $\mathbf{X}_S = \begin{bmatrix} x_{2,1} & x_{2,2} & x_{2,3} \\ x_{4,1} & x_{4,2} & x_{4,3} \end{bmatrix}$. We can also index a set of elements of a matrix by a boolean array, e.g. $\mathbf{X}_{\mathbf{b}} = \begin{bmatrix} x_{1,1} & x_{1,2} & x_{1,3} \\ x_{3,1} & x_{3,2} & x_{3,3} \end{bmatrix}$, where $\mathbf{b} = \begin{bmatrix} True \\ False \\ True \\ \vdots\\ False \end{bmatrix}$.  -->
+<!-- - Tensors: a tensor is an array of numbers arranged on a regular grid with a variable number of axes, e.g. $$\mathbf{X} = \begin{bmatrix} x_{1,1,1} & x_{1,1,2} & x_{1,1,3} \\ x_{1,2,1} & x_{1,2,2} & x_{1,2,3} \\ x_{1,3,1} & x_{1,3,2} & x_{1,3,3} \end{bmatrix}.$$ -->
+</div>
+<div class="section" id="operations-on-matrices">
+<h2>Operations on matrices<a class="headerlink" href="#operations-on-matrices" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>A matrix <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> can be multiplied by a scalar <span class="math notranslate nohighlight">\(\alpha\)</span> or add a scalar to a matrix:</p>
+<div class="math notranslate nohighlight">
+\[
+    (\alpha\mathbf{X})_{i, j}  =  \alpha x_{i,j}, \text{ and } (\mathbf{X} + \alpha)_{i, j}  =  x_{i,j} + \alpha.
+  \]</div>
+</li>
+<li><p>Addition and subtraction: we can add or subtract two matrices with the same shape. The result is that all corresponding entries are added, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    (\mathbf{X} + \mathbf{Y})_{i, j} = x_{i, j} + y_{i, j}.
+  \]</div>
+</li>
+<li><p>Matrix multiplication: If the number of columns of matrix <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> is equal to the number of rows of matrix <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>, the matrices can be multiplied in the order <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>. The result will be a new matrix <span class="math notranslate nohighlight">\(\mathbf{XY}\)</span>, that has the same number of rows as <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and the same number of columns as <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>. The entries <span class="math notranslate nohighlight">\(\mathbf({XY})_{i,j}\)</span> will be the following combination of the entries of row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    (\mathbf{XY})_{i,j} = \sum_{k=1}^n x_{i,k} y_{k,j}.
+  \]</div>
+</li>
+<li><p>Element-wise multiplication: we can also multiply two matrices with the same shape element-wise, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    (\mathbf{X} \odot \mathbf{Y})_{i, j} = x_{i, j} y_{i, j},
+  \]</div>
+<p>where <span class="math notranslate nohighlight">\(\odot\)</span> is the symbol for element-wise multiplication, and <span class="math notranslate nohighlight">\(\mathbf{X} \odot \mathbf{Y}\)</span> is also called the Hadamard product of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>.</p>
+</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li><p>The multiplication of a number and a matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    2  \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} = \begin{bmatrix} 2 \times 1 &amp; 2 \times 2 \\ 2 \times 3 &amp; 2 \times 4 \end{bmatrix} = \begin{bmatrix} 2 &amp; 4 \\ 6 &amp; 8 \end{bmatrix}.
+  \end{split}\]</div>
+</li>
+<li><p>The sum of two matrices of the same shape</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} + \begin{bmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{bmatrix} = \begin{bmatrix} 1 + 5 &amp; 2 + 6 \\ 3 + 7 &amp; 4 + 8 \end{bmatrix} = \begin{bmatrix} 6 &amp; 8 \\ 10 &amp; 12 \end{bmatrix}.
+  \end{split}\]</div>
+</li>
+<li><p>The multiplication of two matrices:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} \begin{bmatrix} 5 &amp; 6 &amp; 7 \\ 8 &amp; 9 &amp; 10 \end{bmatrix} = \begin{bmatrix} 1 \times 5 + 2 \times 8 &amp; 1 \times 6 + 2 \times 9 &amp; 1 \times 7 + 2 \times 10 \\ 3 \times 5 + 4 \times 8 &amp; 3 \times 6 + 4 \times 9 &amp; 3 \times 7 + 4 \times 10 \end{bmatrix} = \begin{bmatrix} 21 &amp; 24 &amp; 27 \\ 47 &amp; 54 &amp; 61 \end{bmatrix}.
+  \end{split}\]</div>
+</li>
+</ul>
+<p><strong>Some properties of matrix multiplication:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\((\mathbf{X}^\top)^\top = \mathbf{X}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\((\mathbf{X} \mathbf{Y})^\top = \mathbf{Y}^\top \mathbf{X}^\top\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\((\mathbf{X} + \mathbf{Y})^\top = \mathbf{X}^\top + \mathbf{Y}^\top\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{X} \mathbf{I} = \mathbf{I} \mathbf{X} = \mathbf{X}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{I}\)</span> is the identity matrix.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{X} \mathbf{Y} = \mathbf{Y} \mathbf{X}\)</span> if <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> are square matrices.</p></li>
+<li><p><span class="math notranslate nohighlight">\((\alpha \mathbf{X}) \mathbf{Y} = \alpha (\mathbf{X} \mathbf{Y})\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{X} (\mathbf{Y} \mathbf{Z}) = (\mathbf{X} \mathbf{Y}) \mathbf{Z}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{X} (\mathbf{Y} + \mathbf{Z}) = \mathbf{X} \mathbf{Y} + \mathbf{X} \mathbf{Z}\)</span>.</p></li>
+</ul>
+</div>
+<div class="section" id="special-matrices">
+<h2>Special matrices<a class="headerlink" href="#special-matrices" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><strong>Diagonal</strong> matrices contain non-zero elements only on the diagonal, i.e. <span class="math notranslate nohighlight">\(x_{i,j} = 0\)</span> for <span class="math notranslate nohighlight">\(i \neq j\)</span>. For example, the following matrix is a diagonal matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 2 &amp; 0 \\ 0 &amp; 0 &amp; 3 \end{bmatrix}.
+  \end{split}\]</div>
+<p>All diagonal matrices are square.</p>
+</li>
+<li><p><strong>Identity</strong> matrices are special diagonal matrices with ones on the diagonal (and zeros elsewhere), i.e. <span class="math notranslate nohighlight">\(x_{i,j} = 1\)</span> for <span class="math notranslate nohighlight">\(i = j\)</span> and <span class="math notranslate nohighlight">\(x_{i,j} = 0\)</span> for <span class="math notranslate nohighlight">\(i \neq j\)</span>. For example, the following matrix is an identity matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}.
+  \end{split}\]</div>
+</li>
+<li><p><strong>Symmetric</strong> matrices are square matrices that are equal to their transpose, i.e. <span class="math notranslate nohighlight">\(\mathbf{X} = \mathbf{X}^\top\)</span>, or <span class="math notranslate nohighlight">\(\mathbf{X}_{i,j} = \mathbf{X}_{j, i}\)</span>. For example, the following matrix is a symmetric matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 2 &amp; 4 &amp; 5 \\ 3 &amp; 5 &amp; 6 \end{bmatrix}.
+  \end{split}\]</div>
+</li>
+<li><p><strong>Invertible</strong> matrices are square matrices that can be multiplied with another matrix to yield the identity matrix. The inverse matrix of a matrix <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> is denoted as <span class="math notranslate nohighlight">\(\mathbf{X}^{-1}\)</span>, and according to the definition <span class="math notranslate nohighlight">\(\mathbf{X} \mathbf{X}^{-1} = \mathbf{X}^{-1} \mathbf{X} = \mathbf{I}\)</span>. The inverse matrix of an identity matrix is itself, e.g.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}^{-1} = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}.
+  \end{split}\]</div>
+</li>
+<li><p>An <strong>Orthogonal</strong> matrix is a square matrix whose columns are mutually orthogonal and have unit length, i.e. <span class="math notranslate nohighlight">\(\mathbf{X}^\top \mathbf{X} = \mathbf{X} \mathbf{X}^\top = \mathbf{I}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{I}\)</span> is the identity matrix.</p></li>
+</ul>
+</div>
+<div class="section" id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. <span class="math notranslate nohighlight">\(\begin{bmatrix} 12 &amp; 0 &amp; 0 \\ 0 &amp; 8 &amp; 0 \\ 0 &amp; 0 &amp; 23 \end{bmatrix}\)</span></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>What kind of matrices is it? There can be multiple answers.
+
+    a. Diagonal
+
+    b. Identity
+
+    c. Symmetric
+
+    d. Invertible
+
+    e. Orthogonal
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>a , c, d.</strong></p>
+<p><strong>The given matrix has values only in the diagonal; that’s why it’s a diagonal matrix. The diagonal values are not 1, so it’s not an identity matrix. If you transpose the given matrix, it will equal the given matrix, so it’s symmetric. A diagonal matrix without any zero on its diagonal is always invertible, so this is an invertible matrix. For the orthogonal matrix <span class="math notranslate nohighlight">\(XX^T=I\)</span>, which is not valid for our given matrix, so it’s not an orthogonal matrix.</strong></p>
+</div>
+<p><strong>2</strong>. <strong><span class="math notranslate nohighlight">\(A\)</span></strong> = <span class="math notranslate nohighlight">\(\begin{bmatrix} 8 &amp; 5 &amp; 9 \\ 7 &amp; 19 &amp; 14 \end{bmatrix}\)</span>;
+<strong><span class="math notranslate nohighlight">\(B\)</span></strong> = <span class="math notranslate nohighlight">\( \begin{bmatrix} 6 &amp; 13 &amp; 15 \\ 17 &amp; 22 &amp; 12 \\ 0 &amp; 3 &amp; 9 \end{bmatrix}\)</span></p>
+<p>Calculate the following matrix operations by hand.</p>
+<p>i. <span class="math notranslate nohighlight">\(AB\)</span>= ?</p>
+<p>ii. <span class="math notranslate nohighlight">\(2A\)</span> = ?</p>
+<p>iii. <span class="math notranslate nohighlight">\(AB + 2A\)</span> = ?</p>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="toggle docutils container">
+<p>i. <span class="math notranslate nohighlight">\(\begin{bmatrix} 133 &amp; 241 &amp; 261 \\ 365 &amp; 551 &amp; 459 \end{bmatrix}\)</span></p>
+<p>ii. <span class="math notranslate nohighlight">\(\begin{bmatrix} 16 &amp; 10 &amp; 18 \\ 14 &amp; 38 &amp; 28 \end{bmatrix}\)</span></p>
+<p>iii. <span class="math notranslate nohighlight">\(\begin{bmatrix} 149 &amp; 251 &amp; 279 \\ 379 &amp; 589 &amp; 487 \end{bmatrix}\)</span></p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./00-prereq"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Prerequisites</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="basic-python.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Basic python programming</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

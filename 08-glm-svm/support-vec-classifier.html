@@ -1,0 +1,1654 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>8.2. Support vector classifiers &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8.3. Support vector machines" href="svm.html" />
+    <link rel="prev" title="8.1. Generalised linear models" href="glm.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/08-glm-svm/support-vec-classifier.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F08-glm-svm/support-vec-classifier.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/08-glm-svm/support-vec-classifier.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/08-glm-svm/support-vec-classifier.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/08-glm-svm/support-vec-classifier.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hyperplane-for-classification">
+   8.2.1. Hyperplane for classification
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperplane-and-its-two-sides">
+     8.2.1.1. Hyperplane and its two sides
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classification-using-a-separating-hyperplane">
+     8.2.1.2. Classification using a separating hyperplane
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-maximal-margin-classifier-hard-margin">
+     8.2.1.3. The maximal margin classifier (hard margin)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#construction-of-maximal-margin-classifier">
+     8.2.1.4. Construction of maximal margin classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#support-vector-classifier-soft-margin">
+   8.2.2. Support vector classifier (soft margin)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-non-separable-case">
+     8.2.2.1. The non-separable case
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#construction-of-support-vector-classifier">
+     8.2.2.2. Construction of support vector classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-support-vector-classifiers-on-toy-data">
+   8.2.3. Example: support vector classifiers on toy data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#support-vector-visualisation-and-interpretation">
+     8.2.3.1. Support vector visualisation and interpretation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prediction-with-support-vector-classifiers">
+     8.2.3.2. Prediction with support vector classifiers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decision-boundary-on-linearly-separable-data">
+     8.2.3.3. Decision boundary on linearly separable data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   8.2.4. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Support vector classifiers</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hyperplane-for-classification">
+   8.2.1. Hyperplane for classification
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperplane-and-its-two-sides">
+     8.2.1.1. Hyperplane and its two sides
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classification-using-a-separating-hyperplane">
+     8.2.1.2. Classification using a separating hyperplane
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-maximal-margin-classifier-hard-margin">
+     8.2.1.3. The maximal margin classifier (hard margin)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#construction-of-maximal-margin-classifier">
+     8.2.1.4. Construction of maximal margin classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#support-vector-classifier-soft-margin">
+   8.2.2. Support vector classifier (soft margin)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-non-separable-case">
+     8.2.2.1. The non-separable case
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#construction-of-support-vector-classifier">
+     8.2.2.2. Construction of support vector classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-support-vector-classifiers-on-toy-data">
+   8.2.3. Example: support vector classifiers on toy data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#support-vector-visualisation-and-interpretation">
+     8.2.3.1. Support vector visualisation and interpretation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prediction-with-support-vector-classifiers">
+     8.2.3.2. Prediction with support vector classifiers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decision-boundary-on-linearly-separable-data">
+     8.2.3.3. Decision boundary on linearly separable data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   8.2.4. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="support-vector-classifiers">
+<h1><span class="section-number">8.2. </span>Support vector classifiers<a class="headerlink" href="#support-vector-classifiers" title="Permalink to this headline">¶</a></h1>
+<p>This section introduces the concept of an optimal separating hyperplane, the maximal margin classifier, and the support vector classifier, laying the groundwork for the support vector machine. A separating hyperplane is a hyperplane that separates two classes of data. The maximal margin classifier is a separating hyperplane that maximizes the distance between the hyperplane and the nearest data points from either class. The maximal margin classifier is a special case of a support vector machine.</p>
+<p>Watch the 11-minute video below for a visual explanation of maximal margin, soft margin, and support vector classifier.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/efR1C6CvhmE?start=40&end=743" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/efR1C6CvhmE?start=40&amp;end=743">Explaining maximal margin, soft margin, and support vector classifier by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="section" id="hyperplane-for-classification">
+<h2><span class="section-number">8.2.1. </span>Hyperplane for classification<a class="headerlink" href="#hyperplane-for-classification" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, we define a hyperplane and introduce the concept of an optimal separating hyperplane.</p>
+<div class="section" id="hyperplane-and-its-two-sides">
+<h3><span class="section-number">8.2.1.1. </span>Hyperplane and its two sides<a class="headerlink" href="#hyperplane-and-its-two-sides" title="Permalink to this headline">¶</a></h3>
+<p>In a <span class="math notranslate nohighlight">\(D\)</span>-dimensional space, a hyperplane is a flat affine subspace of dimension <span class="math notranslate nohighlight">\(D − 1\)</span>. For example, in two dimensions, a hyperplane is a flat one-dimensional subspace—in other words, a line. In three dimensions, a hyperplane is a flat two-dimensional subspace—that is, a plane. In <span class="math notranslate nohighlight">\(D &gt; 3\)</span> dimensions, it can be hard to visualise a hyperplane, but the notion of a <span class="math notranslate nohighlight">\((D − 1)\)</span>-dimensional flat subspace still applies.</p>
+<p>The mathematical definition of a hyperplane is quite simple. In two dimensions, a hyperplane is defined by the equation,</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1 x_1 + \beta_2 x_2 = 0
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_0, \beta_1, \beta_2\)</span> are parameters. When we say that the above equation “defines” the hyperplane, we mean that any <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, x_2]^\top \)</span> satisfying the equation is a point on the hyperplane. Note the equation above is simply the equation of a line, since indeed in two dimensions a hyperplane is a line. In the <span class="math notranslate nohighlight">\(D\)</span>-dimensional case, the equation defining a hyperplane is</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_D x_D = 0
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_0, \beta_1, \beta_2, \cdots, \beta_D\)</span> are parameters. In this equation, any <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, x_2, \cdots, x_D]^\top\)</span> satisfying the above equation is a point on the hyperplane. If <span class="math notranslate nohighlight">\(\mathbf{x} \)</span> does not satisfy the equation, e.g.</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_D x_D &gt; 0
+\]</div>
+<p>then <span class="math notranslate nohighlight">\(\mathbf{x} \)</span> is <em>on one side of the hyperplane</em>, and if</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_D x_D &lt; 0
+\]</div>
+<p>then <span class="math notranslate nohighlight">\(\mathbf{x} \)</span> is <em>on the other side of the hyperplane</em>. So we can think of the hyperplane as dividing <span class="math notranslate nohighlight">\(D\)</span>-dimensional space into two halves. One can easily determine on which side of the hyperplane a point lies by simply calculating
+the sign of the left hand side of the hyperplane equation.</p>
+</div>
+<div class="section" id="classification-using-a-separating-hyperplane">
+<h3><span class="section-number">8.2.1.2. </span>Classification using a separating hyperplane<a class="headerlink" href="#classification-using-a-separating-hyperplane" title="Permalink to this headline">¶</a></h3>
+<p>Suppose we have a set of observations (samples) <span class="math notranslate nohighlight">\(\mathbf{x}_1, \mathbf{x}_2, \cdots, \mathbf{x}_N\)</span> in <span class="math notranslate nohighlight">\(D\)</span>-dimensional space</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{x}_1 = \begin{bmatrix} x_{11} \\ x_{12} \\ \vdots \\ x_{1D} \end{bmatrix}, \cdots, \mathbf{x}_N = \begin{bmatrix} x_{N1} \\ x_{N2} \\ \vdots \\ x_{ND} \end{bmatrix}.
+\end{split}\]</div>
+<p>These observations fall into two classes, <span class="math notranslate nohighlight">\(y_1, \cdots, y_N \in \{-1, 1\}\)</span>, where 1 represents one class and -1 the other class. We also have a test observation <span class="math notranslate nohighlight">\( \mathbf{x}^* = [x^*_1, \cdots, x^*_N]^\top\)</span> that we would like to classify. We can do so by finding the hyperplane that separates the two classes. Such a hyperplane is known as a <em>separating hyperplane</em>. <a class="reference internal" href="#svm1"><span class="std std-numref">Fig. 8.1</span></a> below shows a hyperplane in two dimensions.</p>
+<div class="figure align-default" id="svm1">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm1.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm1.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm1.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.1 </span><span class="caption-text">The hyperplane <span class="math notranslate nohighlight">\(1 + 2x_1 + 3x_2 = 0\)</span> is shown. The blue region (top right) is the set of points for which <span class="math notranslate nohighlight">\(1 + 2x_1 + 3x_2 &gt; 0\)</span>, and the purple region (bottom left) is the set of points for which <span class="math notranslate nohighlight">\(1 + 2x_1 + 3x_2\)</span> &lt; 0 (source of figures in this section: <a class="reference external" href="https://trevorhastie.github.io/ISLR/">https://trevorhastie.github.io/ISLR/</a>).</span><a class="headerlink" href="#svm1" title="Permalink to this image">¶</a></p>
+</div>
+<p>We can label the observations from the blue class as <span class="math notranslate nohighlight">\( y_n = 1 \)</span> and those from the purple class as <span class="math notranslate nohighlight">\( y_n = −1 \)</span>. Then a separating hyperplane has the property that</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD} &gt; 0, \text{ if } y_n = 1
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD} &lt; 0, \text{ if } y_n = -1.
+\]</div>
+<p>Equivalently, we can write this compactly as</p>
+<div class="math notranslate nohighlight">
+\[
+y_n(\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD}) &gt; 0, \text{ for } n = 1, \cdots, N.
+\]</div>
+<div class="figure align-default" id="svm2">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm2.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm2.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm2.png" style="width: 700px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.2 </span><span class="caption-text">Two classes of observations are shown in blue and in purple, respectively. Left: Three separating hyperplanes, out of many possible, are shown in black. Right: A separating hyperplane is shown in black. The blue and purple grid indicates the decision rule made by a classifier based on this separating hyperplane: a test observation that falls in the blue portion of the grid will be assigned to the blue class, and one that falls in the purple portion of the grid will be assigned to the purple class.</span><a class="headerlink" href="#svm2" title="Permalink to this image">¶</a></p>
+</div>
+<p>As shown in <a class="reference internal" href="#svm2"><span class="std std-numref">Fig. 8.2</span></a> above, if a separating hyperplane exists, we can use it to construct a very natural classifier: a test observation is assigned a class depending on which side of the hyperplane it is located.</p>
+</div>
+<div class="section" id="the-maximal-margin-classifier-hard-margin">
+<h3><span class="section-number">8.2.1.3. </span>The maximal margin classifier (hard margin)<a class="headerlink" href="#the-maximal-margin-classifier-hard-margin" title="Permalink to this headline">¶</a></h3>
+<p>In general, if the data can be perfectly separated using a hyperplane, then there will in fact exist an infinite number of such hyperplanes. This is because a given separating hyperplane can usually be shifted a tiny bit up or down, or rotated, without coming into contact with any of the observations.</p>
+<p>A natural choice is the maximal margin hyperplane (also known as the optimal separating hyperplane), which is the separating hyperplane that is farthest from the training observations. That is, we can compute the (perpendicular) distance from each training observation to a given separating hyperplane; the smallest such distance is the minimal distance from the observations to the hyperplane, and is known as the <em>margin</em>. The <em>maximal margin hyperplane</em> is the separating hyperplane for which the margin is largest, i.e. the hyperplane that has the farthest minimum distance to the training observations. We can then classify a test observation based on which side of the maximal margin hyperplane it lies. This is known as the <em>maximal margin classifier</em>. We hope that a classifier that has a large margin on the training data will also have a large margin on the test data, and hence will classify the test observations correctly.</p>
+<div class="figure align-default" id="svm3">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm3.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm3.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm3.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.3 </span><span class="caption-text">Two classes of observations are shown in blue and in purple, respectively. The <em>maximal margin hyperplane</em> is shown as a solid line. The margin is the distance from the solid line to either of the dashed lines. The two blue points and the purple point that lie on the dashed lines are the <em>support vectors</em>, and the distance from those points to the hyperplane is indicated by arrows. The purple and blue grid indicates the decision rule made by a classifier based on this separating hyperplane.</span><a class="headerlink" href="#svm3" title="Permalink to this image">¶</a></p>
+</div>
+<p><a class="reference internal" href="#svm3"><span class="std std-numref">Fig. 8.3</span></a> above shows a maximal margin hyperplane. Comparing to the right-hand panel of <a class="reference internal" href="#svm2"><span class="std std-numref">Fig. 8.2</span></a>, we see that the maximal margin hyperplane in <a class="reference internal" href="#svm3"><span class="std std-numref">Fig. 8.3</span></a> results in a greater minimal distance between the observations and the separating hyperplane, i.e. a larger <em>margin</em>. We can also see that three training observations are equidistant from the maximal margin hyperplane and lie along the dashed lines indicating the width of the margin. These three observations are known as <em>support vectors</em>, and the distance from the support vectors to the hyperplane is known as the <em>margin width</em>.</p>
+</div>
+<div class="section" id="construction-of-maximal-margin-classifier">
+<h3><span class="section-number">8.2.1.4. </span>Construction of maximal margin classifier<a class="headerlink" href="#construction-of-maximal-margin-classifier" title="Permalink to this headline">¶</a></h3>
+<p>The maximal margin hyperplane is the solution to the following optimisation problem</p>
+<div class="math notranslate nohighlight" id="equation-eq-max-margin-classifier">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-eq-max-margin-classifier" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+&amp; \max_{\beta_0, \beta_1, \cdots, \beta_D} M \\
+&amp; \text{subject to } \sum_{d=1}^D \beta_d^2 = 1 ,\\
+&amp; y_n(\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD}) \geq M, \text{ for } n = 1, \cdots, N.
+\end{aligned}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\( y_n(\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD}) \)</span> in the constraint represents the perpendicular distance from the <span class="math notranslate nohighlight">\(n\text{th}\)</span> observation to the hyperplane. This constraint guarantees that each observation is on the correct side of the hyperplane and at least a distance <span class="math notranslate nohighlight">\( M \)</span> from the hyperplane. Therefore, <span class="math notranslate nohighlight">\(M\)</span> represents the margin of our hyperplane, and the optimisation problem chooses <span class="math notranslate nohighlight">\( \beta_0, \beta_1, \cdots, \beta_D \)</span> to maximise M. This is exactly the definition of the maximal margin hyperplane! The problem <a class="reference internal" href="#equation-eq-max-margin-classifier">(8.4)</a> can be solved efficiently via quadratic programming, but details of this optimisation are outside of the scope of this course.</p>
+</div>
+</div>
+<div class="section" id="support-vector-classifier-soft-margin">
+<h2><span class="section-number">8.2.2. </span>Support vector classifier (soft margin)<a class="headerlink" href="#support-vector-classifier-soft-margin" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-non-separable-case">
+<h3><span class="section-number">8.2.2.1. </span>The non-separable case<a class="headerlink" href="#the-non-separable-case" title="Permalink to this headline">¶</a></h3>
+<p>The maximal margin classifier is a very natural way to perform classification, if a separating hyperplane exists. However, in many cases, no separating hyperplane exists, and so there is no maximal margin classifier. For the example in <a class="reference internal" href="#svm4"><span class="std std-numref">Fig. 8.4</span></a> below, the observations that belong to two classes are not separable by a hyperplane.</p>
+<div class="figure align-default" id="svm4">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm4.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm4.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm4.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.4 </span><span class="caption-text">Two classes of observations are shown in blue and in purple, respectively. The two classes are not separable by a hyperplane, and so the maximal margin classifier cannot be used.</span><a class="headerlink" href="#svm4" title="Permalink to this image">¶</a></p>
+</div>
+<p>Even if a separating hyperplane does exist, it is also possible that a classifier based on a separating hyperplane might not be desirable. As shown in the example in <a class="reference internal" href="#svm5"><span class="std std-numref">Fig. 8.5</span></a> below, a classifier based on a separating hyperplane perfectly classifying all of the training observations can lead to sensitivity to individual observations, a symptom of  <em>overfitting</em>.</p>
+<div class="figure align-default" id="svm5">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm5.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm5.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm5.png" style="width: 700px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.5 </span><span class="caption-text">Left: Two classes of observations are shown in blue and in purple, along with the maximal margin hyperplane. Right: An additional blue observation has been added, leading to a dramatic shift in the maximal margin hyperplane shown as a solid line. The dashed line indicates the maximal margin hyperplane that was obtained in the absence of this additional point.</span><a class="headerlink" href="#svm5" title="Permalink to this image">¶</a></p>
+</div>
+<p>As we can see, the addition of a single observation in the right panel of <a class="reference internal" href="#svm5"><span class="std std-numref">Fig. 8.5</span></a> leads to a dramatic change in the maximal margin hyperplane, and the resulting maximal margin hyperplane has only a tiny margin. As the distance of an observation from the hyperplane can be seen as a measure of our confidence that the observation was correctly classified, this tiny margin indicates that the classifier is not very confident about its classification of the training observations.</p>
+<p>Based on the above observations, we might be willing to consider allowing some observations to be on the incorrect side of the margin, or even the incorrect side of the hyperplane, rather than seeking the largest possible margin so that every observation is not only on the correct side of the hyperplane but also on the correct side of the margin. This is the idea behind the <em>support vector classifier</em>, also known as the <em>soft margin classifier</em>.</p>
+<p>An example is shown in the left-hand panel of <a class="reference internal" href="#svm6"><span class="std std-numref">Fig. 8.6</span></a> below. Most of the observations are on the correct side of the margin. However, a small subset of the observations (1 and 8) are on the wrong side of the margin.</p>
+<div class="figure align-default" id="svm6">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm6.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm6.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm6.png" style="width: 700px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.6 </span><span class="caption-text">Left: A support vector classifier was fit to a small dataset. The hyperplane is shown as a solid line and the margins are shown as dashed lines. Purple observations: Observations 3, 4, 5, and 6 are on the correct side of the margin, observation 2 is on the margin, and observation 1 is on the wrong side of the margin. Blue observations: Observations 7 and 10 are on the correct side of the margin, observation 9 is on the margin, and observation 8 is on the wrong side of the margin. No observations are on the wrong side of the hyperplane. Right: Same as left panel with two additional points, 11 and 12. These two observations are on the wrong side of the hyperplane and the wrong side of the margin.</span><a class="headerlink" href="#svm6" title="Permalink to this image">¶</a></p>
+</div>
+<p>An observation can be not only on the wrong side of the margin, but also on the wrong side of the hyperplane. In fact, when there is no separating hyperplane, such a situation is inevitable. Observations on the wrong side of the hyperplane correspond to training observations that are misclassified by the support vector classifier. The right-hand panel of <a class="reference internal" href="#svm6"><span class="std std-numref">Fig. 8.6</span></a> above illustrates such a scenario.</p>
+</div>
+<div class="section" id="construction-of-support-vector-classifier">
+<h3><span class="section-number">8.2.2.2. </span>Construction of support vector classifier<a class="headerlink" href="#construction-of-support-vector-classifier" title="Permalink to this headline">¶</a></h3>
+<p>The support vector classifier classifies a test observation depending on which side of a hyperplane it lies. The hyperplane is chosen to correctly separate most of the training observations into the two classes, but may misclassify a few observations. It is the solution to the “soft margin” optimisation problem below that is a modification of the “hard margin” optimisation problem <a class="reference internal" href="#equation-eq-max-margin-classifier">(8.4)</a> for the maximal margin classifier:</p>
+<div class="math notranslate nohighlight" id="equation-eq-soft-margin-classifier">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-eq-soft-margin-classifier" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+&amp; \max_{\beta_0, \beta_1, \cdots, \beta_D, \epsilon_1, \cdots, \epsilon_N} M \\
+&amp; \text{subject to } \sum_{d=1}^D \beta_d^2 = 1 ,\\
+&amp; y_n(\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD}) \geq M(1 - \epsilon_n),\\
+&amp; \epsilon_n \geq 0, \sum_{n = 1}^N \epsilon_n \leq \Omega, \text{ for } n = 1, \cdots, N,
+\end{aligned}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\( \epsilon_n \)</span> is a <a class="reference external" href="https://en.wikipedia.org/wiki/Slack_variable">slack variable</a> that measures the amount by which the <span class="math notranslate nohighlight">\(n\text{th}\)</span> observation is on the wrong side of the margin. The slack variables are constrained to be non-negative, and the constraint <span class="math notranslate nohighlight">\( \sum_{n = 1}^N \epsilon_n \leq \Omega \)</span> places an upper bound on the total amount by which the observations can be on the wrong side of the margin. The parameter <span class="math notranslate nohighlight">\( \Omega \)</span> is a tuning (hyper)parameter that controls the trade-off between the two competing goals of the support vector classifier: <em>maximising the margin</em> and <em>minimising the number of training observations that are misclassified</em>. <span class="math notranslate nohighlight">\( \Omega \)</span> can also be viewed as a <em>budget</em> for the amount that the margin can be violated by the observations. When <span class="math notranslate nohighlight">\( \Omega \)</span> is very large (highly tolerant), the support vector classifier will attempt to maximise the margin, and so it will misclassify a larger number of training observations. When <span class="math notranslate nohighlight">\( \Omega \)</span> is very small (highly intolerant), the support vector classifier will attempt to minimise the number of training observations that are misclassified, and so it will have a smaller margin. In practice, <span class="math notranslate nohighlight">\( \Omega \)</span> is often tuned using cross-validation. <a class="reference internal" href="#svm7"><span class="std std-numref">Fig. 8.7</span></a> below illustrates the effect of <span class="math notranslate nohighlight">\( \Omega \)</span> on the support vector classifier.</p>
+<div class="figure align-default" id="svm7">
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm7.png"><img alt="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm7.png" src="https://raw.githubusercontent.com/pykale/transparentML/main/content/images/svm/svm7.png" style="width: 700px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8.7 </span><span class="caption-text">A support vector classifier was fit using four different values of the tuning parameter <span class="math notranslate nohighlight">\( \Omega \)</span> of Equation <a class="reference internal" href="#equation-eq-soft-margin-classifier">(8.5)</a>. The largest value of <span class="math notranslate nohighlight">\( \Omega \)</span> was used in the top left panel, and smaller values were used in the top right, bottom left, and bottom right panels. When <span class="math notranslate nohighlight">\( \Omega \)</span> is large, then there is a high tolerance for observations being on the wrong side of the margin, and so the margin will be large. As <span class="math notranslate nohighlight">\( \Omega \)</span> decreases, the tolerance for observations being on the wrong side of the margin decreases, and the margin narrows.</span><a class="headerlink" href="#svm7" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="example-support-vector-classifiers-on-toy-data">
+<h2><span class="section-number">8.2.3. </span>Example: support vector classifiers on toy data<a class="headerlink" href="#example-support-vector-classifiers-on-toy-data" title="Permalink to this headline">¶</a></h2>
+ <!-- using `scikit-learn` -->
+<p>In this example, we will use the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> package to fit support vector classifiers to a small toy dataset.</p>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">label_binarize</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span><span class="p">,</span> <span class="n">LinearSVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">confusion_matrix</span><span class="p">,</span>
+    <span class="n">ConfusionMatrixDisplay</span><span class="p">,</span>
+    <span class="n">roc_curve</span><span class="p">,</span>
+    <span class="n">auc</span><span class="p">,</span>
+    <span class="n">classification_report</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a function to plot a classifier with support vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_svc</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">pad</span>
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">pad</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+    <span class="c1"># Support vectors indicated in plot by vertical lines</span>
+    <span class="n">sv</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">support_vectors_</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">sv</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sv</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+    <span class="p">)</span>  <span class="c1"># , linewidths=1)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;X2&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of support vectors: &quot;</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">support_</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Generate synthetic data randomly: 20 observations of 2 features and divide into two classes. Set a seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;X2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/support-vec-classifier_7_0.png" src="../_images/support-vec-classifier_7_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1, -1, -1, -1, -1, -1, -1, -1,
+       -1, -1, -1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="support-vector-visualisation-and-interpretation">
+<h3><span class="section-number">8.2.3.1. </span>Support vector visualisation and interpretation<a class="headerlink" href="#support-vector-visualisation-and-interpretation" title="Permalink to this headline">¶</a></h3>
+<p>Fit a support vector classifier and visualise decision boundary and support vectors with data points. We will study different values of hyperparameter <span class="math notranslate nohighlight">\( \Omega \)</span> in Equation <a class="reference internal" href="#equation-eq-soft-margin-classifier">(8.5)</a> to see its effect on the decision boundary.</p>
+<p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">C</span></code> setting of the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html"><code class="docutils literal notranslate"><span class="pre">SVC</span></code> class</a> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is inversely proportional to <span class="math notranslate nohighlight">\( \Omega \)</span>. The larger the value of <code class="docutils literal notranslate"><span class="pre">C</span></code>, the smaller the value of <span class="math notranslate nohighlight">\( \Omega \)</span> (the less tolerance for observations being on the wrong side of the margin). The smaller the value of <code class="docutils literal notranslate"><span class="pre">C</span></code>, the larger the value of <span class="math notranslate nohighlight">\( \Omega \)</span> (the more tolerance for observations being on the wrong side of the margin).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of support vectors:  13
+</pre></div>
+</div>
+<img alt="../_images/support-vec-classifier_10_1.png" src="../_images/support-vec-classifier_10_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input: &quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">:])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Intercept: &quot;</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">intercept_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot; Coefficients: &quot;</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediction score: &quot;</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediction: &quot;</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input:  [-1.19276461 -0.20487651]
+Intercept:  0.5729441305210916  Coefficients:  [-0.73273926 -0.70326681]
+Prediction score:  1.5910124372951466
+Prediction:  1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">System transparency</p>
+<p>The coefficients of the support vector classifier are <span class="math notranslate nohighlight">\( \beta_0 \approx 0.5729, \beta_1 \approx -0.7327, \beta_2 \approx -0.7033 \)</span></p>
+<ul class="simple">
+<li><p>For the data point <span class="math notranslate nohighlight">\([-1.19276461, -0.20487651]\)</span> marked by a black circle, its prediction score is <span class="math notranslate nohighlight">\( -0.7327 \times -1.19276461 + -0.7033 \times -0.20487651 + 0.5729 \approx 1.5910 \)</span>, which is positive. So the predicted label is <span class="math notranslate nohighlight">\( 1 \)</span>.</p></li>
+<li><p>According to the definition, the data points on the hyperplane satisfies <span class="math notranslate nohighlight">\( \beta_0 + \beta_1 x_{1} + \beta_2 x_{2} = 0 \)</span>, i.e. <span class="math notranslate nohighlight">\( 0.5729 -0.7327 \times x_1 -0.7033 \times x_2 = 0 \)</span>. To get a data point <span class="math notranslate nohighlight">\( \mathbf{x} = [x_1, x_2]^\top \)</span> of class <span class="math notranslate nohighlight">\( 1 \)</span>, the relationship between <span class="math notranslate nohighlight">\( x_1 \)</span> and <span class="math notranslate nohighlight">\( x_2 \)</span> should satisfy:</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight" id="equation-90984881-49ad-4e06-b5a1-f8d947b9c818">
+<span class="eqno">(8.6)<a class="headerlink" href="#equation-90984881-49ad-4e06-b5a1-f8d947b9c818" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\begin{aligned}
+\beta_0 + \beta_1 x_{1} + \beta_2 x_{2} &amp; &gt; 0 \\
+\beta_1 x_{1} &amp; &gt; - \beta_0 - \beta_2 x_{2} \\
+x_{1} &amp; &gt; \frac{- \beta_0 - \beta_2 x_{2}}{\beta_1} \\
+x_{1} &amp; &gt; \frac{- 0.5729 - (-0.7033 \times x_2)}{-0.7327} \\
+x_1 &amp; &gt; 0.7819 - 0.9598 \times x_2.
+\end{aligned}
+\end{align}\]</div>
+<p>Similarly, we need data points <span class="math notranslate nohighlight">\( \mathbf{x} = [x_1, x_2]^\top \)</span> satisfy <span class="math notranslate nohighlight">\( x_1 &lt; 0.7819 - 0.9598 \times x_2 \)</span> for class <span class="math notranslate nohighlight">\( -1 \)</span>. Note that the data point <span class="math notranslate nohighlight">\( \mathbf{x} = [x_1, x_2]^\top \)</span> belongs to class <span class="math notranslate nohighlight">\( 1 \)</span> but violates the margin if <span class="math notranslate nohighlight">\( 0 &lt; 0.5729 -0.7327 \times x_1 -0.7033 \times x_2 &lt; 1 \)</span>, and the same applies to data points belongs to class <span class="math notranslate nohighlight">\( -1 \)</span> if <span class="math notranslate nohighlight">\( -1 &lt; 0.5729 -0.7327 \times x_1 -0.7033 \times x_2 &lt; 0 \)</span>.</p>
+</div>
+<p>Let us use a smaller value of <span class="math notranslate nohighlight">\( \Omega \)</span> (<code class="docutils literal notranslate"><span class="pre">C=0.1</span></code>) to see how the decision boundary changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc2</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svc2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc2</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of support vectors:  16
+</pre></div>
+</div>
+<img alt="../_images/support-vec-classifier_14_1.png" src="../_images/support-vec-classifier_14_1.png" />
+</div>
+</div>
+<p>As shown above, when using a smaller <code class="docutils literal notranslate"><span class="pre">C=0.1</span></code>, we have a larger <span class="math notranslate nohighlight">\( \Omega \)</span> and a larger tolerance for observations being on the wrong side of the margin. As a result, the margin is wider, resulting in more support vectors. We can select the optimal hyperparameter <code class="docutils literal notranslate"><span class="pre">C</span></code> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> (inversely proportional to <span class="math notranslate nohighlight">\( \Omega \)</span>) using cross-validation, as we do below using <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]}]</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+    <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">),</span>
+    <span class="n">tuned_parameters</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span>
+    <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">cv_results_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean_fit_time&#39;: array([0.00074792, 0.00073979, 0.0007318 , 0.00072815, 0.00088201,
+        0.00075529, 0.00089886]),
+ &#39;std_fit_time&#39;: array([3.50145912e-05, 1.96565817e-05, 2.57653610e-05, 1.69664430e-05,
+        3.60495391e-04, 1.24975235e-05, 4.96404945e-05]),
+ &#39;mean_score_time&#39;: array([0.00040786, 0.00039568, 0.0004019 , 0.00040112, 0.00040486,
+        0.00040743, 0.00041275]),
+ &#39;std_score_time&#39;: array([2.30902086e-05, 1.09652849e-05, 1.41324310e-05, 1.74558224e-05,
+        1.14859620e-05, 2.67082022e-06, 1.01672596e-05]),
+ &#39;param_C&#39;: masked_array(data=[0.001, 0.01, 0.1, 1, 5, 10, 100],
+              mask=[False, False, False, False, False, False, False],
+        fill_value=&#39;?&#39;,
+             dtype=object),
+ &#39;params&#39;: [{&#39;C&#39;: 0.001},
+  {&#39;C&#39;: 0.01},
+  {&#39;C&#39;: 0.1},
+  {&#39;C&#39;: 1},
+  {&#39;C&#39;: 5},
+  {&#39;C&#39;: 10},
+  {&#39;C&#39;: 100}],
+ &#39;split0_test_score&#39;: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
+ &#39;split1_test_score&#39;: array([0.5, 0.5, 0.5, 0. , 0. , 0. , 0. ]),
+ &#39;split2_test_score&#39;: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
+ &#39;split3_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split4_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split5_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split6_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split7_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split8_test_score&#39;: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
+ &#39;split9_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;mean_test_score&#39;: array([0.8 , 0.8 , 0.8 , 0.75, 0.75, 0.75, 0.75]),
+ &#39;std_test_score&#39;: array([0.24494897, 0.24494897, 0.24494897, 0.3354102 , 0.3354102 ,
+        0.3354102 , 0.3354102 ]),
+ &#39;rank_test_score&#39;: array([1, 1, 1, 4, 4, 4, 4], dtype=int32),
+ &#39;split0_train_score&#39;: array([0.83333333, 0.83333333, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split1_train_score&#39;: array([0.83333333, 0.83333333, 0.83333333, 0.88888889, 0.88888889,
+        0.88888889, 0.88888889]),
+ &#39;split2_train_score&#39;: array([0.83333333, 0.83333333, 0.77777778, 0.83333333, 0.83333333,
+        0.83333333, 0.83333333]),
+ &#39;split3_train_score&#39;: array([0.77777778, 0.77777778, 0.72222222, 0.72222222, 0.72222222,
+        0.72222222, 0.72222222]),
+ &#39;split4_train_score&#39;: array([0.77777778, 0.77777778, 0.72222222, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split5_train_score&#39;: array([0.77777778, 0.77777778, 0.72222222, 0.72222222, 0.72222222,
+        0.72222222, 0.72222222]),
+ &#39;split6_train_score&#39;: array([0.77777778, 0.77777778, 0.72222222, 0.77777778, 0.72222222,
+        0.72222222, 0.72222222]),
+ &#39;split7_train_score&#39;: array([0.72222222, 0.72222222, 0.72222222, 0.77777778, 0.72222222,
+        0.72222222, 0.72222222]),
+ &#39;split8_train_score&#39;: array([0.83333333, 0.83333333, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split9_train_score&#39;: array([0.77777778, 0.77777778, 0.72222222, 0.72222222, 0.72222222,
+        0.72222222, 0.72222222]),
+ &#39;mean_train_score&#39;: array([0.79444444, 0.79444444, 0.75      , 0.77777778, 0.76666667,
+        0.76666667, 0.76666667]),
+ &#39;std_train_score&#39;: array([0.03557291, 0.03557291, 0.0372678 , 0.0496904 , 0.05443311,
+        0.05443311, 0.05443311])}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Display the optimal hyperparameter <code class="docutils literal notranslate"><span class="pre">C</span></code> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> (inversely proportional to <span class="math notranslate nohighlight">\( \Omega \)</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;C&#39;: 0.001}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="prediction-with-support-vector-classifiers">
+<h3><span class="section-number">8.2.3.2. </span>Prediction with support vector classifiers<a class="headerlink" href="#prediction-with-support-vector-classifiers" title="Permalink to this headline">¶</a></h3>
+<p>Generate a test dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;X2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/support-vec-classifier_20_0.png" src="../_images/support-vec-classifier_20_0.png" />
+</div>
+</div>
+<p>Predict the class labels for the test dataset and display the confusion matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># svc2 : C = 0.1</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">svc2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/support-vec-classifier_22_0.png" src="../_images/support-vec-classifier_22_0.png" />
+</div>
+</div>
+<p>Repeat with a smaller value of <code class="docutils literal notranslate"><span class="pre">C</span></code> (larger <span class="math notranslate nohighlight">\( \Omega \)</span> and larger tolerance) to see how the confusion matrix changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc3</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svc3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">svc3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/support-vec-classifier_24_0.png" src="../_images/support-vec-classifier_24_0.png" />
+</div>
+</div>
+<p>The prediction results are the same as the previous case for this particular example.</p>
+</div>
+<div class="section" id="decision-boundary-on-linearly-separable-data">
+<h3><span class="section-number">8.2.3.3. </span>Decision boundary on linearly separable data<a class="headerlink" href="#decision-boundary-on-linearly-separable-data" title="Permalink to this headline">¶</a></h3>
+<p>Let us modify the test dataset so that the classes are linearly separable with a hyperplane.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;X2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/support-vec-classifier_26_0.png" src="../_images/support-vec-classifier_26_0.png" />
+</div>
+</div>
+<p>Set <code class="docutils literal notranslate"><span class="pre">C</span></code> to be very large (meaning small <span class="math notranslate nohighlight">\( \Omega \)</span> and small tolerance) to see whether the decision boundary can separate the two classes perfectly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc4</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svc4</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc4</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of support vectors:  4
+</pre></div>
+</div>
+<img alt="../_images/support-vec-classifier_28_1.png" src="../_images/support-vec-classifier_28_1.png" />
+</div>
+</div>
+<p>Indeed, we have a perfect separation of the two classes.</p>
+<p>Let us increase the margin tolerance (reduce <code class="docutils literal notranslate"><span class="pre">C</span></code> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>) to see how the decision boundary changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc5</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svc5</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc5</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of support vectors:  5
+</pre></div>
+</div>
+<img alt="../_images/support-vec-classifier_30_1.png" src="../_images/support-vec-classifier_30_1.png" />
+</div>
+</div>
+<p>Now there is one misclassification. Thus, this version (with <code class="docutils literal notranslate"><span class="pre">C=1</span></code>) has lowered variance (and overfitting) at the expense of increased bias.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">8.2.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1.</strong> All the following exercises use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Heart.csv">Heart</a> dataset.</p>
+<p>Load the <strong>Heart</strong> dataset, convert the values of variables (predictors) from categorical values to numerical values, and inspect the first five rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+
+<span class="n">heart_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Heart.csv&quot;</span>
+
+<span class="n">heart_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">heart_url</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="c1"># converting categories</span>
+<span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;ChestPain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;ChestPain&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;Thal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;Thal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;AHD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;AHD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">heart_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Sex</th>
+      <th>ChestPain</th>
+      <th>RestBP</th>
+      <th>Chol</th>
+      <th>Fbs</th>
+      <th>RestECG</th>
+      <th>MaxHR</th>
+      <th>ExAng</th>
+      <th>Oldpeak</th>
+      <th>Slope</th>
+      <th>Ca</th>
+      <th>Thal</th>
+      <th>AHD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>63</td>
+      <td>1</td>
+      <td>0</td>
+      <td>145</td>
+      <td>233</td>
+      <td>1</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0</td>
+      <td>2.3</td>
+      <td>3</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>67</td>
+      <td>1</td>
+      <td>1</td>
+      <td>160</td>
+      <td>286</td>
+      <td>0</td>
+      <td>2</td>
+      <td>108</td>
+      <td>1</td>
+      <td>1.5</td>
+      <td>2</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>67</td>
+      <td>1</td>
+      <td>1</td>
+      <td>120</td>
+      <td>229</td>
+      <td>0</td>
+      <td>2</td>
+      <td>129</td>
+      <td>1</td>
+      <td>2.6</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>130</td>
+      <td>250</td>
+      <td>0</td>
+      <td>0</td>
+      <td>187</td>
+      <td>0</td>
+      <td>3.5</td>
+      <td>3</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>41</td>
+      <td>0</td>
+      <td>3</td>
+      <td>130</td>
+      <td>204</td>
+      <td>0</td>
+      <td>2</td>
+      <td>172</td>
+      <td>0</td>
+      <td>1.4</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>2</strong>. Split the loaded dataset into training and testing sets in an <span class="math notranslate nohighlight">\(80:20\)</span> ratio, then train a model using SVC using the hyperparameter <span class="math notranslate nohighlight">\(C = 1\)</span>, and show the number of support vectors and accuracy of this trained model on the test set. (Use <span class="math notranslate nohighlight">\(2022\)</span> as the random seed value)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">heart_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;AHD&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">heart_df</span><span class="p">[</span><span class="s2">&quot;AHD&quot;</span><span class="p">]</span>
+
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2022</span>
+<span class="p">)</span>
+
+<span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2022</span><span class="p">)</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Support vectors: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">svc</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">))</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Support vectors:  96
+Accuracy:  0.7666666666666667
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Train another model in the same manner as in <strong>Exercise 2</strong>, but with the hyperparameter regularisation strength <span class="math notranslate nohighlight">\(C\)</span> set to <span class="math notranslate nohighlight">\(0.01\)</span>. Show the number of support vectors and accuracy of this trained model on the test set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc2</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2022</span><span class="p">)</span>
+<span class="n">svc2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Support vectors: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">svc2</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">))</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">svc2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Support vectors:  149
+Accuracy:  0.7833333333333333
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Using GridSearchCV, fine-tune the support vector classifier’s hyperparameter <span class="math notranslate nohighlight">\(C\)</span> on the training dataset (using <span class="math notranslate nohighlight">\(10\)</span>-fold cross-validation) for <span class="math notranslate nohighlight">\(C\)</span> values of <span class="math notranslate nohighlight">\(0.001\)</span>, <span class="math notranslate nohighlight">\(0.01\)</span>, <span class="math notranslate nohighlight">\(0.1\)</span>, and <span class="math notranslate nohighlight">\(5\)</span>, and then display the best hyperparameters. (Use the accuracy scoring for choosing the best model and its hyperparameters.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]}]</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+    <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">),</span>
+    <span class="n">tuned_parameters</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span>
+    <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Optimal value of C : &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal value of C :  {&#39;C&#39;: 0.1}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>5.</strong> Finally, using the best hyperparameter from <strong>Exercise 4</strong>, train another SVC model on the training dataset and show the accuracy of this trained model on the test set. Also, show the confusion matrix for this trained model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">,</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span>
+
+<span class="n">svc_tuned</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svc_tuned</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of Support vectors: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">svc_tuned</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">))</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">svc_tuned</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="n">svc_tuned</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Support vectors:  111
+Accuracy:  0.8
+</pre></div>
+</div>
+<img alt="../_images/support-vec-classifier_52_1.png" src="../_images/support-vec-classifier_52_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./08-glm-svm"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="glm.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">8.1. </span>Generalised linear models</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="svm.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8.3. </span>Support vector machines</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

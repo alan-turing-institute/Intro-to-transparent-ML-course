@@ -1,0 +1,1450 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1.5. \(K\)-nearest neighbors classification &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.6. Organisation" href="organisation.html" />
+    <link rel="prev" title="1.4. Machine learning transparency" href="ml-transp.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/01-intro/knn.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F01-intro/knn.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/01-intro/knn.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/01-intro/knn.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/01-intro/knn.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ingredients-transparency">
+   1.5.1. Ingredients &amp; transparency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-iris-classification">
+   1.5.2. Example: iris classification
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-libraries">
+     1.5.2.1. Import libraries
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-data">
+     1.5.2.2. Load data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualisation-in-2d">
+     1.5.2.3. Visualisation in 2D
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning">
+     1.5.2.4. Hyperparameter tuning
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-and-testing">
+     1.5.2.5. Training and testing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-explanation-of-system-transparency">
+     1.5.2.6. Example explanation of system transparency
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-observations">
+     1.5.2.7. Other observations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   1.5.3. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>K-nearest neighbors classification</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ingredients-transparency">
+   1.5.1. Ingredients &amp; transparency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-iris-classification">
+   1.5.2. Example: iris classification
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-libraries">
+     1.5.2.1. Import libraries
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-data">
+     1.5.2.2. Load data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualisation-in-2d">
+     1.5.2.3. Visualisation in 2D
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning">
+     1.5.2.4. Hyperparameter tuning
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-and-testing">
+     1.5.2.5. Training and testing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-explanation-of-system-transparency">
+     1.5.2.6. Example explanation of system transparency
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-observations">
+     1.5.2.7. Other observations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   1.5.3. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="k-nearest-neighbors-classification">
+<h1><span class="section-number">1.5. </span><span class="math notranslate nohighlight">\(K\)</span>-nearest neighbors classification<a class="headerlink" href="#k-nearest-neighbors-classification" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-read-then-launch admonition">
+<p class="admonition-title">Read then Launch </p>
+<p>This content is best viewed in html because jupyter notebook cannot display some content (e.g. figures, equations) properly. You should finish reading this page first and then launch it as an interactive notebook in Google Colab (faster, Google account needed) or Binder by clicking the rocket symbol (<i class="fas fa-rocket"></i>) at the top.</p>
+</div>
+<p>Before we end this introduction, let us look at a simple example of a supervised machine learning model, the <span class="math notranslate nohighlight">\(K\)</span>-Nearest Neighbors (<span class="math notranslate nohighlight">\(K\)</span>-NN) model. It is a <em>non-parametric</em> method used for classification and regression. In both cases, the input consists of the <span class="math notranslate nohighlight">\(K\)</span> closest training examples in the feature space. The output depends on whether <span class="math notranslate nohighlight">\(K\)</span>-NN is used for classification or regression. Here, we focus on the classification case.</p>
+<p>Watch the 5-minute video below for a visual explanation of the <span class="math notranslate nohighlight">\(K\)</span>-NN algorithm.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/HVXime0nQeI?start=21&end=305" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/HVXime0nQeI?start=21&amp;end=305">Explaining <span class="math notranslate nohighlight">\(K\)</span>-Nearest Neighbors by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>Then study the following sections to learn more about <span class="math notranslate nohighlight">\(K\)</span>-NN.</p>
+<div class="section" id="ingredients-transparency">
+<h2><span class="section-number">1.5.1. </span>Ingredients &amp; transparency<a class="headerlink" href="#ingredients-transparency" title="Permalink to this headline">¶</a></h2>
+<p>For all machine learning models covered in this course, we aim to talk about their ingredients and transparency in a standard way to facilitate understanding their similarities and differences. For transparency, we will focus on the system transparency, i.e. system logic. Process transparency is not specific to ML models and it will be discussed when we cover the ML process/lifecycle.</p>
+<p>The ingredients of a <span class="math notranslate nohighlight">\(K\)</span>-NN model are the training data. The transparency of a <span class="math notranslate nohighlight">\(K\)</span>-NN model is the distance between the test point and the training points.</p>
+<div class="admonition-ingredients admonition">
+<p class="admonition-title">Ingredients</p>
+<ul class="simple">
+<li><p>Input: features of data samples</p></li>
+<li><p>Output: class labels of data samples</p></li>
+<li><p>Model: assigned dominant class label of the <span class="math notranslate nohighlight">\(K\)</span> nearest neighbors (in training data) of a test sample to it</p>
+<ul>
+<li><p>Hyperparameter(s): the number of nearest neighbors <span class="math notranslate nohighlight">\(K\)</span></p></li>
+<li><p>Parameters: nonparametric (i.e., no parameters to learn, only store the training data)</p></li>
+</ul>
+</li>
+<li><p>Loss function: minimise distance between samples</p></li>
+<li><p>Learning algorithm: sorting distances between samples</p></li>
+</ul>
+</div>
+<div class="admonition-system-transparency admonition">
+<p class="admonition-title">System transparency</p>
+<p>System logic</p>
+<ul class="simple">
+<li><p>Condition to produce certain output: to produce a sample with label <span class="math notranslate nohighlight">\(c\)</span>, find a data point in the input space where the majority of its nearest neighbors have label <span class="math notranslate nohighlight">\(c\)</span></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="example-iris-classification">
+<h2><span class="section-number">1.5.2. </span>Example: iris classification<a class="headerlink" href="#example-iris-classification" title="Permalink to this headline">¶</a></h2>
+<p>We adapt the <a class="reference external" href="https://scikit-learn.org/1.0/auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py"><span class="math notranslate nohighlight">\(K\)</span>-NN example from scikit-learn</a> to illustrate the use of <span class="math notranslate nohighlight">\(K\)</span>-NN for classification.</p>
+<p>To do so, we use the Iris dataset, which is a classic dataset in machine learning and statistics. It is included in scikit-learn and we load it as follows.</p>
+<div class="section" id="import-libraries">
+<h3><span class="section-number">1.5.2.1. </span>Import libraries<a class="headerlink" href="#import-libraries" title="Permalink to this headline">¶</a></h3>
+<p>Get ready by importing the application programming interfaces (APIs) needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">datasets</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="load-data">
+<h3><span class="section-number">1.5.2.2. </span>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h3>
+<p>Let us work on one of the classical dataset in machine learning: the <a class="reference external" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris flower dataset</a>. It can be loaded directly from the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span> <span class="pre">library</span></code>. You can also click <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Iris.csv">Iris</a> to view the dataset directly in your browser.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="visualisation-in-2d">
+<h3><span class="section-number">1.5.2.3. </span>Visualisation in 2D<a class="headerlink" href="#visualisation-in-2d" title="Permalink to this headline">¶</a></h3>
+<p>For the purpose of visualisation to get intuition, we will work with the first two features only so that we can do visualisation of the data samples in a 2D plot. We can take the first two features by <a class="reference external" href="https://pykale.github.io/transparentML/00-prereq/basic-python.html#indexing-and-slicing">indexing and slicing</a> as below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us visualise the data samples in a 2D plot below using the <code class="docutils literal notranslate"><span class="pre">scatter</span></code> function from the <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code> library. This is useful for getting intuition about the data. The colour of each data point corresponds to its label.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sepal width&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/knn_8_0.png" src="../_images/knn_8_0.png" />
+</div>
+</div>
+<p>Set up the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html"><code class="docutils literal notranslate"><span class="pre">meshgrid</span></code></a> for visualisation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="mf">0.02</span>  <span class="c1"># step size in the mesh</span>
+
+<span class="c1"># Create color maps</span>
+<span class="n">cmap_light</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="s2">&quot;cornflowerblue&quot;</span><span class="p">])</span>
+<span class="n">cmap_bold</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;darkorange&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;darkblue&quot;</span><span class="p">]</span>
+
+<span class="c1"># Plot the decision boundary. For that, we will assign a color to each</span>
+<span class="c1"># point in the mesh [x_min, x_max]x[y_min, y_max].</span>
+<span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="hyperparameter-tuning">
+<h3><span class="section-number">1.5.2.4. </span>Hyperparameter tuning<a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">¶</a></h3>
+<p>In the <span class="math notranslate nohighlight">\(K\)</span>-NN model, there is only one hyperparameter, the number of neighbors <span class="math notranslate nohighlight">\(K\)</span>, which is <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. We set it to 15. In the following, we will study the effect of this hyperparameter on the model performance by examining five different values of <span class="math notranslate nohighlight">\(K\)</span>.</p>
+</div>
+<div class="section" id="training-and-testing">
+<h3><span class="section-number">1.5.2.5. </span>Training and testing<a class="headerlink" href="#training-and-testing" title="Permalink to this headline">¶</a></h3>
+<p>We create an instance of the <span class="math notranslate nohighlight">\(K\)</span>-NN Classifier with each of the five <span class="math notranslate nohighlight">\(K\)</span> values and fit the data. Then we make prediction of class labels on values from the grid, all/most of them are not seen in the training. We store the prediction results with different colours for different classes to visualise the decision boundaries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n_neighbors</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]:</span>
+    <span class="c1"># we create an instance of Neighbours Classifier and fit the data.</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">neighbors</span><span class="o">.</span><span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="p">)</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+
+    <span class="c1"># Put the result into a color plot</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_light</span><span class="p">)</span>
+
+    <span class="c1"># Plot also the training points</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">hue</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">y</span><span class="p">],</span>
+        <span class="n">palette</span><span class="o">=</span><span class="n">cmap_bold</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Add an example data point for insights</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mf">4.9</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xx</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yy</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+        <span class="s2">&quot;Decision boundaries of 3-class $K$-NN classification with $K$ = </span><span class="si">%i</span><span class="s2">&quot;</span>
+        <span class="o">%</span> <span class="p">(</span><span class="n">n_neighbors</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/knn_13_0.png" src="../_images/knn_13_0.png" />
+<img alt="../_images/knn_13_1.png" src="../_images/knn_13_1.png" />
+<img alt="../_images/knn_13_2.png" src="../_images/knn_13_2.png" />
+<img alt="../_images/knn_13_3.png" src="../_images/knn_13_3.png" />
+<img alt="../_images/knn_13_4.png" src="../_images/knn_13_4.png" />
+</div>
+</div>
+</div>
+<div class="section" id="example-explanation-of-system-transparency">
+<h3><span class="section-number">1.5.2.6. </span>Example explanation of system transparency<a class="headerlink" href="#example-explanation-of-system-transparency" title="Permalink to this headline">¶</a></h3>
+<p>In the above, we highlighted an example test data point at <code class="docutils literal notranslate"><span class="pre">septal_length</span> <span class="pre">=</span> <span class="pre">4.9cm</span></code> and <code class="docutils literal notranslate"><span class="pre">septal_width</span> <span class="pre">=</span> <span class="pre">2.6cm</span></code>, marked as a red cross in the figures. Let us examine the system logic with <span class="math notranslate nohighlight">\(K=1\)</span> to reveal its system transparency.</p>
+<div class="important admonition">
+<p class="admonition-title">System transparency</p>
+<ul class="simple">
+<li><p>The model predicts the test point (at the red cross) to be a <code class="docutils literal notranslate"><span class="pre">virginica</span></code> because the nearest neighbour to the red cross is a darkblue circle, which is a <code class="docutils literal notranslate"><span class="pre">virginica</span></code>.</p></li>
+<li><p>The model would have predict the test point to be a <code class="docutils literal notranslate"><span class="pre">versicolor</span></code> if its <code class="docutils literal notranslate"><span class="pre">septal_length</span></code> is <code class="docutils literal notranslate"><span class="pre">5.1cm</span></code>, or The model would have predicted the test point to be a <code class="docutils literal notranslate"><span class="pre">setosa</span></code> if its <code class="docutils literal notranslate"><span class="pre">septal_width</span></code> is <code class="docutils literal notranslate"><span class="pre">2.9cm</span></code>.</p></li>
+</ul>
+</div>
+<p>When <span class="math notranslate nohighlight">\(K=5\)</span>, the model predicts the test point to be a <code class="docutils literal notranslate"><span class="pre">versicolor</span></code> because the majority of the five nearest neighbors to the red cross are <code class="docutils literal notranslate"><span class="pre">versicolor</span></code> (green circles). When <span class="math notranslate nohighlight">\(K=15\)</span>, the model predicts the test point to be a <code class="docutils literal notranslate"><span class="pre">setosa</span></code> because the majority of the 15 nearest neighbors to the red cross are <code class="docutils literal notranslate"><span class="pre">setosa</span></code> (orange circles). From the figures, we can tell how a different prediction would have been made by changing the features of the test point.</p>
+</div>
+<div class="section" id="other-observations">
+<h3><span class="section-number">1.5.2.7. </span>Other observations<a class="headerlink" href="#other-observations" title="Permalink to this headline">¶</a></h3>
+<p>We can make the following observations from the above figures.</p>
+<ul class="simple">
+<li><p>We can see that the decision boundaries are not smooth. This is because the <span class="math notranslate nohighlight">\(K\)</span>-NN model is a non-parametric model, which means that it does not make any assumption on the underlying data distribution. This is also the reason why the model is called <em>lazy</em>. <span class="math notranslate nohighlight">\(K\)</span>-NN actually does not learn a discriminative function from the training data but memorises the training dataset instead. This is why the model is also called <em>instance-based</em>. The model makes prediction by comparing the test sample with all training samples and assigning the label that is most common among its <span class="math notranslate nohighlight">\(K\)</span> nearest neighbors.</p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span>-NN is fully transparent in the sense that it is easy to understand the logic behind the model and we can answer the question of for what values of the input variables would the system return a specific value of interest. However, it is not efficient in terms of computational cost. The computational cost of <span class="math notranslate nohighlight">\(K\)</span>-NN is <span class="math notranslate nohighlight">\(O(n)\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of training samples. This is because the model needs to compute the distance between the test sample and all training samples. This is also the reason why <span class="math notranslate nohighlight">\(K\)</span>-NN is not suitable for large datasets.</p></li>
+<li><p><strong>Bias-variance trade-off</strong>: When <span class="math notranslate nohighlight">\(K\)</span> = 1, the decision boundary is <em>overly flexible</em>. This corresponds to a classifier that has <em>low bias</em> but <em>very high variance</em>. As <span class="math notranslate nohighlight">\(K\)</span> grows, the method becomes <em>less flexible</em> and produces a decision boundary that is close to (piece-wise) linear. This corresponds to a <em>low-variance</em> but <em>high-bias</em> classifier. This trade-off is common in machine learning and we will discuss it in more details in the following sections. Typically, a <span class="math notranslate nohighlight">\(K\)</span> neither too big (e.g. 100) nor too small (e.g. 1), such as <span class="math notranslate nohighlight">\(K=5\)</span> will give the best performance. Choosing the correct level of flexibility (typically through <em>hyperparameter tuning</em> after selecting a model) is critical to the success of any machine learning method.</p></li>
+</ul>
+<p>Despite the fact that it is a very simple approach, <span class="math notranslate nohighlight">\(K\)</span>-NN can often produce classifiers with good performance. This is because the decision boundary is very flexible and can adapt to the data distribution. However, it is not suitable for large datasets because of its high computational cost.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">1.5.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. How many <strong>features</strong> are there in total for the <strong>iris</strong> dataset?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">datasets</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The number of features of iris dataset is </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of features of iris dataset is 4
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>2</strong>.  Why is <span class="math notranslate nohighlight">\(K\)</span>-NN a <strong>lazy model</strong>?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><span class="math notranslate nohighlight">\(K\)</span>-NN is a lazy model beacuase it is a non-parametric model, which means that it does not make any assumption on the underlying data distribution.</p>
+</div>
+<p><strong>3</strong>. Why is  KNN an <strong>instance-based model</strong>?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><span class="math notranslate nohighlight">\(K\)</span>-NN does not learn a discriminative function from the training data but memorises the training dataset instead that is why it is called instance-based model.</p>
+</div>
+<p><strong>4</strong>. The table below provides a training set containing <strong>six observations</strong>, <strong>three predictors</strong>, and <strong>one qualitative</strong> response variable.</p>
+<table class="colwidths-auto table" id="knnproblem-table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Observations</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(X_1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(X_2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(X_3\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(Y\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>Red</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>Red</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>Red</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>Green</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>-1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>Green</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>1</p></td>
+<td><p>-1</p></td>
+<td><p>1</p></td>
+<td><p>Red</p></td>
+</tr>
+</tbody>
+</table>
+<p>Suppose we wish to use the data see to make a prediction for <span class="math notranslate nohighlight">\(Y\)</span> when <span class="math notranslate nohighlight">\(X_1 = X_2 = X_3 = 1\)</span> using <strong><span class="math notranslate nohighlight">\(K\)</span>-nearest</strong> neighbors.</p>
+<p><strong>a</strong>. Compute the <strong>Euclidean distance</strong> between each <strong>observation</strong> and the <strong>test point</strong>,  <span class="math notranslate nohighlight">\(X_1 = X_2 = X_3 = 1\)</span> .</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Obs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+        <span class="s2">&quot;X1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;X2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;X3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Red&quot;</span><span class="p">,</span> <span class="s2">&quot;Red&quot;</span><span class="p">,</span> <span class="s2">&quot;Red&quot;</span><span class="p">,</span> <span class="s2">&quot;Green&quot;</span><span class="p">,</span> <span class="s2">&quot;Green&quot;</span><span class="p">,</span> <span class="s2">&quot;Red&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">euclidian_dist</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the row-wise euclidean distance</span>
+<span class="sd">    from the origin&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+
+<span class="n">euc_dist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;EuclideanDist&quot;</span><span class="p">:</span> <span class="n">euclidian_dist</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;X1&quot;</span><span class="p">,</span> <span class="s2">&quot;X2&quot;</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">]])})</span>
+<span class="n">df_euc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">euc_dist</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_euc</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Obs</th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+      <th>Y</th>
+      <th>EuclideanDist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>Red</td>
+      <td>2.449490</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Red</td>
+      <td>1.732051</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Red</td>
+      <td>2.236068</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Green</td>
+      <td>1.414214</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>-1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Green</td>
+      <td>2.236068</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>Red</td>
+      <td>2.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>b</strong>. What is our prediction with <span class="math notranslate nohighlight">\(K=1\)</span>? Why?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">df_euc</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="s2">&quot;EuclideanDist&quot;</span><span class="p">)</span>
+
+<span class="c1"># Our prediction for K=1 is Green</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Obs</th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+      <th>Y</th>
+      <th>EuclideanDist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Green</td>
+      <td>1.414214</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>c</strong>. What is our prediction with <span class="math notranslate nohighlight">\(K=3\)</span>? Why?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">df_euc</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="s2">&quot;EuclideanDist&quot;</span><span class="p">)</span>
+
+<span class="c1"># Our prediction for K=3 is Red, because majority of the 3 nearest neighbours are Red.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Obs</th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+      <th>Y</th>
+      <th>EuclideanDist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Green</td>
+      <td>1.414214</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Red</td>
+      <td>1.732051</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>Red</td>
+      <td>2.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>d</strong>. What is our prediction with <span class="math notranslate nohighlight">\(K=4\)</span>? Why?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="n">df_euc</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="s2">&quot;EuclideanDist&quot;</span><span class="p">)</span>
+
+<span class="c1"># Our prediction for K=4 is Red, because majority of the 4 nearest neighbours are Red.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Obs</th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+      <th>Y</th>
+      <th>EuclideanDist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Green</td>
+      <td>1.414214</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Red</td>
+      <td>1.732051</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>Red</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Red</td>
+      <td>2.236068</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="ml-transp.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1.4. </span>Machine learning transparency</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="organisation.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.6. </span>Organisation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

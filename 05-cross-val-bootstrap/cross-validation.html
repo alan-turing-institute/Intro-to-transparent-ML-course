@@ -1,0 +1,1328 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5.1. Cross-validation &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.2. Bootstrap" href="bootstrap.html" />
+    <link rel="prev" title="5. Cross-Validation and Bootstrap" href="overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/05-cross-val-bootstrap/cross-validation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F05-cross-val-bootstrap/cross-validation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/05-cross-val-bootstrap/cross-validation.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/05-cross-val-bootstrap/cross-validation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/05-cross-val-bootstrap/cross-validation.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   5.1.1. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validation-set-approach">
+   5.1.2. Validation set approach
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leave-one-out-cross-validation">
+   5.1.3. Leave-one-out cross-validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#k-fold-cross-validation">
+   5.1.4.
+   <span class="math notranslate nohighlight">
+    \(K\)
+   </span>
+   -fold cross-validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   5.1.5. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Cross-validation</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   5.1.1. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validation-set-approach">
+   5.1.2. Validation set approach
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leave-one-out-cross-validation">
+   5.1.3. Leave-one-out cross-validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#k-fold-cross-validation">
+   5.1.4.
+   <span class="math notranslate nohighlight">
+    \(K\)
+   </span>
+   -fold cross-validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   5.1.5. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="cross-validation">
+<h1><span class="section-number">5.1. </span>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">Cross-validation</a> is a resampling method that is commonly used to evaluate the performance of a machine learning model and subsequently select the appropriate level of flexibility of the given model or the best model from a set of candidate models. The process of evaluating a model’s performance is known as <em>model assessment</em>, whereas the process of selecting the proper level of flexibility for a model is known as <a class="reference external" href="https://en.wikipedia.org/wiki/Model_selection">model selection</a>.</p>
+<p>One round of cross-validation involves partitioning a sample of data into complementary subsets, performing the analysis on one subset (called the training set), and validating the analysis on the other subset (called the validation set or testing set). To reduce variability, multiple rounds of cross-validation are performed using different partitions, and the validation results are averaged over the rounds.</p>
+<p>For example, a machine learning model may be evaluated by splitting the available data into a training set and a test set. The model is then trained on the training set, and its performance is measured on the test set. However, the evaluation procedure can have a high variance, depending on exactly which observations are included in the training set and which observations are included in the test set. Cross-validation remedies this problem by averaging the results over several complementary test sets and training sets. The method is called cross-validation because it involves training and testing the method on different subsets of the original data, where the subsets are different from each other in that the training sets are disjoint from the test sets. The method is also called <em>rotation estimation</em> because it can be thought of as a form of rotation among the available data.</p>
+<p>Watch the 6-minute video below for a visual explanation of cross-validation:</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/fSytzGwwBVw?start=15" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/fSytzGwwBVw?start=15">Explaining Cross Validation by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="section" id="import-libraries-and-load-data">
+<h2><span class="section-number">5.1.1. </span>Import libraries and load data<a class="headerlink" href="#import-libraries-and-load-data" title="Permalink to this headline">¶</a></h2>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">train_test_split</span><span class="p">,</span>
+    <span class="n">LeaveOneOut</span><span class="p">,</span>
+    <span class="n">KFold</span><span class="p">,</span>
+    <span class="n">cross_val_score</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set a random seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will study cross-validation on the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Auto.csv">Auto dataset</a> (click to explore). Load this dataset and inspect its structure (columns). Note here we remove entries with missing values using the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dropna.html"><code class="docutils literal notranslate"><span class="pre">dropna()</span></code> function</a> from the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library, which is a typical <a class="reference external" href="https://en.wikipedia.org/wiki/Data_cleansing">data cleaning</a> step.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">auto_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Auto.csv&quot;</span>
+
+<span class="n">auto_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">auto_url</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">auto_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 392 entries, 0 to 396
+Data columns (total 9 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   mpg           392 non-null    float64
+ 1   cylinders     392 non-null    int64  
+ 2   displacement  392 non-null    float64
+ 3   horsepower    392 non-null    float64
+ 4   weight        392 non-null    int64  
+ 5   acceleration  392 non-null    float64
+ 6   year          392 non-null    int64  
+ 7   origin        392 non-null    int64  
+ 8   name          392 non-null    object 
+dtypes: float64(4), int64(4), object(1)
+memory usage: 30.6+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>As usual, it is a good practice to inspect the first few rows before proceeding to any analysis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">auto_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>cylinders</th>
+      <th>displacement</th>
+      <th>horsepower</th>
+      <th>weight</th>
+      <th>acceleration</th>
+      <th>year</th>
+      <th>origin</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>18.0</td>
+      <td>8</td>
+      <td>307.0</td>
+      <td>130.0</td>
+      <td>3504</td>
+      <td>12.0</td>
+      <td>70</td>
+      <td>1</td>
+      <td>chevrolet chevelle malibu</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>15.0</td>
+      <td>8</td>
+      <td>350.0</td>
+      <td>165.0</td>
+      <td>3693</td>
+      <td>11.5</td>
+      <td>70</td>
+      <td>1</td>
+      <td>buick skylark 320</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18.0</td>
+      <td>8</td>
+      <td>318.0</td>
+      <td>150.0</td>
+      <td>3436</td>
+      <td>11.0</td>
+      <td>70</td>
+      <td>1</td>
+      <td>plymouth satellite</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>16.0</td>
+      <td>8</td>
+      <td>304.0</td>
+      <td>150.0</td>
+      <td>3433</td>
+      <td>12.0</td>
+      <td>70</td>
+      <td>1</td>
+      <td>amc rebel sst</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>17.0</td>
+      <td>8</td>
+      <td>302.0</td>
+      <td>140.0</td>
+      <td>3449</td>
+      <td>10.5</td>
+      <td>70</td>
+      <td>1</td>
+      <td>ford torino</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="validation-set-approach">
+<h2><span class="section-number">5.1.2. </span>Validation set approach<a class="headerlink" href="#validation-set-approach" title="Permalink to this headline">¶</a></h2>
+<!-- Using [Polynomial](http://scikit-learn.org/dev/modules/preprocessing.html#generating-polynomial-features) feature generation in scikit-learn -->
+<p>The validation set approach is a strategy to estimate the <em>test error</em> associated with fitting a particular model on a set of observations. It involves randomly dividing the available set of observations into two parts, a <em>training set</em> and a <em>validation set</em> or <em>hold-out set</em>. The model is fit on the training set, and the fitted model is used to predict the responses for the “unseen” (hold-out) observations in the validation set. The resulting validation set error rate, e.g. mean squared error (MSE) for a quantitative response, provides an <em>estimate</em> of the test error rate.</p>
+<p>In the following example, we study linear regression on the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Auto.csv">Auto dataset</a>. In <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/extension-limitation.html#nonlinear-relationships">Linear regression</a>, we discovered a <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/extension-limitation.html#nonlinear-relationships">nonlinear relationship</a> between <code class="docutils literal notranslate"><span class="pre">mpg</span></code> and <code class="docutils literal notranslate"><span class="pre">horsepower</span></code>. Compared to using only a linear term, a model that using <code class="docutils literal notranslate"><span class="pre">horsepower</span></code> and <code class="docutils literal notranslate"><span class="pre">horsepower</span></code><span class="math notranslate nohighlight">\(^2\)</span> gives better results in predicts <code class="docutils literal notranslate"><span class="pre">mpg</span></code>. Can we tell what kind of nonlinear relationship between <code class="docutils literal notranslate"><span class="pre">mpg</span></code> and <code class="docutils literal notranslate"><span class="pre">horsepower</span></code> will give the best prediction performance?</p>
+<p>We will use the validation set approach to estimate the test errors associated with different degrees (1 to 10) of polynomial expansion capturing different nonlinear relationships. We can randomly split the 392 observations of the <code class="docutils literal notranslate"><span class="pre">Auto</span></code> dataset into two sets, a training set containing 196 of the data points for model training, and a validation set containing the remaining 196 observations for evaluating by MSE. We will use the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html"><code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code> function</a> from the <code class="docutils literal notranslate"><span class="pre">sklearn.model_selection</span></code> library to randomly split the data into two sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_prop</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">p_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">r_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">p_order</span><span class="p">,</span> <span class="n">r_state</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p_order</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">r_state</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Generate 10 random splits of the dataset</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndenumerate</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]))</span>
+    <span class="n">X_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">auto_df</span><span class="o">.</span><span class="n">horsepower</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X_poly</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">.</span><span class="n">mpg</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">test_size</span><span class="o">=</span><span class="n">t_prop</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">regr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Left plot (first split)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Z</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;-o&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Random split of the dataset&quot;</span><span class="p">)</span>
+
+<span class="c1"># Right plot (all splits)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;10 random splits of the dataset&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mean Squared Error&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Degree of Polynomial&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cross-validation_9_0.png" src="../_images/cross-validation_9_0.png" />
+</div>
+</div>
+<p>The left-hand panel of the figure above shows the results on one possible split of the data into a training set and a validation set using the polynomial regression model of different degrees. The training set is used to fit the model, and the validation set is used to evaluate the model fit. The validation set error rate is an estimate of the test error rate. The validation set error is lowest when the model is a function of <code class="docutils literal notranslate"><span class="pre">horsepower</span></code><span class="math notranslate nohighlight">\(^6\)</span> in this case. Is this really/always the case?</p>
+<p>If we repeat the process of randomly splitting, we will get a somewhat different estimate for the test MSE. Ten different validation set MSE curves are shown in the right-hand panel of the figure above.</p>
+<!-- As an illustration, the right-hand panel of Figure 5.2 displays ten different validation set MSE curves from the Auto dataset, produced using ten different random splits of the observations into training and validation sets.  -->
+<p>We can observe:</p>
+<ul class="simple">
+<li><p>model with a quadratic term has a dramatically smaller validation set MSE than the model with only a linear term</p></li>
+<li><p>not much benefit in including cubic or higher-order polynomial terms in the model</p></li>
+<li><p>each of the ten curves results in a different test MSE estimate for each of the ten regression models considered</p></li>
+<li><p>there is no consensus among the curves as to which model results in the smallest validation set MSE.</p></li>
+</ul>
+<p>Based on the variability among these curves, all that we can conclude with any confidence is that the linear fit is not adequate for this data. The validation set approach is conceptually simple and is easy to implement. But it has two drawbacks:</p>
+<ol class="simple">
+<li><p>As is shown in the right-hand panel of the Figure above, the validation estimate of the test error rate can be highly variable, depending on precisely which observations are included in the training set and which observations are included in the validation set.</p></li>
+<li><p>In the validation approach, only a subset of the observations—those that are included in the training set rather than in the validation set—are used to fit the model. Since machine learning models tend to perform worse when trained on fewer observations, this suggests that the validation set error rate may tend to <em>overestimate</em> the test error rate for the model fit on the entire dataset.</p></li>
+</ol>
+<p>Cross-validation below is a refinement of the validation set approach that addresses these two issues.</p>
+</div>
+<div class="section" id="leave-one-out-cross-validation">
+<h2><span class="section-number">5.1.3. </span>Leave-one-out cross-validation<a class="headerlink" href="#leave-one-out-cross-validation" title="Permalink to this headline">¶</a></h2>
+<!-- Leave-one-out cross-validation (LOOCV) is closely related to the validation set approach of Section 5.1.1, but it attempts to address that method’s drawbacks. -->
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Leave-one-out_cross-validation">Leave-one-out cross-validation (LOOCV)</a> is closely related to the validation set approach. It also splits the set of observations into two parts. However, instead of creating two subsets of comparable size, a single observation <span class="math notranslate nohighlight">\((\mathbf{x}_i , y_i)\)</span>, where <span class="math notranslate nohighlight">\( i = 1, 2, \cdots, N \)</span>, is used for the validation set, and the remaining observations <span class="math notranslate nohighlight">\(\{(\mathbf{x}_1, y_1), (\mathbf{x}_2, y_2), \cdots, (\mathbf{x}_{i-1}, y_{i-1}), (\mathbf{x}_{i+1}, y_{i+1}), \cdots, (\mathbf{x}_N , y_N)\}\)</span> make up the training set. The machine learning model is fit on the <span class="math notranslate nohighlight">\( N − 1 \)</span> training observations, and a prediction <span class="math notranslate nohighlight">\(\hat{y}_i\)</span> is made for the excluded observation, using its value <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span>.
+Since <span class="math notranslate nohighlight">\((\mathbf{x}_i , y_i)\)</span> was not used in the fitting process, the squared test error <span class="math notranslate nohighlight">\( \epsilon_i = (y_i − \hat{y}_i)^2 \)</span> provides an approximately unbiased estimate.</p>
+<!-- But even though MSE 1 is unbiased for the test error, it is a poor estimate because it is highly variable, since it is based upon a single observation (x 1 , y 1 ). -->
+<p>We can repeat the procedure by iterating <span class="math notranslate nohighlight">\(i\)</span> from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(N\)</span> to produce <span class="math notranslate nohighlight">\(N\)</span> squared errors, <span class="math notranslate nohighlight">\( \epsilon_i, \dots, \epsilon_N \)</span>. The LOOCV estimate for the test MSE is the average of these <span class="math notranslate nohighlight">\(N\)</span> test error estimates:</p>
+<div class="math notranslate nohighlight">
+\[\textrm{MSE}_{LOOCV} = \frac{1}{N}\sum_{i=1}^N \epsilon_i = \frac{1}{N}\sum_{i=1}^N (y_i − \hat{y}_i)^2 \]</div>
+<p>Compared to the validation set approach, LOOCV has the following advantages:</p>
+<ul class="simple">
+<li><p>LOOCV has far less bias. In LOOCV, we repeatedly fit the machine learning model using training sets that contain <span class="math notranslate nohighlight">\(N − 1\)</span> observations, almost as many as are in the entire dataset. This is in contrast to the validation set approach, in which the training set is typically around half the size of the original dataset. Consequently, the LOOCV approach tends not to overestimate the test error rate as much as the validation set approach does.</p></li>
+<li><p>In contrast to the validation set approach which will yield different results when applied repeatedly due to randomness in the training/validation set splits, performing LOOCV multiple times will <em>always yield the same results</em>: there is <em>no randomness</em> in the training/validation set splits.</p></li>
+</ul>
+</div>
+<div class="section" id="k-fold-cross-validation">
+<h2><span class="section-number">5.1.4. </span><span class="math notranslate nohighlight">\(K\)</span>-fold cross-validation<a class="headerlink" href="#k-fold-cross-validation" title="Permalink to this headline">¶</a></h2>
+<p>An alternative to LOOCV is <span class="math notranslate nohighlight">\(K\)</span>-fold CV. This approach involves randomly dividing the set of observations into <span class="math notranslate nohighlight">\(K\)</span> groups, or folds, of approximately equal size. Then repeating the following procedure by iterating <span class="math notranslate nohighlight">\(k\)</span> from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(K\)</span>:</p>
+<ol class="simple">
+<li><p>Treating <span class="math notranslate nohighlight">\(k\text{th}\)</span> group of observations (fold) as a validation set,</p></li>
+<li><p>Fitting model on the remaining <span class="math notranslate nohighlight">\(K − 1\)</span> folds,</p></li>
+<li><p>Computing the mean squared error, <span class="math notranslate nohighlight">\(\textrm{MSE}_k\)</span></p></li>
+</ol>
+<p>This process results in <span class="math notranslate nohighlight">\(K\)</span> estimates of the test error, <span class="math notranslate nohighlight">\(\textrm{MSE}_1, \textrm{MSE}_2, \dots, \textrm{MSE}_K\)</span> . The <span class="math notranslate nohighlight">\(K\)</span>-fold CV estimate is computed by averaging these values,</p>
+<p>LOOCV can be viewed as a special case of <span class="math notranslate nohighlight">\(K\)</span>-fold CV in which <span class="math notranslate nohighlight">\(K = N\)</span>. In practice, one typically performs <span class="math notranslate nohighlight">\(K\)</span>-fold CV using <span class="math notranslate nohighlight">\(K = 5\)</span> or <span class="math notranslate nohighlight">\(K = 10\)</span>. The most obvious advantage is computational. LOOCV requires fitting the machine learning model <span class="math notranslate nohighlight">\(N\)</span> times. This has the potential to be computationally expensive so may be feasible only for computationally efficient models. But cross-validation is a very general approach that can be applied to almost any machine learning model. Some machine learning models have computationally intensive fitting procedures, and so performing LOOCV may pose computational problems, especially if <span class="math notranslate nohighlight">\(N\)</span> is extremely large. In contrast, performing 10-fold CV requires fitting the learning procedure only ten times, which may be much more feasible.</p>
+<p>Let us perform LOOCV on the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Auto.csv">Auto dataset</a>. We will use the <code class="docutils literal notranslate"><span class="pre">sklearn.model_selection</span></code> module to perform the cross-validation. The <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html"><code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code></a> function performs cross-validation for a given machine learning model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">r_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># LeaveOneOut CV</span>
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
+<span class="n">loo</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">auto_df</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p_order</span><span class="p">:</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">X_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">auto_df</span><span class="o">.</span><span class="n">horsepower</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span>
+        <span class="n">regr</span><span class="p">,</span> <span class="n">X_poly</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">.</span><span class="n">mpg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">loo</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, perform a 10-fold cross-validation (CV) using the same <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> function from the <code class="docutils literal notranslate"><span class="pre">sklearn.model_selection</span></code> module, but this time using the <code class="docutils literal notranslate"><span class="pre">cv=10</span></code> argument instead of <code class="docutils literal notranslate"><span class="pre">cv=loo</span></code> above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># $10$-fold CV</span>
+<span class="n">folds</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">elements</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">auto_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">p_order</span><span class="p">,</span> <span class="n">r_state</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p_order</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">r_state</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndenumerate</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+    <span class="n">X_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">auto_df</span><span class="o">.</span><span class="n">horsepower</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">kf_10</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">folds</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span>
+        <span class="n">regr</span><span class="p">,</span> <span class="n">X_poly</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">.</span><span class="n">mpg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf_10</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us compare the results of the LOOCV and 10-fold CV.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Note: cross_val_score() method return negative values for the scores.</span>
+<span class="c1"># https://github.com/scikit-learn/scikit-learn/issues/2439</span>
+
+<span class="c1"># Left plot</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_order</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;LOOCV&quot;</span><span class="p">)</span>
+
+<span class="c1"># Right plot</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;10-fold CV&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mean Squared Error&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Degree of Polynomial&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cross-validation_16_0.png" src="../_images/cross-validation_16_0.png" />
+</div>
+</div>
+<p>The results of LOOCV and 10-fold CV are shown in the left and right panels, respectively. As we can see from the figure, there is some variability in the 10-fold CV estimates as a result of the variability in how the observations are divided into ten folds. But this variability is typically much lower than the variability in the test error estimates that results from the validation set approach.</p>
+<p>The objective of performing cross-validation can be different:</p>
+<ul class="simple">
+<li><p>For model evaluation, our goal might be to determine how well a given machine learning model can be expected to perform on independent data; in this case, the actual estimate of the test MSE is of interest.</p></li>
+<li><p>For model selection, we are interested only in the location of the minimum point in the estimated test MSE curve. This is because we might be performing cross-validation on a number of machine learning models, or on a single model using different levels of flexibility (typically different hyper-parameters), in order to identify the model that results in the lowest test error. For this purpose, the location of the minimum point in the estimated test MSE curve is important, but the actual value of the estimated test MSE is not.</p></li>
+</ul>
+<p>You can explore further by learning from the <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">cross-validation strategies in scikit-learn</a>.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">5.1.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. Explain how <strong><span class="math notranslate nohighlight">\(K\)</span>-fold cross-validation</strong> is implemented.</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>In <span class="math notranslate nohighlight">\(K\)</span>-fold cross validation, the original set of observations are randomly divided into <span class="math notranslate nohighlight">\(K\)</span> equal sized folds (groups). Of the <span class="math notranslate nohighlight">\(K\)</span> folds, a single fold is retained as the validation data for testing the model, and the remaining <span class="math notranslate nohighlight">\(K − 1\)</span> folds are used as training data. The cross-validation process is then repeated <span class="math notranslate nohighlight">\(K\)</span> times, with each of the <span class="math notranslate nohighlight">\(K\)</span> folds used exactly once as the validation data. The <span class="math notranslate nohighlight">\(K\)</span> results can then be averaged to produce a single estimation.</strong></p>
+</div>
+<p><strong>2</strong>. In <strong>Chapter 3</strong>, we used logistic regression on the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Default.csv">Default</a> dataset to predict the probability of someone defaulting on a loan, by looking at their income and balance. We will now estimate the test error of this logistic regression model using the validation set approach. Do not forget to set a random seed before beginning your analysis and convert the categories to numerical values.</p>
+<p><strong>a</strong>. Fit a logistic regression model that uses <strong>income</strong> and <strong>balance</strong> to predict <strong>default</strong> and uses the <strong>validation set approach</strong> to estimate the <strong>test error</strong> of this model. In order to do this, you must perform the following steps:</p>
+<p><strong>i</strong>. Split the sample set into a training set and a validation set.</p>
+<p><strong>ii</strong>. Fit a multiple logistic regression model using only the training observations.</p>
+<p><strong>iii</strong>. Obtain a prediction of default status for each individual in the validation set.</p>
+<p><strong>iv</strong>. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.
+<strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/05-cross-val-bootstrap/cross-validation.html#validation-set-approach">5.1.2</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="n">default_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Default.csv&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Check for missing</span>
+<span class="k">assert</span> <span class="n">default_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="c1"># converting categories</span>
+<span class="n">default_df</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_df</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">default_df</span><span class="p">[</span><span class="s2">&quot;student&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_df</span><span class="o">.</span><span class="n">student</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">default_df</span><span class="p">[[</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="s2">&quot;balance&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">default_df</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
+
+<span class="c1"># train test spliting 50:50</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Logistic regression</span>
+<span class="n">logit</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model_logit</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_logit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">total_error_rate_pct</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;total_error_rate: </span><span class="si">{}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_error_rate_pct</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>total_error_rate: 3.2199999999999998%
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>b</strong>. Repeat the process in <strong>Exercise 2(a)</strong> three times, using three different splits of the observations into a training set and a validation set. Comment on the results obtained. <strong>Hint</strong>: Try using different <strong>random seed</strong> values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Random seed = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Logistic regression</span>
+    <span class="n">logit</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+    <span class="n">model_logit</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># Predict</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_logit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+    <span class="n">total_error_rate_pct</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;total_error_rate: </span><span class="si">{}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_error_rate_pct</span><span class="p">))</span>
+
+<span class="c1"># For different seed value we gets different error rate as our train_test_split is random. We can use random state parameter inside the train_test)split also to control the randomness</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Random seed = 1
+total_error_rate: 3.2199999999999998%
+Random seed = 2
+total_error_rate: 3.1199999999999997%
+Random seed = 3
+total_error_rate: 3.4000000000000004%
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>c</strong>. Again, consider a logistic regression model that predicts the probability of default using <strong>income</strong>, <strong>balance</strong>, and a <strong>dummy variable</strong> for student. Estimate the test error for this model using the <strong>validation set approach</strong>. Comment on whether or not including a dummy variable for student leads to a <strong>reduction</strong> in the <strong>test error rate</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">default_df</span><span class="p">[[</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="s2">&quot;balance&quot;</span><span class="p">,</span> <span class="s2">&quot;student&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">default_df</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Random seed = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Logistic regression</span>
+    <span class="n">logit</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+    <span class="n">model_logit</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="c1"># Predict</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_logit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">total_error_rate_pct</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;total_error_rate: </span><span class="si">{}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_error_rate_pct</span><span class="p">))</span>
+
+
+<span class="c1"># Including a dummy variable for student didn&#39;t leads to a reduction in the test error rate.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Random seed = 1
+total_error_rate: 3.2199999999999998%
+Random seed = 2
+total_error_rate: 3.2%
+Random seed = 3
+total_error_rate: 3.4000000000000004%
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>d</strong>. Fit a logistic regression model that uses <strong>income</strong> and <strong>balance</strong> to predict <strong>default</strong> by performing <strong>leave-one-out</strong> cross-validation and <strong><span class="math notranslate nohighlight">\(5\)</span>-fold</strong> cross-validation to estimate the test error. For simplicity, use the <strong>first <span class="math notranslate nohighlight">\(1000\)</span> samples</strong> from the dataset to perform this experiment. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/05-cross-val-bootstrap/cross-validation.html#leave-one-out-cross-validation">5.1.3</a> and <a class="reference external" href="https://pykale.github.io/transparentML/05-cross-val-bootstrap/cross-validation.html#k-fold-cross-validation">5.1.4</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LeaveOneOut</span><span class="p">,</span>
+    <span class="n">KFold</span><span class="p">,</span>
+    <span class="n">cross_val_score</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">default_df</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="s2">&quot;balance&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
+
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="c1"># LeaveOneOut CV</span>
+<span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
+<span class="n">loo</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">default_df</span><span class="p">)</span>
+
+<span class="n">loocv_score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span>
+    <span class="n">regr</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">loo</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># 5-fold CV</span>
+<span class="n">folds</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">kf_5</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">folds</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">kf_score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">regr</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf_5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;total_error_rate for loocv: </span><span class="si">{}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">loocv_score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;total_error_rate for 5-Fold: </span><span class="si">{}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">kf_score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+
+<span class="c1"># Test error for loocv is lower then the 5-fold cross validation</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>total_error_rate for loocv: 2.5%
+total_error_rate for 5-Fold: 3.0000000000000004%
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./05-cross-val-bootstrap"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">5. </span>Cross-Validation and Bootstrap</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="bootstrap.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5.2. </span>Bootstrap</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

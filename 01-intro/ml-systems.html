@@ -1,0 +1,915 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1.2. Machine learning systems &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.3. Machine learning process" href="ml-process.html" />
+    <link rel="prev" title="1.1. What is machine learning?" href="what-is-ml.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/01-intro/ml-systems.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F01-intro/ml-systems.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/01-intro/ml-systems.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-problems">
+   1.2.1. Machine learning problems
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-notations">
+   1.2.2. Basic notations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-ingredients">
+   1.2.3. Machine learning ingredients
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility-of-ml-systems">
+   1.2.4. Reproducibility of ML systems
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   1.2.5. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Machine learning systems</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-problems">
+   1.2.1. Machine learning problems
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-notations">
+   1.2.2. Basic notations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-ingredients">
+   1.2.3. Machine learning ingredients
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility-of-ml-systems">
+   1.2.4. Reproducibility of ML systems
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   1.2.5. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="machine-learning-systems">
+<h1><span class="section-number">1.2. </span>Machine learning systems<a class="headerlink" href="#machine-learning-systems" title="Permalink to this headline">¶</a></h1>
+<p>Firstly, let us learn about the machine learning problems in their typical definitions.</p>
+<div class="section" id="machine-learning-problems">
+<h2><span class="section-number">1.2.1. </span>Machine learning problems<a class="headerlink" href="#machine-learning-problems" title="Permalink to this headline">¶</a></h2>
+<p>Machine learning problems can be broadly classified into two categories: <strong>supervised learning</strong> and <strong>unsupervised learning</strong>. In supervised learning, the data is labelled, and the goal is to predict or estimate the label for new data. In unsupervised learning, the data is not labelled, and the goal is to find patterns, such as relationships or structures, in the data. The motivating example in the last section about predicting sales from advertising is a <em>supervised learning</em> problem, since we are learning from a dataset of example product sales and their associated advertising campaigns. Furthermore, machine learning models can generate two types of outputs: discrete and continuous. Discrete outputs are categorical, such as the class of an image. Continuous outputs are numerical, such as the price of a house.</p>
+<p>Thus, supervised learning can be further divided into classification and regression. In <strong>classification</strong>, the output is a discrete (e.g. categorical or <em>qualitative</em>) value, such as a category or a class. In <strong>regression</strong>, the output is a continuous (e.g. <em>quantitative</em>) value, such as a number or a probability. Unsupervised learning can be further divided into clustering and dimensionality reduction. In <strong>clustering</strong>, the goal is to find groups of similar data points so the output is a discrete value, such as a cluster index. In <strong>dimensionality reduction</strong>, the goal is to find a lower-dimensional representation of the data so the output is of continuous values, such as a vector.</p>
+<p>The following table shows the different types of machine learning problems in the context of the above definitions.</p>
+<table class="colwidths-auto table" id="mlproblems-table">
+<caption><span class="caption-number">Table 1.1 </span><span class="caption-text">Supervised and unsupervised machine learning</span><a class="headerlink" href="#mlproblems-table" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Machine Learning</p></th>
+<th class="head"><p>Supervised</p></th>
+<th class="head"><p>Unsupervised</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Discrete output</strong></p></td>
+<td><p>Classification</p></td>
+<td><p>Clustering</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Continuous output</strong></p></td>
+<td><p>Regression</p></td>
+<td><p>Dimensionality reduction</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="basic-notations">
+<h2><span class="section-number">1.2.2. </span>Basic notations<a class="headerlink" href="#basic-notations" title="Permalink to this headline">¶</a></h2>
+<p>We use notations slightly different from those in the textbook to reduce the cognitive load (hopefully). We use <span class="math notranslate nohighlight">\(N\)</span> to represent the number of <strong>samples</strong>, i.e. distinct data points or observations. We use <span class="math notranslate nohighlight">\(D\)</span> to represent the number of <strong>features</strong>, i.e. distinct variables or attributes that are available for learning a model,
+also known as the <strong>dimensionality</strong>. We use <span class="math notranslate nohighlight">\(C\)</span> to represent the number of <strong>classes</strong>, i.e. distinct categories or labels. We use <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> to represent the <span class="math notranslate nohighlight">\(n\)</span>-th sample, where <span class="math notranslate nohighlight">\(n = 1, 2, \ldots, N\)</span>. We use <span class="math notranslate nohighlight">\(x_{nd}\)</span> to represent the <span class="math notranslate nohighlight">\(d\)</span>-th feature of the <span class="math notranslate nohighlight">\(n\)</span>-th sample, where <span class="math notranslate nohighlight">\(d = 1, 2, \ldots, D\)</span>. We use <span class="math notranslate nohighlight">\(y_n\)</span> to represent the label of the <span class="math notranslate nohighlight">\(n\)</span>-th sample, where <span class="math notranslate nohighlight">\(y_n \in \{1, 2, \ldots, C\}\)</span>. We use <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> to represent the <strong>feature matrix</strong>, also know as the <strong>data matrix</strong>, where <span class="math notranslate nohighlight">\(\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_N]\)</span>. We use <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> to represent the label vector, where <span class="math notranslate nohighlight">\(\mathbf{y} = [y_1, y_2, \ldots, y_N]^\top\)</span>. We use <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> to represent the <strong>weight matrix</strong>, where <span class="math notranslate nohighlight">\(\mathbf{W} = [\mathbf{w}_1, \mathbf{w}_2, \ldots, \mathbf{w}_C]\)</span>. We use <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> to represent the <strong>bias vector</strong>, where <span class="math notranslate nohighlight">\(\mathbf{b} = [b_1, b_2, \ldots, b_C]^\top\)</span>. We use <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span> to represent the linear combination of the <span class="math notranslate nohighlight">\(n\)</span>-th sample, where <span class="math notranslate nohighlight">\(\mathbf{z}_n = \mathbf{W} \mathbf{x}_n + \mathbf{b}\)</span>.</p>
+ <!-- We use $\mathbf{a}_n$ to represent the activation of the $n$-th sample, where $\mathbf{a}_n = \sigma(\mathbf{z}_n)$. We use $\mathbf{Z}$ to represent the linear combination matrix, where $\mathbf{Z} = \{\mathbf{z}_1, \mathbf{z}_2, \ldots, \mathbf{z}_N\}$. We use $\mathbf{A}$ to represent the activation matrix, where $\mathbf{A} = \{\mathbf{a}_1, \mathbf{a}_2, \ldots, \mathbf{a}_N\}$. We use $\mathbf{Z}^T$ to represent the transpose of the linear combination matrix, where $\mathbf{Z}^T = \{\mathbf{z}_1^T, \mathbf{z}_2^T, \ldots, \mathbf{z}_N^T\}$. We use $\mathbf{A}^T$ to represent the transpose of the activation matrix, where $\mathbf{A}^T = \{\mathbf{a}_1^T, \mathbf{a}_2^T, \ldots, \mathbf{a}_N^T\}$. -->
+</div>
+<div class="section" id="machine-learning-ingredients">
+<h2><span class="section-number">1.2.3. </span>Machine learning ingredients<a class="headerlink" href="#machine-learning-ingredients" title="Permalink to this headline">¶</a></h2>
+<p>Machine learning systems are composed of three main ingredients: <strong>data</strong>, <strong>model</strong>, and <strong>loss function</strong>. The data is the input to the machine learning system. The model is the core of the machine learning system. The loss function is the output of the machine learning system. The following figure shows the three ingredients of a machine learning system.</p>
+<p>A typical machine learning system is composed of the following ingredients:</p>
+<ul class="simple">
+<li><p><strong>Input</strong> (to the ML model):</p>
+<ul>
+<li><p><strong>Data/sample</strong>: a data point or observation <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span>, with <span class="math notranslate nohighlight">\(n = 1, 2, \ldots, N\)</span>, where <span class="math notranslate nohighlight">\(N\)</span> is the total number of samples.</p></li>
+<li><p><strong>Feature</strong>: each sample vector <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> has <span class="math notranslate nohighlight">\(D\)</span> features as its representation, i.e. <span class="math notranslate nohighlight">\(D\)</span> variables or attributes that are available for learning a model.</p></li>
+</ul>
+</li>
+<li><p><strong>Output</strong> (of the ML model)</p>
+<ul>
+<li><p><strong>Target/Embedding</strong>: each sample will have a target or embedding <span class="math notranslate nohighlight">\(\hat{y}_n\)</span> as its output.</p></li>
+<li><p><strong>Label</strong>: in classification, each sample will have a class label <span class="math notranslate nohighlight">\(y_n\)</span> as its ground truth. <span class="math notranslate nohighlight">\(y_n \in \{1, 2, \ldots, C\}\)</span>, where <span class="math notranslate nohighlight">\(C\)</span> is the total number of classes.</p></li>
+</ul>
+</li>
+<li><p><strong>Dataset</strong></p>
+<ul>
+<li><p><strong>Labelled dataset</strong>: a set of <span class="math notranslate nohighlight">\(N\)</span> tuples of the form <span class="math notranslate nohighlight">\((\mathbf{x}_n, y_n)\)</span>, where <span class="math notranslate nohighlight">\(n = 1, 2, \ldots, N\)</span>.</p></li>
+<li><p><strong>Unlabelled dataset</strong>: a set of <span class="math notranslate nohighlight">\(N\)</span> samples <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span>, where <span class="math notranslate nohighlight">\(n = 1, 2, \ldots, N\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Model</strong>: a function <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> (the <strong>objective function</strong>) that maps a sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to an output <span class="math notranslate nohighlight">\(\hat{y}\)</span>. This is the <em>focus</em> of machine learning. The objective of machine learning is to estimate a good model <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>. In classification, <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> maps a sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to a class label <span class="math notranslate nohighlight">\(\hat{y} \in \{1, 2, \ldots, C\}\)</span>. In regression, <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> maps a sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to a real number <span class="math notranslate nohighlight">\(\hat{y}\)</span>. In clustering, <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> maps a sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to a cluster label <span class="math notranslate nohighlight">\(\hat{y} \in \{1, 2, \ldots, C\}\)</span>. In dimensionality reduction, <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> maps a sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to a low-dimensional vector <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}\)</span>.</p>
+<ul>
+<li><p><strong>Hyperparameters</strong>: the high-level parameters of a model that typically need to be <em>specified</em> before learning a model. These hyperparameters will determine the model structure/architecture. For example, the number of layers, the number of neurons in each layer, the activation function, the loss function, the optimizer, etc.</p></li>
+<li><p><strong>Parameters</strong>: the model parameters are the specific realisation of a model to be <em>learnt</em> during training, such as the weights and biases <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>. In machine learning, it is common to denote all parameters as <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Loss function</strong>: a function <span class="math notranslate nohighlight">\(L(y, \hat{y})\)</span> (also known as <strong>error function</strong>) that measures the difference between the predicted output <span class="math notranslate nohighlight">\(\hat{y}\)</span> and the true or desired output <span class="math notranslate nohighlight">\(y\)</span> in supervised learning, or a function <span class="math notranslate nohighlight">\(L(y)\)</span> that measures some desired property (or properties) of the output in unsupervised learning. In classification, <span class="math notranslate nohighlight">\(L(y, \hat{y})\)</span> measures the difference between the predicted class label <span class="math notranslate nohighlight">\(\hat{y}\)</span> and the true class label <span class="math notranslate nohighlight">\(y\)</span>. In regression, <span class="math notranslate nohighlight">\(L(y, \hat{y})\)</span> measures the difference between the predicted real number <span class="math notranslate nohighlight">\(\hat{y}\)</span> and the true real number <span class="math notranslate nohighlight">\(y\)</span>. In clustering, <span class="math notranslate nohighlight">\(L(y)\)</span> typically measures the coherence and separation of clusters. In dimensionality reduction, <span class="math notranslate nohighlight">\(L(y)\)</span> typically measures the preservation of information in the input <span class="math notranslate nohighlight">\(\{\mathbf{x}_n\}\)</span>.</p>
+<ul>
+<li><p><strong>Evaluation metric/measure</strong>: an evaluation (or error) metric (or measure) is needed for a loss function <span class="math notranslate nohighlight">\(L(y, \hat{y})\)</span> or <span class="math notranslate nohighlight">\(\hat{y}\)</span> to be useful. For example, in classification, the evaluation metric is typically the accuracy, which is a function of the predicted label <span class="math notranslate nohighlight">\(\hat{y}\)</span> and the true label <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Learning/optimization algorithm</strong>: an algorithm that finds (i.e. estimates) the best model <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> by minimizing the loss function <span class="math notranslate nohighlight">\(L(y, \hat{y})\)</span> or <span class="math notranslate nohighlight">\(\hat{y}\)</span>. Nowadays, the optimization algorithms are typically available in libraries (software packages) and do not need to be implemented by the user. The optimization algorithms are typically iterative algorithms that iteratively update the model parameters to minimize the loss function. The optimization algorithms are typically <em>black boxes</em> to the user. The user only needs to specify the loss function <span class="math notranslate nohighlight">\(L(y, \hat{y})\)</span> or <span class="math notranslate nohighlight">\(\hat{y}\)</span> and the optimization algorithm will find the best model <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>.</p></li>
+</ul>
+</div>
+<div class="section" id="reproducibility-of-ml-systems">
+<h2><span class="section-number">1.2.4. </span>Reproducibility of ML systems<a class="headerlink" href="#reproducibility-of-ml-systems" title="Permalink to this headline">¶</a></h2>
+<p>We follow the <a class="reference external" href="https://the-turing-way.netlify.app/reproducible-research/overview/overview-definitions.html">definitions for reproducibility by The Turing Way</a> as shown in Figure <a class="reference internal" href="#reproducibility-mat"><span class="std std-numref">Fig. 1.2</span></a></p>
+<div class="figure align-default" id="reproducibility-mat">
+<img alt="https://the-turing-way.netlify.app/_images/reproducible-matrix.jpg" src="https://the-turing-way.netlify.app/_images/reproducible-matrix.jpg" />
+<p class="caption"><span class="caption-number">Fig. 1.2 </span><span class="caption-text">How the Turing Way defines reproducible research <span id="id1">[<a class="reference internal" href="../appendix/bibliography.html#id6" title="The Turing Way Community, Becky Arnold, Louise Bowler, Sarah Gibson, Patricia Herterich, Rosie Higman, Anna Krystalli, Alexander Morley, Martin O'Reilly, Kirstie Whitaker, and others. The Turing way: a handbook for reproducible data science. Zenodo, 2022.">Community <em>et al.</em>, 2022</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#reproducibility-mat" title="Permalink to this image">¶</a></p>
+</div>
+<p>The Turing Way defines reproducible research as work that can be independently recreated from the same data and the same code that the original team used. The different dimensions of reproducible research in the figure above are further defined as:</p>
+<ul class="simple">
+<li><p><strong>Reproducible</strong>: A result is reproducible when the same analysis steps performed on the same dataset consistently produces the same answer.</p></li>
+<li><p><strong>Replicable</strong>: A result is replicable when the same analysis performed on different datasets produces qualitatively similar answers.</p></li>
+<li><p><strong>Robust</strong>: A result is robust when the same dataset is subjected to different analysis workflows to answer the same research question (for example one pipeline written in R and another written in Python) and a qualitatively similar or identical answer is produced. Robust results show that the work is not dependent on the specificities of the programming language chosen to perform the analysis.</p></li>
+<li><p><strong>Generalisable</strong>: Combining replicable and robust findings allow us to form generalisable results. Note that running an analysis on a different software implementation and with a different dataset does not provide generalised results. There will be many more steps to know how well the work applies to all the different aspects of the research question. Generalisation is an important step towards understanding that the result is not dependent on a particular dataset nor a particular version of the analysis pipeline.</p></li>
+</ul>
+<p>From the above, we can see that reproducibility is a minimal requirement for reproducible research.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">1.2.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. What are the <strong>main ingredients</strong> of an ML system?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>data, model, and loss function</strong></p>
+</div>
+<p><strong>2</strong>. Weight and biases are the <strong>hyperparameters</strong> of a model.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. False. Weight and biases are the parameters of a model. Hyperparameters are the high-level parameters of a model that typically need to be specified before learning a model.</strong></p>
+</div>
+<p><strong>3</strong>. Which of the following are <strong>true</strong>?</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. In regression, the loss function measures the difference between the predicted class label and the true class label.
+
+   b. In dimensionality reduction, the loss function measures the difference between the predicted real number and the true real number.
+
+   c. In clustering, the loss function measures the coherence and separation of clusters.
+
+   d. In classification, the loss function measures the difference between the predicted class label and the true class label.
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>c, d</strong></p>
+</div>
+<p><strong>4</strong>. Pricing apartments based on a real estate website. We have thousands of house descriptions with their price. Typically, an example of a house description is the following:</p>
+<p>Great for entertaining, spacious, updated two bedroom, one bathroom apartment in Lakeview. The house will be available from <em>May 1st</em>. Close to nightlife with a private backyard. Price <span class="math notranslate nohighlight">\(1,000,000\$\)</span>.</p>
+<p>We are interested in <strong>predicting</strong> house prices from their <strong>description</strong>. One potential use case for this would be, as a buyer, finding <strong>cheap houses</strong> compared to their <strong>market value</strong>.</p>
+<p><strong>4.1</strong>. What kind of problem is it? You can choose multiple answers.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> a. a supervised learning problem
+
+ b. an unsupervised learning problem
+
+ c. a classification problem
+
+ d. a regression problem
+
+ e. a clustering problem
+
+ f. a dimensionality reduction problem
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>a, d. As the label is known, so it is a supervised problem, and then we are trying to predict a continuous value which means it is a regression problem.</strong></p>
+</div>
+<p><strong>4.2</strong>. What are the features? You can choose multiple answers.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> a. the number of rooms might be a feature
+
+ b. the postcode of the house might be a feature
+
+ c. the price of the house might be a feature
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>a, b</strong></p>
+</div>
+<p><strong>4.3</strong>. What is the target variable? You have to choose a single answer.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> a. the full-text description is the target
+
+ b. the price of the house is the target
+
+ c. only house descriptions with no price mentioned are the target
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b</strong></p>
+</div>
+<p><strong>4.4</strong>. What is a record/sample? You have to choose a single answer.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> a. each house description is a record/sample
+
+ b. each house price is a record/sample
+
+ c. each attribute/features of description (as the house size) is a record/sample.
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>a</strong></p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="what-is-ml.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1.1. </span>What is machine learning?</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="ml-process.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.3. </span>Machine learning process</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

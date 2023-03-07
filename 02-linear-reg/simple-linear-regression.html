@@ -1,0 +1,1669 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2.1. Simple linear regression &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.2. Multiple linear regression" href="multi-linear-regression.html" />
+    <link rel="prev" title="2. Linear Regression" href="overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   2. Linear regression
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/02-linear-reg/simple-linear-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F02-linear-reg/simple-linear-regression.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/02-linear-reg/simple-linear-regression.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/02-linear-reg/simple-linear-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/02-linear-reg/simple-linear-regression.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-libraries">
+   2.1.1. Install libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   2.1.2. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-relationship-modelling-for-regression">
+   2.1.3. Linear relationship modelling for regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-the-coefficients">
+   2.1.4. Estimating the coefficients
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-model-fitting-and-visualisation-using-scikit-learn">
+   2.1.5. Example: model fitting and visualisation using
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     scikit-learn
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-explanation-of-system-transparency">
+   2.1.6. Example explanation of system transparency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#assessing-model-accuracy-via-r-2">
+   2.1.7. Assessing model accuracy via
+   <span class="math notranslate nohighlight">
+    \(R^2\)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#standard-errors-and-residual-standard-error">
+   2.1.8. Standard errors and residual standard error
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#confidence-intervals">
+   2.1.9. Confidence intervals
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise">
+   2.1.10. Exercise
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Simple linear regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-libraries">
+   2.1.1. Install libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   2.1.2. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-relationship-modelling-for-regression">
+   2.1.3. Linear relationship modelling for regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-the-coefficients">
+   2.1.4. Estimating the coefficients
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-model-fitting-and-visualisation-using-scikit-learn">
+   2.1.5. Example: model fitting and visualisation using
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     scikit-learn
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-explanation-of-system-transparency">
+   2.1.6. Example explanation of system transparency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#assessing-model-accuracy-via-r-2">
+   2.1.7. Assessing model accuracy via
+   <span class="math notranslate nohighlight">
+    \(R^2\)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#standard-errors-and-residual-standard-error">
+   2.1.8. Standard errors and residual standard error
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#confidence-intervals">
+   2.1.9. Confidence intervals
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise">
+   2.1.10. Exercise
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="simple-linear-regression">
+<h1><span class="section-number">2.1. </span>Simple linear regression<a class="headerlink" href="#simple-linear-regression" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-read-then-launch admonition">
+<p class="admonition-title">Read then Launch </p>
+<p>This content is best viewed in html because jupyter notebook cannot display some content (e.g. figures, equations) properly. You should finish reading this page first and then launch it as an interactive notebook in Google Colab (faster, Google account needed) or Binder by clicking the rocket symbol (<i class="fas fa-rocket"></i>) at the top.</p>
+</div>
+<p>Watch the 5-minute video below for a visual explanation of simple linear regression as a line-fitting problem.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/zPG4NjIkCjc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+<p><a class="reference external" href="https://www.youtube.com/embed/zPG4NjIkCjc">Explaining Linear Regression by statisticsfun</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>Then study the following sections to learn more about simple linear regression with examples in the textbook.</p>
+<div class="section" id="install-libraries">
+<h2><span class="section-number">2.1.1. </span>Install libraries<a class="headerlink" href="#install-libraries" title="Permalink to this headline">¶</a></h2>
+<p>If you are using Google Colab, you can skip this section. If you are running the code locally on your own computer, you will need to install the following libraries unless they are already installed:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>statsmodels<span class="w"> </span>seaborn
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="import-libraries-and-load-data">
+<h2><span class="section-number">2.1.2. </span>Import libraries and load data<a class="headerlink" href="#import-libraries-and-load-data" title="Permalink to this headline">¶</a></h2>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Load the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Advertising.csv">Advertising dataset</a> and display the column names, counts and data types.</p>
+<!-- Datasets available on https://www.statlearning.com/resources-first-edition --><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Advertising.csv&quot;</span>
+
+<span class="n">advertising_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">advertising_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 200 entries, 1 to 200
+Data columns (total 4 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   TV         200 non-null    float64
+ 1   Radio      200 non-null    float64
+ 2   Newspaper  200 non-null    float64
+ 3   Sales      200 non-null    float64
+dtypes: float64(4)
+memory usage: 7.8 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Display the first 5 rows for inspection. You can also click <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Advertising.csv">Advertising dataset</a> to inspect the full data on GitHub, since this dataset is small. It is a good habit to inspect the data before using it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">advertising_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>Radio</th>
+      <th>Newspaper</th>
+      <th>Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>230.1</td>
+      <td>37.8</td>
+      <td>69.2</td>
+      <td>22.1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>44.5</td>
+      <td>39.3</td>
+      <td>45.1</td>
+      <td>10.4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>17.2</td>
+      <td>45.9</td>
+      <td>69.3</td>
+      <td>9.3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>151.5</td>
+      <td>41.3</td>
+      <td>58.5</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>180.8</td>
+      <td>10.8</td>
+      <td>58.4</td>
+      <td>12.9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="linear-relationship-modelling-for-regression">
+<h2><span class="section-number">2.1.3. </span>Linear relationship modelling for regression<a class="headerlink" href="#linear-relationship-modelling-for-regression" title="Permalink to this headline">¶</a></h2>
+<p>Simple linear regression assumes that there is an approximately <em>linear</em> relationship between a quantitative response  (output) <span class="math notranslate nohighlight">\(y\)</span> and a single predictor (input) <span class="math notranslate nohighlight">\(x\)</span>. Mathematically, the linear relationship can be expressed as</p>
+<div class="math notranslate nohighlight" id="equation-eq-y-approx-x">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-eq-y-approx-x" title="Permalink to this equation">¶</a></span>\[y \approx \beta_0 + \beta_1 x\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> are two unknown constants that represent the <em>bias</em> and <em>weight</em> of this linear model, which are also known as <em>intercept</em> and <em>slope</em>, respectively. Together, <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> are called the <em>model coefficients</em>, or <em>parameters</em>. We can describe the linear relationship as <em>regressing</em> <span class="math notranslate nohighlight">\(y\)</span> onto <span class="math notranslate nohighlight">\(x\)</span>. For example, <span class="math notranslate nohighlight">\(x\)</span> may represent <code class="docutils literal notranslate"><span class="pre">TV</span></code> advertising budget (in thousands of dollars) and <span class="math notranslate nohighlight">\(y\)</span> may represent <code class="docutils literal notranslate"><span class="pre">sales</span></code> (in thousands of dollars) in the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Advertising.csv">Advertising dataset</a>. Then we can regress sales onto TV by fitting the model:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-68d4d01d-9dc0-4367-ab15-ffb57a30f808">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-68d4d01d-9dc0-4367-ab15-ffb57a30f808" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\textrm{sales} \approx \beta_0 + \beta_1 \times \textrm{TV}
+\end{equation}\]</div>
+</div>
+<div class="section" id="estimating-the-coefficients">
+<h2><span class="section-number">2.1.4. </span>Estimating the coefficients<a class="headerlink" href="#estimating-the-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>The goal of simple linear regression is to estimate the unknown parameters <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> from the data. Let</p>
+<div class="math notranslate nohighlight">
+\[
+(x_1, y_1), (x_2, y_2), \ldots, (x_N, y_N)
+\]</div>
+<p>be the <span class="math notranslate nohighlight">\(N\)</span> observations in the dataset, and <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> denote the estimated values of <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>, respectively. The estimated values of <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> can be obtained by minimising the <a class="reference external" href="https://en.wikipedia.org/wiki/Residual_sum_of_squares"><em>residual sum of squares</em> (RSS)</a> between the observed response values <span class="math notranslate nohighlight">\(y_i\)</span> and the predicted response values <span class="math notranslate nohighlight">\(\hat{y}_i\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-rssdef">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-rssdef" title="Permalink to this equation">¶</a></span>\[\text{RSS} = \sum_{i=1}^N (y_i - \hat{y}_i)^2 = \sum_{i=1}^N (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2,\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_i\)</span> is the <span class="math notranslate nohighlight">\(i\text{th}\)</span> observation of the response <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(\hat{y}_i\)</span> is the <span class="math notranslate nohighlight">\(i\text{th}\)</span> observation of the predicted response <span class="math notranslate nohighlight">\(\hat{y}\)</span>, and <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\text{th}\)</span> observation of the predictor <span class="math notranslate nohighlight">\(x\)</span>. The least squares estimates of <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> are given as a <a class="reference external" href="https://mathworld.wolfram.com/Closed-FormSolution.html">closed-form solution</a> by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-416375d5-ba99-467d-b371-57213732dd30">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-416375d5-ba99-467d-b371-57213732dd30" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\hat{\beta}_1 = \frac{\sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^N (x_i - \bar{x})^2},
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-ac0e8b3a-8015-434d-a314-2e3fd5fe8dc9">
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-ac0e8b3a-8015-434d-a314-2e3fd5fe8dc9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}.
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{x}\)</span> and <span class="math notranslate nohighlight">\(\bar{y}\)</span> are the sample means of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> respectively. The least squares estimates of <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> are obtained by minimising the RSS. The least squares line is given by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2b5fbc49-b593-4056-a3c6-46fa6e75c88d">
+<span class="eqno">(2.6)<a class="headerlink" href="#equation-2b5fbc49-b593-4056-a3c6-46fa6e75c88d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x.
+\end{equation}\]</div>
+<p>The least squares line, also known as the <em>regression line</em>, is the straight line that minimises the sum of squared residuals.</p>
+<p>Run the code below to fit <code class="docutils literal notranslate"><span class="pre">sales</span></code> onto <code class="docutils literal notranslate"><span class="pre">TV</span></code> for the <code class="docutils literal notranslate"><span class="pre">Advertising</span></code> dataset using the API <a class="reference external" href="https://seaborn.pydata.org/generated/seaborn.regplot.html"><code class="docutils literal notranslate"><span class="pre">seaborn.regplot</span></code></a> from the library <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, which plots data and a linear regression model fit. You are encouraged to click the hyperlink to the API to learn more about its usage. The data are shown as red dots and the regression line is shown in blue.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">TV</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">x_ci</span><span class="o">=</span><span class="s2">&quot;ci&quot;</span><span class="p">,</span>
+    <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">310</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/simple-linear-regression_10_0.png" src="../_images/simple-linear-regression_10_0.png" />
+</div>
+</div>
+<p>You should see a figure generated. This figure shows the least squares fit of <code class="docutils literal notranslate"><span class="pre">sales</span></code> onto <code class="docutils literal notranslate"><span class="pre">TV</span></code> for the <code class="docutils literal notranslate"><span class="pre">Advertising</span></code> dataset. The objective is to minimise the sum of squared residuals, which is the sum of the squared vertical distances, i.e. the <em>errors</em>, between the data points (red dots) and the least squares line (blue line).</p>
+</div>
+<div class="section" id="example-model-fitting-and-visualisation-using-scikit-learn">
+<h2><span class="section-number">2.1.5. </span>Example: model fitting and visualisation using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code><a class="headerlink" href="#example-model-fitting-and-visualisation-using-scikit-learn" title="Permalink to this headline">¶</a></h2>
+<p>Now we use the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"><code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code></a> to fit a linear regression model, in order to delve into the details of the a model that minimizes the residual sum of squares (RSS). The <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.fit"><code class="docutils literal notranslate"><span class="pre">.fit()</span></code> method</a> takes two arguments, the first is the predictor variable and the second is the response variable. The <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> method returns an object that contains the estimated coefficients. The model generates the fit by minimizing the RSS between the observed targets in the dataset, and the targets predicted by the linear approximation. The <code class="docutils literal notranslate"><span class="pre">.intercept_</span></code> and <code class="docutils literal notranslate"><span class="pre">.coef_</span></code> attributes of the fitted model can be used to obtain the estimated intercept (<span class="math notranslate nohighlight">\(\beta_0\)</span>) and slope (<span class="math notranslate nohighlight">\(\beta_1\)</span>) of the regression line.</p>
+<p>Firstly, fit a linear regression model. Before fitting, we centre the data by subtracting the mean of each variable from each observation via a <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html"><code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code></a>. This is a common practice in machine learning called <a class="reference external" href="https://en.wikipedia.org/wiki/Feature_scaling">data normalization</a>, and essentially makes it easier for our model to learn from the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Regression coefficients (Ordinary Least Squares)</span>
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">(</span><span class="n">with_mean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">with_std</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">TV</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span>
+
+<span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean removed from input features: &quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Regression model intercept (bias): &quot;</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Regression model slop (weight): &quot;</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+
+<span class="c1"># Plot the data and the regression line</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">())</span>
+<span class="n">y_vals</span> <span class="o">=</span> <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="n">x_vals</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean removed from input features:  [147.0425]
+Regression model intercept (bias):  14.0225
+Regression model slop (weight):  [0.04753664]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f8dfce32df0&gt;]
+</pre></div>
+</div>
+<img alt="../_images/simple-linear-regression_13_2.png" src="../_images/simple-linear-regression_13_2.png" />
+</div>
+</div>
+<p>Check the input data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(200, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s visualise the RSS value for different choices of intercept <span class="math notranslate nohighlight">\(\beta_0\)</span> and slope <span class="math notranslate nohighlight">\(\beta_1\)</span>.</p>
+<p>First, create grid coordinates for plotting and computing the minimum of RSS.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">beta_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">-</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">beta_0</span><span class="p">,</span> <span class="n">beta_1</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">beta_0</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">beta_1</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+<span class="c1"># Calculate Z-values (RSS) based on grid of coefficients</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndenumerate</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">*</span> <span class="n">yy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span>
+
+<span class="c1"># minimised RSS</span>
+<span class="n">min_RSS</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_0$, $\beta_1$ for minimised RSS&quot;</span>
+<span class="n">min_rss</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="n">X</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span>
+<span class="p">)</span>
+<span class="n">min_rss</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.1025305831313514
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the RSS with corresponding <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> in 2D and 3D.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;RSS - Regression coefficients&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+
+<span class="c1"># Left plot</span>
+<span class="n">CS</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">2.15</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">min_RSS</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%1.1f</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Right plot</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">xx</span><span class="p">,</span>
+    <span class="n">yy</span><span class="p">,</span>
+    <span class="n">Z</span><span class="p">,</span>
+    <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span>
+    <span class="n">offset</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">2.15</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter3D</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_rss</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">min_RSS</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;RSS&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Z</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">)</span>
+
+<span class="c1"># settings common to both plots</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta_0$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta_1$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/simple-linear-regression_19_0.png" src="../_images/simple-linear-regression_19_0.png" />
+</div>
+</div>
+<p>On the right, we can see a 3D representation of RSS as a function of <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>. The minimum of RSS is at the point where <span class="math notranslate nohighlight">\(\beta_0 = 14.0225\)</span> and <span class="math notranslate nohighlight">\(\beta_1 = 0.0475\)</span>. The left plot shows a 2D top-down contour of the 3D plot, showing that as we move away from the minimum, the RSS value increases.</p>
+</div>
+<div class="section" id="example-explanation-of-system-transparency">
+<h2><span class="section-number">2.1.6. </span>Example explanation of system transparency<a class="headerlink" href="#example-explanation-of-system-transparency" title="Permalink to this headline">¶</a></h2>
+<p>Run the cell below for understanding the system transparency for linear regression models.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">TV</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">x_ci</span><span class="o">=</span><span class="s2">&quot;ci&quot;</span><span class="p">,</span>
+    <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted sales for TV = 100: &quot;</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="p">),</span> <span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">x_mean</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y_</span> <span class="o">=</span> <span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_mean</span> <span class="o">-</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted sales for TV = </span><span class="si">%s</span><span class="s2"> (mean): &quot;</span> <span class="o">%</span> <span class="n">x_mean</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x_mean</span><span class="p">,</span> <span class="n">x_mean</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">x_mean</span><span class="p">),</span> <span class="p">(</span><span class="n">y_</span><span class="p">,</span> <span class="n">y_</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">x2</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted sales for TV = 200: &quot;</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x2</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">310</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted sales for TV = 100:  11.78625759242967
+Predicted sales for TV = 147.0425 (mean):  14.0225
+Predicted sales for TV = 200:  16.539921635731645
+</pre></div>
+</div>
+<img alt="../_images/simple-linear-regression_22_1.png" src="../_images/simple-linear-regression_22_1.png" />
+</div>
+</div>
+<p>In the above example, we learnt a linear regression model <span class="math notranslate nohighlight">\(f(x)\)</span> with two parameters, <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>, from the data, where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta_0 = 14.0225 \)</span> is the <code class="docutils literal notranslate"><span class="pre">sales</span></code> when input value <code class="docutils literal notranslate"><span class="pre">TV</span></code> equals to its mean, i.e., 147.0425, and</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta_1 = 0.0475 \)</span> is the change of units in the <code class="docutils literal notranslate"><span class="pre">sales</span></code> when <code class="docutils literal notranslate"><span class="pre">TV</span></code> increases by 1 unit.</p></li>
+</ul>
+<p>Using these two estimated parameters, we can examine the system logic of the simple linear regression model to reveal its system transparency.</p>
+<div class="important admonition">
+<p class="admonition-title">System transparency</p>
+<ul class="simple">
+<li><p>When <code class="docutils literal notranslate"><span class="pre">TV</span></code><span class="math notranslate nohighlight">\(=200\)</span>, the predicted <code class="docutils literal notranslate"><span class="pre">sales</span></code> <span class="math notranslate nohighlight">\(f(200) \approx 16.54 = \beta_1 \times (200 - 147.04) + f(147.04)\)</span>, which can be derived from the linear regression equation: <span class="math notranslate nohighlight">\(f(x) = \beta_1 \times (x - \bar{x}) + \beta_0 = \beta_1 \times (x - \bar{x}) + f(\bar{x}) \)</span>.</p></li>
+<li><p>To produce an estimated <code class="docutils literal notranslate"><span class="pre">sales</span></code> of <span class="math notranslate nohighlight">\(\hat{y}\)</span>, e.g. 18, we locate 18 on the vertical axis and then move horizontally to find the fitted line to find the corresponding <code class="docutils literal notranslate"><span class="pre">TV</span></code> value on the horizontal axis, i.e., ~230, which can be analytically obtained using the inverse function of the learnt linear regression model <span class="math notranslate nohighlight">\(f(x)\)</span> <span class="math notranslate nohighlight">\(x = \frac{\hat{y} - \beta_0}{\beta_1} + \bar{x}\)</span> (giving 230.78).</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="assessing-model-accuracy-via-r-2">
+<h2><span class="section-number">2.1.7. </span>Assessing model accuracy via <span class="math notranslate nohighlight">\(R^2\)</span><a class="headerlink" href="#assessing-model-accuracy-via-r-2" title="Permalink to this headline">¶</a></h2>
+<p>The accuracy of the linear model is dependent on the variability of the response <span class="math notranslate nohighlight">\(y\)</span> and the predictor <span class="math notranslate nohighlight">\(x\)</span>. The variability of <span class="math notranslate nohighlight">\(y\)</span> is measured by the variance of <span class="math notranslate nohighlight">\(y\)</span>, denoted by <span class="math notranslate nohighlight">\(\sigma_y^2\)</span>. The variability of <span class="math notranslate nohighlight">\(x\)</span> is measured by the variance of <span class="math notranslate nohighlight">\(x\)</span>, denoted by <span class="math notranslate nohighlight">\(\sigma_x^2\)</span>. The <a class="reference external" href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>, denoted by <span class="math notranslate nohighlight">\(R^2\)</span>, is defined as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e922ba47-4f1e-42fd-9fa7-27c36015ca2d">
+<span class="eqno">(2.7)<a class="headerlink" href="#equation-e922ba47-4f1e-42fd-9fa7-27c36015ca2d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+R^2 = \frac{\text{TSS} - \text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\text{TSS} = \sum_{i=1}^N (y_i - \bar{y})^2\)</span> <em>is the total sum of squares</em>. Dividing the RSS by the total number of training samples gives the <em>mean squared error</em> (MSE) of the model. The MSE is the average squared distance between the observed response values and the response values predicted by the model. The MSE is also known as the <em>mean squared prediction error</em> (MSPE). The MSE is defined as</p>
+<div class="math notranslate nohighlight" id="equation-msedef">
+<span class="eqno">(2.8)<a class="headerlink" href="#equation-msedef" title="Permalink to this equation">¶</a></span>\[\text{MSE} = \frac{1}{N} \text{RSS} = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2 = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2.\]</div>
+<p>The coefficient of determination <span class="math notranslate nohighlight">\(R^2\)</span> measures the proportion of the <em>total</em> variance in the response <span class="math notranslate nohighlight">\(y\)</span> that is explained by the linear model using the predictor <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(R^2\)</span> is always between 0 and 1: it is 0 when the regression line does not fit the data at all, and it is 1 when the regression line perfectly fits the data. <span class="math notranslate nohighlight">\(R^2\)</span> is also known as the <em>coefficient of multiple determination</em> and it is a measure of the goodness of fit of the linear model.</p>
+<p>Watch the 11-minute video below to learn more about <span class="math notranslate nohighlight">\(R^2\)</span></p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/bMccdk8EdGo?start=17" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+<p><a class="reference external" href="https://www.youtube.com/embed/bMccdk8EdGo?start=17">Explaining <span class="math notranslate nohighlight">\(R^2\)</span> by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>Run the following code to fit a simple linear regression model using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">TV</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span>
+
+<span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7.032593549127695
+[0.04753664]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then evaluate the learnt model with <span class="math notranslate nohighlight">\(R^2\)</span> via <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html"><code class="docutils literal notranslate"><span class="pre">r2_score</span></code></a> (Table 3.1 &amp; 3.2 of the text book).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sales_pred</span> <span class="o">=</span> <span class="n">regr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R2 score:&quot;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sales_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean squared error: &quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sales_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R2 score: 0.611875050850071
+Mean squared error:  10.512652915656757
+</pre></div>
+</div>
+</div>
+</div>
+<p>From the result, we can see that the simple linear regression model explains about 61% of the variance of the response data around its mean, leaving about 39% (RSS) unexplained.</p>
+</div>
+<div class="section" id="standard-errors-and-residual-standard-error">
+<h2><span class="section-number">2.1.8. </span>Standard errors and residual standard error<a class="headerlink" href="#standard-errors-and-residual-standard-error" title="Permalink to this headline">¶</a></h2>
+<p>The linear relationship between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> can be written in an equation, rather than an approximation earlier in Equation <a class="reference internal" href="#equation-eq-y-approx-x">(2.1)</a>, as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c4ab7e35-5448-40d0-ae4a-98efd3c7eaad">
+<span class="eqno">(2.9)<a class="headerlink" href="#equation-c4ab7e35-5448-40d0-ae4a-98efd3c7eaad" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+y = \beta_0 + \beta_1 x + \epsilon,
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon\)</span> is a random error term that represents the difference (i.e. the error, unexplained part) between the observed response <span class="math notranslate nohighlight">\(y\)</span> and the true response <span class="math notranslate nohighlight">\(\beta_0 + \beta_1 x\)</span>. The error term <span class="math notranslate nohighlight">\(\epsilon\)</span> is assumed to be normally distributed with mean zero and constant variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The coefficient estimates <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> are only estimates of the true coefficients <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>. We can quantify the accuracy of the estimates by computing the <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_error"><em>standard error</em></a> of the estimates. The following formulas can be used to compute the standard error associated with <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ee5d214b-4296-45c5-acad-0078f900e298">
+<span class="eqno">(2.10)<a class="headerlink" href="#equation-ee5d214b-4296-45c5-acad-0078f900e298" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\text{SE}(\hat{\beta}_{1})^2 = \frac{\sigma^2}{\sum_{i=1}^N (x_i - \bar{x})^2}, \quad \text{SE}(\hat{\beta}_0)^2 = \sigma^2 \left[\frac{1}{N} + \frac{\bar{x}^2}{\sum_{i=1}^N (x_i - \bar{x})^2} \right],
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma^2\)</span> is an estimate of the variance of the error term <span class="math notranslate nohighlight">\(\epsilon= y - (\beta_0 + \beta_1 x) \)</span>, <span class="math notranslate nohighlight">\(\hat{y}_i\)</span> is the <span class="math notranslate nohighlight">\(i\text{th}\)</span> observation of the predicted response <span class="math notranslate nohighlight">\(\hat{y}\)</span>, and <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\text{th}\)</span> observation of the predictor <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(\bar{x}\)</span> and <span class="math notranslate nohighlight">\(\bar{y}\)</span> are the sample means of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> respectively.</p>
+<p>In general, <span class="math notranslate nohighlight">\(\sigma^2\)</span> is unknown, so we need to estimate it from the <em>residual standard error</em> (RSE) below</p>
+<div class="amsmath math notranslate nohighlight" id="equation-85e45cbf-f658-4037-902b-e74aa17a296b">
+<span class="eqno">(2.11)<a class="headerlink" href="#equation-85e45cbf-f658-4037-902b-e74aa17a296b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\text{RSE} = \sqrt{\frac{1}{N-2}\text{RSS}} = \sqrt{\frac{1}{N-2} \sum_{i=1}^N (y_i - \hat{y}_i)^2}.
+\end{equation}\]</div>
+<p>RSE is also <em>another way to assess the quality of a linear regression fit</em> (in terms of error). Due to the presence of the error term <span class="math notranslate nohighlight">\(\epsilon\)</span>, perfect prediction is not possible even if we know the true regression line (unless <span class="math notranslate nohighlight">\(\epsilon\)</span> is zero, rarely the case in practice). The RSE is an estimate of the standard deviation of <span class="math notranslate nohighlight">\(\epsilon\)</span>. It is the average amount that the response will deviate from the true regression line, measuring the lack of fit of the model to the data. The smaller the RSE, the better the model fits the data.</p>
+</div>
+<div class="section" id="confidence-intervals">
+<h2><span class="section-number">2.1.9. </span>Confidence intervals<a class="headerlink" href="#confidence-intervals" title="Permalink to this headline">¶</a></h2>
+<p>The standard error indicates the average amount that an estimate differs from its actual value. Thus, the standard error of <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> is a measure of the average amount that <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> will deviate from the its true value <span class="math notranslate nohighlight">\(\beta_1\)</span>. The standard error of <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is a measure of the average amount that <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> will deviate from the its true value <span class="math notranslate nohighlight">\(\beta_0\)</span>.</p>
+<p>Standard errors can be used to compute <a class="reference external" href="https://en.wikipedia.org/wiki/Confidence_interval">confidence intervals</a>. A 95% is defined as a range of values such that with 95 % probability, the range (interval) will contain the true unknown value of the parameter. The range is defined in terms of lower and upper limits computed from the sample of data. For linear regression, the 95% confidence intervals for <span class="math notranslate nohighlight">\(\beta_1\)</span> and <span class="math notranslate nohighlight">\(\beta_0\)</span> approximately takes the form</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a6ee3b53-2fe4-40f5-aefd-5ca9f1321332">
+<span class="eqno">(2.12)<a class="headerlink" href="#equation-a6ee3b53-2fe4-40f5-aefd-5ca9f1321332" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\hat{\beta}_1 \pm 2 \times \text{SE}(\hat{\beta}_1),\:\: \hat{\beta}_0 \pm 2 \times \text{SE}(\hat{\beta}_0).
+\end{equation}\]</div>
+<p>The above can be interpreted as there is an approximately 95% chance that the interview <span class="math notranslate nohighlight">\([\hat{\beta}_1 - 2 \times \text{SE}(\hat{\beta}_1), \hat{\beta}_1 + 2 \times \text{SE}(\hat{\beta}_1)]\)</span> will contain the true value of <span class="math notranslate nohighlight">\(\beta_1\)</span>, and the interval <span class="math notranslate nohighlight">\([\hat{\beta}_0 - 2 \times \text{SE}(\hat{\beta}_0), \hat{\beta}_0 + 2 \times \text{SE}(\hat{\beta}_0)]\)</span> will contain the true value of <span class="math notranslate nohighlight">\(\beta_0\)</span>.</p>
+<div class="figure align-default" id="stadard-deviation-diagram">
+<a class="reference internal image-reference" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Standard_deviation_diagram.svg/1024px-Standard_deviation_diagram.svg.png"><img alt="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Standard_deviation_diagram.svg/1024px-Standard_deviation_diagram.svg.png" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Standard_deviation_diagram.svg/1024px-Standard_deviation_diagram.svg.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2.1 </span><span class="caption-text">The proportion of samples that would fall between 0, 1, 2, and 3 standard deviations above and below the actual value, from Wikipedia.</span><a class="headerlink" href="#stadard-deviation-diagram" title="Permalink to this image">¶</a></p>
+</div>
+<p>Run the following code to compute the statistics, including the confidence intervals, of the learnt model using <code class="docutils literal notranslate"><span class="pre">statesmodels</span></code> (page 67 &amp; Table 3.1 &amp; 3.2 of the textbook).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;Sales ~ TV&quot;</span><span class="p">,</span> <span class="n">advertising_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>    7.0326</td> <td>    0.458</td> <td>   15.360</td> <td> 0.000</td> <td>    6.130</td> <td>    7.935</td>
+</tr>
+<tr>
+  <th>TV</th>        <td>    0.0475</td> <td>    0.003</td> <td>   17.668</td> <td> 0.000</td> <td>    0.042</td> <td>    0.053</td>
+</tr>
+</table></div></div>
+</div>
+<p>Note that the above did <em>NOT</em> standardise the input by removing its mean so its intercept differs from the one in the previous section.</p>
+<p>The above includes some additional statistics. The fourth column <span class="math notranslate nohighlight">\(t\)</span> is the <span class="math notranslate nohighlight">\(t\)</span>-statistic value of the coefficient estimate, which is hard to interpret directly. The fifth column is the <span class="math notranslate nohighlight">\(p\)</span>-value of the <span class="math notranslate nohighlight">\(t\)</span>-statistic, for determining  whether the coefficient is statistically significant. The <span class="math notranslate nohighlight">\(p\)</span>-values are computed using the <a class="reference external" href="https://en.wikipedia.org/wiki/Student%27s_t-test"><span class="math notranslate nohighlight">\(t\)</span>-test</a> for the <a class="reference external" href="https://en.wikipedia.org/wiki/Null_hypothesis">null hypothesis</a> that the coefficient is zero. The smaller the <span class="math notranslate nohighlight">\(p\)</span>-value, the more likely it is that the coefficient is statistically significant. If the <span class="math notranslate nohighlight">\(p\)</span>-value is less than 0.05, then the coefficient is typically considered as statistically significant, which is the case for both coefficients in the above. We will discuss the <span class="math notranslate nohighlight">\(t\)</span>-statistic and <span class="math notranslate nohighlight">\(p\)</span>-value in detail in <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html"><span class="doc">Hypothesis testing</span></a>.</p>
+<p>The last two columns are the 95% confidence intervals, which means that there is a 95% chance that the true value of the coefficient is in the intervals. The confidence intervals are computed from the standard errors and <span class="math notranslate nohighlight">\(t\)</span>-statistics. The confidence intervals are wider for the intercept than for the slope, which is expected because the standard error of the intercept is larger than the standard error of the slope.</p>
+<!-- The 5th column is the $p$-values of the coefficients, which are used to test the significance of the coefficients. The $p$-values are computed using the [$t$-test](https://en.wikipedia.org/wiki/Student%27s_t-test) for the [null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) that the coefficient is zero.  The 4th column is the $t$ statistic value. The $p$-values are used to determine whether the coefficient is statistically significant. The smaller the $p$-value, the more likely it is that the coefficient is statistically significant. The $p$-values are also used to determine whether the model is statistically significant. The model is statistically significant if the $p$-value is less than the significance level (e.g. 0.05). --><p>We can verify that the RSS computed via <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is the same as that obtained via <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># RSS with regression coefficients</span>
+<span class="p">(</span>
+    <span class="p">(</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">Sales</span> <span class="o">-</span> <span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">est</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">TV</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.102530583131351
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercise">
+<h2><span class="section-number">2.1.10. </span>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. All the following exercises involve the use of the <strong><a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Carseats.csv">Carseats</a></strong> dataset.</p>
+<p>Use the <strong>LinearRegression()</strong> function to perform a simple linear regression with <strong>Sales</strong> as the response and <strong>Price</strong> as the predictor. Find out the <strong>weight</strong> and <strong>bias</strong> of the regression model. Don’t forget to use <strong>StandardScaler</strong> to preprocess the data before fitting. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#example-model-fitting-and-visualisation-using-scikit-learn">2.1.5</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">carseats_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Carseats.csv&quot;</span>
+<span class="p">)</span>
+
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">(</span><span class="n">with_mean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">with_std</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">Price</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">Sales</span>
+
+<span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Regression model intercept (bias): &quot;</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Regression model slop (weight): &quot;</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Regression model intercept (bias):  7.496325000000001
+Regression model slop (weight):  [-0.05307302]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>2</strong>. Plot the response <strong>Sales</strong> and predictor <strong>Price</strong>. Use the <strong>regplot()</strong> function to display the least-squared regression line. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#linear-relationship-modelling-for-regression">2.1.4</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s plot our predicted regression</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">Price</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">Sales</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">x_ci</span><span class="o">=</span><span class="s2">&quot;ci&quot;</span><span class="p">,</span>
+    <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/simple-linear-regression_45_0.png" src="../_images/simple-linear-regression_45_0.png" />
+</div>
+</div>
+<p><strong>3</strong>. We learnt a linear regression model <span class="math notranslate nohighlight">\(f(x)\)</span> with two parameters weight (<span class="math notranslate nohighlight">\(\beta_1\)</span>) and bias (<span class="math notranslate nohighlight">\(\beta_0\)</span>), where we already have the weight and bias of the model from <strong>Exercise 1</strong>. Using these two estimated parameters, we can examine the system logic of the simple linear regression model to reveal its system transparency. Using the below linear regression equation, predict the sales when the price = <span class="math notranslate nohighlight">\(77\)</span> and <span class="math notranslate nohighlight">\(134\)</span>. Visualise them on the regression plot. <strong>Hint</strong>: Sec Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#example-explanation-of-system-transparency">2.1.6</a>.</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \beta_1 \times (x - \bar{x}) + \beta_0
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">Price</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">Sales</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">x_ci</span><span class="o">=</span><span class="s2">&quot;ci&quot;</span><span class="p">,</span>
+    <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="mi">77</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted sales for Price = 77: &quot;</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="p">),</span> <span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">x2</span> <span class="o">=</span> <span class="mi">134</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">scale</span><span class="o">.</span><span class="n">mean_</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted sales for Price = 134: &quot;</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x2</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted sales for Price = 77:  9.55529275256458
+Predicted sales for Price = 134:  6.530130698274568
+</pre></div>
+</div>
+<img alt="../_images/simple-linear-regression_49_1.png" src="../_images/simple-linear-regression_49_1.png" />
+</div>
+</div>
+<p><strong>4</strong>. Create the grid coordinates for plotting and compute the minimum RSS of the trained model from <strong>Exercise 1</strong>. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#example-model-fitting-and-visualisation-using-scikit-learn">2.1.5</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">beta_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">-</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">beta_0</span><span class="p">,</span> <span class="n">beta_1</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">beta_0</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">beta_1</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+<span class="c1"># Calculate Z-values (RSS) based on grid of coefficients</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndenumerate</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">*</span> <span class="n">yy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span>
+
+<span class="c1"># minimised RSS</span>
+<span class="n">min_RSS</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_0$, $\beta_1$ for minimised RSS&quot;</span>
+<span class="n">min_rss</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">+</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span> <span class="o">*</span> <span class="n">X</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The minimum RSS is </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">min_rss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The minimum RSS is 2.552244
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>5.</strong> Use the <strong>grid coordinates</strong> from <strong>Exercise 4</strong> and plot the <strong>RS</strong>S with the corresponding bias and weight from <strong>Exercise 1</strong> in 2D and 3D. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#example-model-fitting-and-visualisation-using-scikit-learn">2.1.5</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;RSS - Regression coefficients&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+
+<span class="c1"># Left plot</span>
+<span class="n">CS</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">2.60</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">2.75</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">min_RSS</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%1.1f</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Right plot</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">xx</span><span class="p">,</span>
+    <span class="n">yy</span><span class="p">,</span>
+    <span class="n">Z</span><span class="p">,</span>
+    <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span>
+    <span class="n">offset</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">2.60</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">2.75</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter3D</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">regr</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_rss</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">min_RSS</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;RSS&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Z</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+
+<span class="c1"># settings common to both plots</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta_0$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta_1$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/simple-linear-regression_57_0.png" src="../_images/simple-linear-regression_57_0.png" />
+</div>
+</div>
+<p><strong>6.</strong> Evaluate the learnt model from <strong>Exercise 1</strong> accuracy using <strong><span class="math notranslate nohighlight">\(R^2\)</span> score</strong> and <strong>Means Squared Error (MSE)</strong>. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#assessing-model-accuracy-via-r-2">2.1.7</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">regr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R2 score:&quot;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean squared error: &quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R2 score: 0.19798115021119478
+Mean squared error:  6.3806107320036825
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>i</strong>. Has  this model fitted the data well?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>No. As we know, <span class="math notranslate nohighlight">\(R^2\)</span> is 0 when the model does not fit the data at all, and it is 1 when the model perfectly fits the data. We got <span class="math notranslate nohighlight">\(R^2\)</span> score of 0.197, which is pretty low, which means the model does fit the data well.</strong></p>
+</div>
+<p><strong>ii</strong>. <span class="math notranslate nohighlight">\(R^2\)</span> score always varies from <span class="math notranslate nohighlight">\(-1\)</span> to <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    a. True
+    
+    b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. False. <span class="math notranslate nohighlight">\(R^2\)</span> score always varies from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>.</strong></p>
+</div>
+<p><strong>7.</strong> Use the <strong>statsmodels</strong> library to learn a model for the same predictor and response from <strong>Exercise 1</strong> and compute the statistics, including the confidence intervals. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#confidence-intervals">2.1.9</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="n">est</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;Sales ~ Price&quot;</span><span class="p">,</span> <span class="n">carseats_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>   13.6419</td> <td>    0.633</td> <td>   21.558</td> <td> 0.000</td> <td>   12.398</td> <td>   14.886</td>
+</tr>
+<tr>
+  <th>Price</th>     <td>   -0.0531</td> <td>    0.005</td> <td>   -9.912</td> <td> 0.000</td> <td>   -0.064</td> <td>   -0.043</td>
+</tr>
+</table></div></div>
+</div>
+<p><strong>i</strong>. What is the minimum value of <span class="math notranslate nohighlight">\(95\%\)</span> confidence intervals in this model for weight parameter?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong><span class="math notranslate nohighlight">\(-0.064\)</span></strong></p>
+</div>
+<p><strong>ii</strong>. Is there a relationship between the <strong>predictor</strong> and the <strong>response</strong>?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>Yes, the low <span class="math notranslate nohighlight">\(p\)</span>-value associated with the <span class="math notranslate nohighlight">\(t\)</span>-statistic for price suggests so.</strong></p>
+</div>
+<p><strong>iii</strong>. How strong is the relationship between the <strong>predictor</strong> and the <strong>response</strong>?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>For a unit increase in price, our model predicts sales will decrease by <span class="math notranslate nohighlight">\(-0.0531\)</span>. So, for example, increasing the price by <span class="math notranslate nohighlight">\(20\)</span> is expected to decrease efficiency by <span class="math notranslate nohighlight">\(-1.062\)</span> sales.</strong></p>
+</div>
+<p><strong>iv</strong>.  Is the relationship between the predictor and the response <strong>positive or negative</strong>?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>Negative</strong></p>
+</div>
+<p><strong>8.</strong> Compute the RSS value for the new model and verify that the RSS computed via <strong>statsmodels</strong> is the same as that obtained via <strong>scikit-learn</strong>. <strong>Hint</strong>: See Section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/simple-linear-regression.html#confidence-intervals">2.1.9</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># RSS with regression coefficients</span>
+<span class="p">(</span>
+    <span class="p">(</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">Sales</span> <span class="o">-</span> <span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">est</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">Price</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.5522442928014724
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./02-linear-reg"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>Linear Regression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="multi-linear-regression.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.2. </span>Multiple linear regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

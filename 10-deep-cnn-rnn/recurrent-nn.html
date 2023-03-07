@@ -1,0 +1,1620 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10.3. Recurrent neural networks &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="10.4. Quiz and summary" href="quiz-sum-ref.html" />
+    <link rel="prev" title="10.2. Convolutional neural networks" href="convolutional-nn.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/10-deep-cnn-rnn/recurrent-nn.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F10-deep-cnn-rnn/recurrent-nn.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/10-deep-cnn-rnn/recurrent-nn.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/10-deep-cnn-rnn/recurrent-nn.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/10-deep-cnn-rnn/recurrent-nn.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-recurrent-neural-networks">
+   10.3.1. Why recurrent neural networks?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unfolding-a-recurrent-neural-network">
+   10.3.2. Unfolding a recurrent neural network
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-the-data-for-surname-classification">
+   10.3.3. Get the data for
+   <em>
+    surname
+   </em>
+   classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preprocess-text-data">
+   10.3.4. Preprocess text data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#build-a-dictionary-for-names">
+     10.3.4.1. Build a dictionary for names
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#code-names-into-tensors-using-one-hot-encoding">
+     10.3.4.2. Code names into tensors using one-hot encoding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-a-recurrent-neural-network">
+   10.3.5. Define a recurrent neural network
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimisation-training-and-testing">
+   10.3.6. Optimisation, training and testing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prepare-for-training">
+     10.3.6.1. Prepare for training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choose-a-criterion-and-an-optimiser">
+     10.3.6.2. Choose a criterion and an optimiser
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-network">
+     10.3.6.3. Train the network
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-the-loss">
+     10.3.6.4. Plot the loss
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-results">
+     10.3.6.5. Evaluate the results
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-on-user-input">
+     10.3.6.6. Test on user input
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#advanced-rnns">
+   10.3.7. Advanced RNNs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   10.3.8. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Recurrent neural networks</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-recurrent-neural-networks">
+   10.3.1. Why recurrent neural networks?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unfolding-a-recurrent-neural-network">
+   10.3.2. Unfolding a recurrent neural network
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-the-data-for-surname-classification">
+   10.3.3. Get the data for
+   <em>
+    surname
+   </em>
+   classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preprocess-text-data">
+   10.3.4. Preprocess text data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#build-a-dictionary-for-names">
+     10.3.4.1. Build a dictionary for names
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#code-names-into-tensors-using-one-hot-encoding">
+     10.3.4.2. Code names into tensors using one-hot encoding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-a-recurrent-neural-network">
+   10.3.5. Define a recurrent neural network
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimisation-training-and-testing">
+   10.3.6. Optimisation, training and testing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prepare-for-training">
+     10.3.6.1. Prepare for training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choose-a-criterion-and-an-optimiser">
+     10.3.6.2. Choose a criterion and an optimiser
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-network">
+     10.3.6.3. Train the network
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-the-loss">
+     10.3.6.4. Plot the loss
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-results">
+     10.3.6.5. Evaluate the results
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-on-user-input">
+     10.3.6.6. Test on user input
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#advanced-rnns">
+   10.3.7. Advanced RNNs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   10.3.8. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="recurrent-neural-networks">
+<h1><span class="section-number">10.3. </span>Recurrent neural networks<a class="headerlink" href="#recurrent-neural-networks" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Recurrent_neural_network">Recurrent neural networks (RNNs)</a> are a class of neural networks where connections between nodes (units/neurons) can create a directed cycle so that output from some nodes can affect subsequent input to the same node. RNNs are able to maintain an internal state that captures information about the sequence seen so far and they are able to use this internal state to make predictions about the next element in the sequence. This internal state is updated based on the input at each time step, and is used to make predictions about the next element in the sequence. RNNs are commonly used for processing <em>sequential data</em> such as text in natural language processing (NLP), speech in speech recognition, and time series in time series (e.g. stock price, weather) forecasting.</p>
+<p>Watch the 15-minute video below for a visual explanation of recurrent neural networks.</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/AsNTP8Kwu80?start=45&end=953" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/AsNTP8Kwu80?start=45&amp;end=953">Explaining main ideas behind recurrent neural networks by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<p>Remove or comment off the following installation if you have installed PyTorch and TorchVision already.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>torch<span class="w"> </span>torchvision
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="why-recurrent-neural-networks">
+<h2><span class="section-number">10.3.1. </span>Why recurrent neural networks?<a class="headerlink" href="#why-recurrent-neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>In the previous section, we saw how to use convolutional neural networks (CNNs) to process images. CNNs are a type of neural network that is particularly well suited to processing data that has a grid-like structure, such as images.</p>
+<p>In this section, we will see how to use recurrent neural networks (RNNs) to process sequential data. RNNs are a type of neural network that is particularly well suited to processing data that has a temporal structure, such as text. In particular, they are able to maintain an internal state that captures information about the sequence seen so far. They can process sequences of variable length, unlike CNNs which can only process fixed-size inputs.</p>
+<p>There are two key ideas behind RNNs:</p>
+<ul class="simple">
+<li><p><strong>Recurrent connections</strong>. RNNs have recurrent connections that allow information to flow through the network in a directed cycle. This allows the network to use its internal state to make predictions about the next element in the sequence.</p></li>
+<li><p><strong>Weight sharing</strong>. RNNs share weights across time steps. This means that the same weights are used to process the first element of the sequence, the second element, the third element, and so on. This allows the network to efficiently represent patterns that are consistent across time steps.</p></li>
+</ul>
+</div>
+<div class="section" id="unfolding-a-recurrent-neural-network">
+<h2><span class="section-number">10.3.2. </span>Unfolding a recurrent neural network<a class="headerlink" href="#unfolding-a-recurrent-neural-network" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#rnn-unfold"><span class="std std-numref">Fig. 10.5</span></a> shows a recurrent neural network in the compressed form on the left and the unfolded form for three time steps on the right. At each time step, the network takes an input and produces an output and a hidden state. The hidden state is then fed into the network at the next time step via the recurrent connection (labelled with ‘V’), e.g. from the hidden unit at time step <span class="math notranslate nohighlight">\(t-1\)</span> to the hidden unit at time step <span class="math notranslate nohighlight">\(t\)</span>, and from the hidden unit at time step <span class="math notranslate nohighlight">\(t\)</span> to the hidden unit at time step <span class="math notranslate nohighlight">\(t+1\)</span>. Note the weights and biases are shared across time steps.</p>
+<div class="figure align-default" id="rnn-unfold">
+<a class="reference internal image-reference" href="https://upload.wikimedia.org/wikipedia/commons/b/b5/Recurrent_neural_network_unfold.svg"><img alt="https://upload.wikimedia.org/wikipedia/commons/b/b5/Recurrent_neural_network_unfold.svg" height="300px" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Recurrent_neural_network_unfold.svg" /></a>
+<p class="caption"><span class="caption-number">Fig. 10.5 </span><span class="caption-text">Unfolding a recurrent neural network across time steps</span><a class="headerlink" href="#rnn-unfold" title="Permalink to this image">¶</a></p>
+</div>
+<p>Let us see how RNNs work by going through an example adapted from the PyTorch tutorial <a class="reference external" href="https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html">Classifying Names with a Character-Level RNN</a> with some modifications.</p>
+</div>
+<div class="section" id="get-the-data-for-surname-classification">
+<h2><span class="section-number">10.3.3. </span>Get the data for <em>surname</em> classification<a class="headerlink" href="#get-the-data-for-surname-classification" title="Permalink to this headline">¶</a></h2>
+<p>A character-level RNN reads words as a series of characters and outputs a prediction and “hidden state” at each step, feeding its previous hidden state into each next step. We take the final prediction to be the output, i.e. which class the word belongs to.</p>
+<p>Specifically, we will train on a few thousand <em>surnames</em> from 18 languages of origin, and predict which language a name is from based on the spelling.</p>
+<p>Get ready by importing the APIs needed from respective libraries and setting the random seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="nb">open</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets.utils</span> <span class="kn">import</span> <span class="n">download_and_extract_archive</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">ticker</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Download and extract the data.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_dir</span> <span class="o">=</span> <span class="s2">&quot;./data/&quot;</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://download.pytorch.org/tutorial/data.zip&quot;</span>
+<span class="n">download_and_extract_archive</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">root_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading https://download.pytorch.org/tutorial/data.zip to ./data/data.zip
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "6ab661cb4d9a478dbb3624e54a1499ac"}
+</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting ./data/data.zip to ./data/
+</pre></div>
+</div>
+</div>
+</div>
+<p>Under the <code class="docutils literal notranslate"><span class="pre">data/names</span></code> directory, there are 18 text files named as “[Language].txt”. Each file contains a bunch of names, one name per line, mostly romanized but we still need to convert from Unicode to ASCII.</p>
+<p>Let us examine the extracted files.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">findFiles</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">findFiles</span><span class="p">(</span><span class="n">root_dir</span> <span class="o">+</span> <span class="s2">&quot;data/names/*.txt&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;./data/data/names/Arabic.txt&#39;, &#39;./data/data/names/Dutch.txt&#39;, &#39;./data/data/names/Spanish.txt&#39;, &#39;./data/data/names/Greek.txt&#39;, &#39;./data/data/names/Chinese.txt&#39;, &#39;./data/data/names/Portuguese.txt&#39;, &#39;./data/data/names/German.txt&#39;, &#39;./data/data/names/Japanese.txt&#39;, &#39;./data/data/names/Scottish.txt&#39;, &#39;./data/data/names/French.txt&#39;, &#39;./data/data/names/Vietnamese.txt&#39;, &#39;./data/data/names/Czech.txt&#39;, &#39;./data/data/names/Korean.txt&#39;, &#39;./data/data/names/English.txt&#39;, &#39;./data/data/names/Russian.txt&#39;, &#39;./data/data/names/Irish.txt&#39;, &#39;./data/data/names/Italian.txt&#39;, &#39;./data/data/names/Polish.txt&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="preprocess-text-data">
+<h2><span class="section-number">10.3.4. </span>Preprocess text data<a class="headerlink" href="#preprocess-text-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="build-a-dictionary-for-names">
+<h3><span class="section-number">10.3.4.1. </span>Build a dictionary for names<a class="headerlink" href="#build-a-dictionary-for-names" title="Permalink to this headline">¶</a></h3>
+<p>Turn a Unicode string to plain ASCII based on <a class="reference external" href="https://stackoverflow.com/a/518232/2809427">a Stack Overflow post</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_letters</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="s2">&quot; .,;&#39;&quot;</span>
+<span class="n">n_letters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_letters</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">unicodeToAscii</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">c</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;NFD&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;Mn&quot;</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_letters</span>
+    <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">unicodeToAscii</span><span class="p">(</span><span class="s2">&quot;Ślusàrski&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Slusarski
+</pre></div>
+</div>
+</div>
+</div>
+<p>Build the <code class="docutils literal notranslate"><span class="pre">category_lines</span> <span class="pre">dictionary</span></code>, which contains a list of names per language <code class="docutils literal notranslate"><span class="pre">{language:</span> <span class="pre">[names</span> <span class="pre">...]}</span></code>, by reading the files and splitting into lines.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">category_lines</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">all_categories</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="c1"># Read a file and split into lines</span>
+<span class="k">def</span> <span class="nf">readLines</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">unicodeToAscii</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">findFiles</span><span class="p">(</span><span class="n">root_dir</span> <span class="o">+</span> <span class="s2">&quot;data/names/*.txt&quot;</span><span class="p">):</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">all_categories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">readLines</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">category_lines</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span>
+
+<span class="n">n_categories</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_categories</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us examine the dictionary by printing a few names for Italian.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">category_lines</span><span class="p">[</span><span class="s2">&quot;Italian&quot;</span><span class="p">][:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Abandonato&#39;, &#39;Abatangelo&#39;, &#39;Abatantuono&#39;, &#39;Abate&#39;, &#39;Abategiovanni&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="code-names-into-tensors-using-one-hot-encoding">
+<h3><span class="section-number">10.3.4.2. </span>Code names into tensors using one-hot encoding<a class="headerlink" href="#code-names-into-tensors-using-one-hot-encoding" title="Permalink to this headline">¶</a></h3>
+<p>Next, we need to represent each letter in a name by a <a class="reference external" href="https://en.wikipedia.org/wiki/One-hot">one-hot</a> vector. To represent a single letter, we use a “one-hot vector” of size <code class="docutils literal notranslate"><span class="pre">&lt;1</span> <span class="pre">x</span> <span class="pre">n_letters&gt;</span></code>. A one-hot vector is filled with 0s except for a 1 at index of the current letter, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;b&quot;</span> <span class="pre">=</span> <span class="pre">&lt;0</span> <span class="pre">1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">...&gt;</span></code>.</p>
+<p>To make a word we join a bunch of those into a 2D matrix <code class="docutils literal notranslate"><span class="pre">&lt;line_length</span> <span class="pre">x</span> <span class="pre">1</span> <span class="pre">x</span> <span class="pre">n_letters&gt;</span></code>. That extra 1 dimension is because PyTorch assumes everything is in batches - we’re just using a batch size of 1 here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the letter index from all_letters, e.g. &quot;a&quot; = 0</span>
+<span class="k">def</span> <span class="nf">letterToIndex</span><span class="p">(</span><span class="n">letter</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">all_letters</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+
+
+<span class="c1"># Turn a letter into a &lt;1 x n_letters&gt; tensor</span>
+<span class="k">def</span> <span class="nf">letterToTensor</span><span class="p">(</span><span class="n">letter</span><span class="p">):</span>
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_letters</span><span class="p">)</span>
+    <span class="n">tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">letterToIndex</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">tensor</span>
+
+
+<span class="c1"># Turn a line into a &lt;line_length x 1 x n_letters&gt; tensor</span>
+<span class="k">def</span> <span class="nf">lineToTensor</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_letters</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">li</span><span class="p">,</span> <span class="n">letter</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">tensor</span><span class="p">[</span><span class="n">li</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">letterToIndex</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">tensor</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">letterToTensor</span><span class="p">(</span><span class="s2">&quot;J&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lineToTensor</span><span class="p">(</span><span class="s2">&quot;Jones&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0.]])
+torch.Size([5, 1, 57])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following is how a single name is represented as a tensor.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">lineToTensor</span><span class="p">(</span><span class="s2">&quot;Jones&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0.]],
+
+        [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0.]],
+
+        [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0.]],
+
+        [[0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0.]],
+
+        [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0.]]])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="define-a-recurrent-neural-network">
+<h2><span class="section-number">10.3.5. </span>Define a recurrent neural network<a class="headerlink" href="#define-a-recurrent-neural-network" title="Permalink to this headline">¶</a></h2>
+<p>We can implement a simple recurrent neural network (RNN) in PyTorch using regular feed-forward layers below, with two linear (fully-connected) layers operating on an input and hidden state and a LogSoftmax layer before the final output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">i2h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span> <span class="o">+</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>  <span class="c1"># input to hidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i2o</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span> <span class="o">+</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>  <span class="c1"># input to output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">softmax</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LogSoftmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">hidden</span><span class="p">):</span>
+        <span class="n">combined</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="nb">input</span><span class="p">,</span> <span class="n">hidden</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i2h</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i2o</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span>
+
+    <span class="k">def</span> <span class="nf">initHidden</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">)</span>
+
+
+<span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">rnn</span> <span class="o">=</span> <span class="n">RNN</span><span class="p">(</span><span class="n">n_letters</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_categories</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This RNN is illustrated in <a class="reference internal" href="#rnn-module"><span class="std std-numref">Fig. 10.6</span></a> below.</p>
+<div class="figure align-default" id="rnn-module">
+<a class="reference internal image-reference" href="https://i.imgur.com/Z2xbySO.png"><img alt="https://i.imgur.com/Z2xbySO.png" src="https://i.imgur.com/Z2xbySO.png" style="height: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 10.6 </span><span class="caption-text">A recurrent neural network module with two linear (fully-connected) layers.</span><a class="headerlink" href="#rnn-module" title="Permalink to this image">¶</a></p>
+</div>
+<p>To run a step of this RNN, we need to provide an input (the tensor for the current letter in this example) and a previous hidden state (with initialisation to zeros). At each step, we get the output as the probability of each language and a next hidden state for the next
+step.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="n">letterToTensor</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+<span class="n">hidden</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+
+<span class="n">output</span><span class="p">,</span> <span class="n">next_hidden</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For efficiency, we will not create a new tensor for every step. Instead, we will use <code class="docutils literal notranslate"><span class="pre">lineToTensor</span></code> rather than <code class="docutils literal notranslate"><span class="pre">letterToTensor</span></code> and then operate on slices of <code class="docutils literal notranslate"><span class="pre">lineTensor</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="n">lineToTensor</span><span class="p">(</span><span class="s2">&quot;Albert&quot;</span><span class="p">)</span>
+<span class="n">hidden</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+
+<span class="n">output</span><span class="p">,</span> <span class="n">next_hidden</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hidden</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[-2.8592, -2.8253, -2.8707, -2.8112, -2.9611, -2.9083, -2.9330, -2.9325,
+         -2.9786, -2.9515, -2.8053, -2.8357, -2.9486, -2.9308, -2.8328, -2.8497,
+         -2.9542, -2.8667]], grad_fn=&lt;LogSoftmaxBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, the output is a <code class="docutils literal notranslate"><span class="pre">&lt;1</span> <span class="pre">x</span> <span class="pre">18&gt;</span></code> tensor (<code class="docutils literal notranslate"><span class="pre">n_categories</span></code>=18), where every item is the likelihood of that category (higher is more likely).</p>
+</div>
+<div class="section" id="optimisation-training-and-testing">
+<h2><span class="section-number">10.3.6. </span>Optimisation, training and testing<a class="headerlink" href="#optimisation-training-and-testing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prepare-for-training">
+<h3><span class="section-number">10.3.6.1. </span>Prepare for training<a class="headerlink" href="#prepare-for-training" title="Permalink to this headline">¶</a></h3>
+<p>Before training, we make a few helper functions ready. The first is to interpret the output of the network, which we know to be a likelihood of each category. We can use <code class="docutils literal notranslate"><span class="pre">Tensor.topk</span></code> to get the index of the greatest value:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoryFromOutput</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+    <span class="n">top_n</span><span class="p">,</span> <span class="n">top_i</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">category_i</span> <span class="o">=</span> <span class="n">top_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">all_categories</span><span class="p">[</span><span class="n">category_i</span><span class="p">],</span> <span class="n">category_i</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">categoryFromOutput</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;Vietnamese&#39;, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also need a quick way to get a training example (a name and its language) randomly. We show 10 such random examples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">randomChoice</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">randomTrainingExample</span><span class="p">():</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">randomChoice</span><span class="p">(</span><span class="n">all_categories</span><span class="p">)</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">randomChoice</span><span class="p">(</span><span class="n">category_lines</span><span class="p">[</span><span class="n">category</span><span class="p">])</span>
+    <span class="n">category_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">all_categories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">category</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+    <span class="n">line_tensor</span> <span class="o">=</span> <span class="n">lineToTensor</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">category</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">category_tensor</span><span class="p">,</span> <span class="n">line_tensor</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">category</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">category_tensor</span><span class="p">,</span> <span class="n">line_tensor</span> <span class="o">=</span> <span class="n">randomTrainingExample</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;category =&quot;</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="s2">&quot;/ line =&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>category = Polish / line = Niemec
+category = Russian / line = Zastrojny
+category = French / line = Bonnaire
+category = Italian / line = Zunino
+category = English / line = Redfern
+category = Vietnamese / line = Tron
+category = English / line = Ginty
+category = Russian / line = Zhadan
+category = Italian / line = Rovigatti
+category = Dutch / line = Meeuwes
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="choose-a-criterion-and-an-optimiser">
+<h3><span class="section-number">10.3.6.2. </span>Choose a criterion and an optimiser<a class="headerlink" href="#choose-a-criterion-and-an-optimiser" title="Permalink to this headline">¶</a></h3>
+<p>We choose the loss function <code class="docutils literal notranslate"><span class="pre">nn.NLLLoss</span></code> since the last layer of the RNN is <code class="docutils literal notranslate"><span class="pre">nn.LogSoftmax</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.005</span>  <span class="c1"># A higher value may explode and a lower value may not learn.</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">NLLLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">rnn</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="train-the-network">
+<h3><span class="section-number">10.3.6.3. </span>Train the network<a class="headerlink" href="#train-the-network" title="Permalink to this headline">¶</a></h3>
+<p>Now, we are ready to train this RNN by showing it a bunch of examples, having it make predictions, and computing the loss for gradient descent.</p>
+<p>Each loop of training will:</p>
+<ul class="simple">
+<li><p>Create input and target tensors</p></li>
+<li><p>Create a zeroed initial hidden state</p></li>
+<li><p>Read each letter in and keep hidden state for next letter</p></li>
+<li><p>Compare final output to target</p></li>
+<li><p>Backpropagate</p></li>
+<li><p>Return the output and loss</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">category_tensor</span><span class="p">,</span> <span class="n">line_tensor</span><span class="p">):</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">initHidden</span><span class="p">()</span>
+
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clear the gradients</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">line_tensor</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="n">line_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hidden</span><span class="p">)</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">category_tensor</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, we run this RNN with a bunch of examples. Since the <code class="docutils literal notranslate"><span class="pre">train</span></code> function returns both the output and loss we can print its predictions and keep track of loss for plotting. Since there are 1000s of examples, we print only every <code class="docutils literal notranslate"><span class="pre">print_every</span></code> examples and take an average of the loss.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_iters</span> <span class="o">=</span> <span class="mi">60000</span>
+<span class="n">print_every</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">plot_every</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="c1"># Keep track of losses for plotting</span>
+<span class="n">current_loss</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">all_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">def</span> <span class="nf">timeSince</span><span class="p">(</span><span class="n">since</span><span class="p">):</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">since</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">s</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">-=</span> <span class="n">m</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">m </span><span class="si">%d</span><span class="s2">s&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_iters</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">category</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">category_tensor</span><span class="p">,</span> <span class="n">line_tensor</span> <span class="o">=</span> <span class="n">randomTrainingExample</span><span class="p">()</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">category_tensor</span><span class="p">,</span> <span class="n">line_tensor</span><span class="p">)</span>
+    <span class="n">current_loss</span> <span class="o">+=</span> <span class="n">loss</span>
+
+    <span class="c1"># Print iter number, loss, name and prediction</span>
+    <span class="k">if</span> <span class="nb">iter</span> <span class="o">%</span> <span class="n">print_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">predicted</span><span class="p">,</span> <span class="n">predicted_i</span> <span class="o">=</span> <span class="n">categoryFromOutput</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">correct</span> <span class="o">=</span> <span class="s2">&quot;✓&quot;</span> <span class="k">if</span> <span class="n">predicted</span> <span class="o">==</span> <span class="n">category</span> <span class="k">else</span> <span class="s2">&quot;✗ (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">category</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%d%%</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) </span><span class="si">%.4f</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> / </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span>
+            <span class="o">%</span> <span class="p">(</span>
+                <span class="nb">iter</span><span class="p">,</span>
+                <span class="nb">iter</span> <span class="o">/</span> <span class="n">n_iters</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                <span class="n">timeSince</span><span class="p">(</span><span class="n">start</span><span class="p">),</span>
+                <span class="n">loss</span><span class="p">,</span>
+                <span class="n">line</span><span class="p">,</span>
+                <span class="n">predicted</span><span class="p">,</span>
+                <span class="n">correct</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Add current loss avg to list of losses</span>
+    <span class="k">if</span> <span class="nb">iter</span> <span class="o">%</span> <span class="n">plot_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">all_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_loss</span> <span class="o">/</span> <span class="n">plot_every</span><span class="p">)</span>
+        <span class="n">current_loss</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2000 3% (0m 1s) 2.7896 Hori / Polish ✗ (Japanese)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4000 6% (0m 3s) 2.7573 Kyubei / Italian ✗ (Japanese)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6000 10% (0m 5s) 2.0908 Paraskevopoulos / Korean ✗ (Greek)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8000 13% (0m 7s) 2.7028 Pena / Vietnamese ✗ (Spanish)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000 16% (0m 9s) 3.4008 Macdermott / French ✗ (Irish)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12000 20% (0m 11s) 1.9120 Yaitsky / Polish ✗ (Russian)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14000 23% (0m 13s) 2.6841 Mooney / Czech ✗ (Irish)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16000 26% (0m 15s) 2.3465 Snaijer / French ✗ (Dutch)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18000 30% (0m 17s) 0.5861 Daishi / Japanese ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20000 33% (0m 19s) 3.0099 Sheppard / Irish ✗ (English)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>22000 36% (0m 21s) 0.5524 Karameros / Greek ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>24000 40% (0m 23s) 2.4368 Stephens / Dutch ✗ (English)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>26000 43% (0m 25s) 0.8971 Shan / Chinese ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>28000 46% (0m 27s) 3.2082 Cameron / Portuguese ✗ (Scottish)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30000 50% (0m 29s) 0.4439 Woo / Korean ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>32000 53% (0m 31s) 1.6215 Reid / Scottish ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>34000 56% (0m 33s) 0.8601 Bobienski / Polish ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>36000 60% (0m 35s) 1.2124 Gorecki / Polish ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>38000 63% (0m 37s) 0.7389 Jue / Chinese ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>40000 66% (0m 38s) 1.7521 Marchand / Scottish ✗ (French)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>42000 70% (0m 41s) 3.4137 Cennetig / Russian ✗ (Irish)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>44000 73% (0m 42s) 5.0623 Bing / Chinese ✗ (English)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>46000 76% (0m 44s) 1.7001 Allen / Irish ✗ (English)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>48000 80% (0m 46s) 0.4686 Travere / French ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>50000 83% (0m 48s) 1.6102 Gaskoin / Arabic ✗ (Russian)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>52000 86% (0m 50s) 2.6438 Legge / French ✗ (English)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54000 90% (0m 52s) 0.6895 Di caprio / Italian ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>56000 93% (0m 54s) 0.4235 Koolen / Dutch ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>58000 96% (0m 56s) 0.7913 Ho / Korean ✓
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>60000 100% (0m 58s) 0.7956 Wong / Chinese ✓
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-the-loss">
+<h3><span class="section-number">10.3.6.4. </span>Plot the loss<a class="headerlink" href="#plot-the-loss" title="Permalink to this headline">¶</a></h3>
+<p>Plotting the historical loss from <code class="docutils literal notranslate"><span class="pre">all_losses</span></code> shows how the network learned over time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">all_losses</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fef90bcb280&gt;]
+</pre></div>
+</div>
+<img alt="../_images/recurrent-nn_37_1.png" src="../_images/recurrent-nn_37_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="evaluate-the-results">
+<h3><span class="section-number">10.3.6.5. </span>Evaluate the results<a class="headerlink" href="#evaluate-the-results" title="Permalink to this headline">¶</a></h3>
+<p>To see how well the network performs on different categories, we will create a confusion matrix, indicating for every actual language (rows) which language the network has predicted to be (columns). To calculate the confusion matrix, a bunch of samples are run through the network with <code class="docutils literal notranslate"><span class="pre">evaluate()</span></code>, which is the same as <code class="docutils literal notranslate"><span class="pre">train()</span></code> minus the backprop.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep track of correct predictions in a confusion matrix</span>
+<span class="n">confusion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_categories</span><span class="p">,</span> <span class="n">n_categories</span><span class="p">)</span>
+<span class="n">n_confusion</span> <span class="o">=</span> <span class="mi">10000</span>
+
+
+<span class="c1"># Just return an output given a line</span>
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">line_tensor</span><span class="p">):</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">initHidden</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">line_tensor</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="n">line_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hidden</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="c1"># Go through a bunch of examples and record which are correctly predicted</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_confusion</span><span class="p">):</span>
+    <span class="n">category</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">category_tensor</span><span class="p">,</span> <span class="n">line_tensor</span> <span class="o">=</span> <span class="n">randomTrainingExample</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">line_tensor</span><span class="p">)</span>
+    <span class="n">predicted</span><span class="p">,</span> <span class="n">predicted_i</span> <span class="o">=</span> <span class="n">categoryFromOutput</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">category_i</span> <span class="o">=</span> <span class="n">all_categories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+    <span class="n">confusion</span><span class="p">[</span><span class="n">category_i</span><span class="p">][</span><span class="n">predicted_i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Normalize by dividing every row by its sum</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_categories</span><span class="p">):</span>
+    <span class="n">confusion</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">confusion</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">confusion</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Set up plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">cax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">confusion</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cax</span><span class="p">)</span>
+
+<span class="c1"># Set up axes</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">all_categories</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">all_categories</span><span class="p">)</span>
+
+<span class="c1"># Force label at every tick</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">ticker</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">ticker</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2846/1638848402.py:35: UserWarning: FixedFormatter should only be used together with FixedLocator
+  ax.set_xticklabels([&quot;&quot;] + all_categories, rotation=90)
+/tmp/ipykernel_2846/1638848402.py:36: UserWarning: FixedFormatter should only be used together with FixedLocator
+  ax.set_yticklabels([&quot;&quot;] + all_categories)
+</pre></div>
+</div>
+<img alt="../_images/recurrent-nn_39_1.png" src="../_images/recurrent-nn_39_1.png" />
+</div>
+</div>
+<p>We can pick out bright spots off the main axis that show which languages it has most confusion with, e.g. Chinese for Korean. It seems to do very well with Greek, and very poorly with English (perhaps because of overlap with other languages).</p>
+</div>
+<div class="section" id="test-on-user-input">
+<h3><span class="section-number">10.3.6.6. </span>Test on user input<a class="headerlink" href="#test-on-user-input" title="Permalink to this headline">¶</a></h3>
+<p>We can also run the network on user input to see what it predicts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">input_line</span><span class="p">,</span> <span class="n">n_predictions</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">input_line</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">lineToTensor</span><span class="p">(</span><span class="n">input_line</span><span class="p">))</span>
+
+        <span class="c1"># Get top N categories</span>
+        <span class="n">topv</span><span class="p">,</span> <span class="n">topi</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">n_predictions</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_predictions</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">topv</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">category_index</span> <span class="o">=</span> <span class="n">topi</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">%.2f</span><span class="s2">) </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">all_categories</span><span class="p">[</span><span class="n">category_index</span><span class="p">]))</span>
+            <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">value</span><span class="p">,</span> <span class="n">all_categories</span><span class="p">[</span><span class="n">category_index</span><span class="p">]])</span>
+
+
+<span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Hinton&quot;</span><span class="p">)</span>
+<span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Schmidhuber&quot;</span><span class="p">)</span>
+<span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Zhou&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt; Hinton
+(-0.34) Scottish
+(-2.23) English
+(-3.20) Polish
+
+&gt; Schmidhuber
+(-1.43) Polish
+(-1.67) German
+(-1.73) Czech
+
+&gt; Zhou
+(-0.63) Korean
+(-1.16) Chinese
+(-3.08) Vietnamese
+</pre></div>
+</div>
+</div>
+</div>
+<p>Do these predictions make sense to you?</p>
+</div>
+</div>
+<div class="section" id="advanced-rnns">
+<h2><span class="section-number">10.3.7. </span>Advanced RNNs<a class="headerlink" href="#advanced-rnns" title="Permalink to this headline">¶</a></h2>
+<p>There are more advanced RNNs that can be used for sequence modelling, such as the <a class="reference external" href="https://en.wikipedia.org/wiki/Long_short-term_memory">Long Short-Term Memory (LSTM)</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Gated_recurrent_unit">Gated Recurrent Unit (GRU)</a>, and <a class="reference external" href="https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)">Transformer</a>. These networks are more complex and are beyond the scope of this course. However, you can find more information about them in the <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#recurrent-layers">PyTorch documentation</a>.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">10.3.8. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1.</strong> How is a recurrent neural network <strong>different</strong> from a convolutional neural network?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>CNNs are a type of neural networks that is particularly well suited to processing data that has a grid-like structure, such as images, whereas RNNs are particularly well suited to processing data that has a sequence structure, such as text.</p>
+</div>
+<p><strong>2.</strong> What are the <strong>two key ideas</strong> behind RNNs?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>The two key ideas behind RNNs are recurrent connections and weight sharing.</p>
+</div>
+<p><strong>3.</strong> What is the purpose of <strong>recurrent connections</strong> in RNNs?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>Recurrent connections allow information to flow through the network in a directed cycle, allowing the network to use its internal state to make predictions about the next element in the sequence.</p>
+</div>
+<p><strong>4.</strong> What is the purpose of <strong>weight sharing</strong> in RNNs?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>Weight sharing in RNNs means that the same weights are used to process all time steps, which allows the network to efficiently represent patterns that are consistent across steps.</p>
+</div>
+</div>
+</div>
+
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"1950f77534e4427c89695baa6060229b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "34923ab3aa2f477abfd952d3b133f674": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "6a8294830d9a44e2bc697e4d1cf4fb6e": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_1950f77534e4427c89695baa6060229b", "max": 2882130.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_34923ab3aa2f477abfd952d3b133f674", "value": 2882130.0}}, "97c9f572108f4f668a6d82dc1b03819c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b582937afd544fb8a82dd8248415def0": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "5423b4009615427bbc8ebf03158fad8c": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_97c9f572108f4f668a6d82dc1b03819c", "placeholder": "\u200b", "style": "IPY_MODEL_b582937afd544fb8a82dd8248415def0", "value": "100%"}}, "ffe1f1c723774537932c95980beebbc2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "581973c349ea4162a3e5dd28d3a0a3e8": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "cd04b6f8a9d04e0388a0a75e2d128b58": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_ffe1f1c723774537932c95980beebbc2", "placeholder": "\u200b", "style": "IPY_MODEL_581973c349ea4162a3e5dd28d3a0a3e8", "value": " 2882130/2882130 [00:00&lt;00:00, 19241479.58it/s]"}}, "e162760260cd47f18c2ebdf35ef75d4f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6ab661cb4d9a478dbb3624e54a1499ac": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_5423b4009615427bbc8ebf03158fad8c", "IPY_MODEL_6a8294830d9a44e2bc697e4d1cf4fb6e", "IPY_MODEL_cd04b6f8a9d04e0388a0a75e2d128b58"], "layout": "IPY_MODEL_e162760260cd47f18c2ebdf35ef75d4f"}}}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./10-deep-cnn-rnn"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="convolutional-nn.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">10.2. </span>Convolutional neural networks</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="quiz-sum-ref.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">10.4. </span>Quiz and summary</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

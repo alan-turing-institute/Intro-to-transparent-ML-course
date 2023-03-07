@@ -1,0 +1,1659 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3.2. Logistic regression &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.3. Quiz and summary" href="quiz-sum-ref.html" />
+    <link rel="prev" title="3.1. Regression model for classification?" href="regress-to-classify.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   3. Logistic regression
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/03-logistic-reg/logistic-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F03-logistic-reg/logistic-regression.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/03-logistic-reg/logistic-regression.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/03-logistic-reg/logistic-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/03-logistic-reg/logistic-regression.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   3.2.1. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-model">
+   3.2.2. Logistic model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logit-function-transformation">
+     3.2.2.1. Logit function transformation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logistic-function">
+     3.2.2.2. Logistic function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-the-coefficients-to-make-predictions">
+   3.2.3. Estimating the coefficients to make predictions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-explanation-of-system-transparency">
+     3.2.3.1. Example explanation of system transparency
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-logistic-regression">
+   3.2.4. Multiple logistic regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation-of-logistic-regression">
+   3.2.5. Evaluation of logistic regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#accuracy">
+     3.2.5.1. Accuracy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#area-under-the-roc-curve-auc">
+     3.2.5.2. Area under the ROC curve (AUC)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise">
+   3.2.6. Exercise
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Logistic regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-and-load-data">
+   3.2.1. Import libraries and load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-model">
+   3.2.2. Logistic model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logit-function-transformation">
+     3.2.2.1. Logit function transformation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logistic-function">
+     3.2.2.2. Logistic function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-the-coefficients-to-make-predictions">
+   3.2.3. Estimating the coefficients to make predictions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-explanation-of-system-transparency">
+     3.2.3.1. Example explanation of system transparency
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-logistic-regression">
+   3.2.4. Multiple logistic regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation-of-logistic-regression">
+   3.2.5. Evaluation of logistic regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#accuracy">
+     3.2.5.1. Accuracy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#area-under-the-roc-curve-auc">
+     3.2.5.2. Area under the ROC curve (AUC)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise">
+   3.2.6. Exercise
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="logistic-regression">
+<h1><span class="section-number">3.2. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h1>
+<p>Although having “regression” in its name, logistic regression is a classification (rather than regression) algorithm. Instead of modelling the qualitative response <span class="math notranslate nohighlight">\(y\)</span> directly, logistic regression models the probability that <span class="math notranslate nohighlight">\(y\)</span> belongs to a particular class (category).</p>
+<p>Watch the 8-minute video below for a visual explanation of logistic regression:</p>
+<div class="admonition-video admonition">
+<p class="admonition-title">Video</p>
+<iframe width="700" height="394" src="https://www.youtube.com/embed/yIYKR4sgzI8?start=24" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a class="reference external" href="https://www.youtube.com/embed/yIYKR4sgzI8?start=24">Explaining Logistic Regression by StatQuest</a>, embedded according to <a class="reference external" href="https://www.youtube.com/static?gl=CA&amp;template=terms">YouTube’s Terms of Service</a>.</p>
+</div>
+<div class="section" id="import-libraries-and-load-data">
+<h2><span class="section-number">3.2.1. </span>Import libraries and load data<a class="headerlink" href="#import-libraries-and-load-data" title="Permalink to this headline">¶</a></h2>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.gridspec</span> <span class="kn">import</span> <span class="n">GridSpec</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">RocCurveDisplay</span>
+
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">logit</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Load the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Default.csv">Default dataset</a> and inspect the first three rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Default.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">)</span>
+
+<span class="c1"># Note: factorize() returns two objects: a label array and an array with the unique values. We are only interested in the first object.</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;default2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;student2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">student</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>default</th>
+      <th>student</th>
+      <th>balance</th>
+      <th>income</th>
+      <th>default2</th>
+      <th>student2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>No</td>
+      <td>No</td>
+      <td>729.526495</td>
+      <td>44361.625074</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>No</td>
+      <td>Yes</td>
+      <td>817.180407</td>
+      <td>12106.134700</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>No</td>
+      <td>No</td>
+      <td>1073.549164</td>
+      <td>31767.138947</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="logistic-model">
+<h2><span class="section-number">3.2.2. </span>Logistic model<a class="headerlink" href="#logistic-model" title="Permalink to this headline">¶</a></h2>
+<p>Logistic regression models the probability that the response <span class="math notranslate nohighlight">\(y\)</span> belongs to a particular class (category) using linear <em>regression</em> via a <em>logistic</em> function, hence the name <em>logistic regression</em>. For binary classification, let us use 1 to denote the positive class (e.g. “Yes”) and 0 to denote the negative class (e.g. “No”).</p>
+<div class="section" id="logit-function-transformation">
+<h3><span class="section-number">3.2.2.1. </span>Logit function transformation<a class="headerlink" href="#logit-function-transformation" title="Permalink to this headline">¶</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(\pi\)</span> be the probability of a positive outcome</p>
+<div class="math notranslate nohighlight">
+\[
+\pi = \mathbb{P}(y=1| x).
+\]</div>
+<p>Then the probability of a negative outcome <span class="math notranslate nohighlight">\( \mathbb{P}(y=0| x) = 1-\pi \)</span>.</p>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Odds">odds</a> of a positive outcome is the ratio of the probability of a positive outcome to the probability of a negative outcome, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\pi}{1-\pi}.
+\]</div>
+<p>The log of the odds is called the <a class="reference external" href="https://en.wikipedia.org/wiki/Logit">logit</a> and the logit function is defined as :</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{logit}(\pi)=\log \frac{\pi}{1-\pi}
+\]</div>
+<p>The logit function is a monotonic transformation of the probability <span class="math notranslate nohighlight">\(\pi\)</span>. It maps the probability <span class="math notranslate nohighlight">\(\pi\)</span> ranging from 0 to 1 to the real line ranging from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span>. The logit function is also known as the log-odds function.</p>
+</div>
+<div class="section" id="logistic-function">
+<h3><span class="section-number">3.2.2.2. </span>Logistic function<a class="headerlink" href="#logistic-function" title="Permalink to this headline">¶</a></h3>
+<p>In simple linear regression, we have modelled the relationship between outcome <span class="math notranslate nohighlight">\(y\)</span> and feature <span class="math notranslate nohighlight">\(x\)</span> with a linear equation:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1 x.
+\]</div>
+<p>This linear regression model is not able to produce a binary outcome for binary classification or a probability (in the range from 0 to 1 only). With the logit function above, we can transform the probability <span class="math notranslate nohighlight">\(\pi\)</span> ranging from 0 to 1 to the logit function <span class="math notranslate nohighlight">\(\mathrm{logit}(\pi)\)</span> ranging from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span>. Now we can use the linear regression model to model the logit function <span class="math notranslate nohighlight">\(\mathrm{logit}(\pi)\)</span> instead of the probability <span class="math notranslate nohighlight">\(\pi\)</span> or <span class="math notranslate nohighlight">\(y\)</span> directly. The logit function is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{logit}(\pi)=\log \frac{\pi}{1-\pi} = \beta_0 + \beta_1 x.
+\]</div>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>, also known as the sigmoid function, is the inverse of the logit function. It maps the logit function <span class="math notranslate nohighlight">\(\mathrm{logit}(\pi)\)</span> ranging from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> to the probability <span class="math notranslate nohighlight">\(\pi\)</span> ranging from 0 to 1:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi = \mathbb{P}(y = 1 | x) = \mathrm{logit}^{-1}(\beta_0 + \beta_1 x) = \mathrm{logistic}(\beta_0 + \beta_1 x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1)}}.
+\]</div>
+<!-- For classification, we cannot use linear regression to model $y$ directly, because $y$ is either. Instead, we can model the logit of the probability of a positive outcome:
+
+ we prefer probabilities between 0 and 1, so we wrap the right side of the equation into the logistic function. This forces the output to assume only values between 0 and 1 -->
+<!-- Specifically, instead of fitting a straight line or hyperplane, the logistic regression model uses the logistic function to squeeze the output of a linear equation between 0 and 1. 
+
+$$
+\textrm{logistic}(x) = \frac{1}{1 + e^{-x}}
+$$ --></div>
+</div>
+<div class="section" id="estimating-the-coefficients-to-make-predictions">
+<h2><span class="section-number">3.2.3. </span>Estimating the coefficients to make predictions<a class="headerlink" href="#estimating-the-coefficients-to-make-predictions" title="Permalink to this headline">¶</a></h2>
+<p>The coefficients of a logistic regression model can be estimated by <a class="reference external" href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a> (MLE). The likelihood function is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\beta_0, \beta_1) = \prod_{i:y_i=1} \mathbb{P}(y_i = 1) \prod_{i:y_i=0} (1 - \mathbb{P}(y_i = 1)).
+\]</div>
+<p>The mathematical details are beyond the scope of this course. If interested, please read Section 4.3 of the <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/">Pattern Recognition and Machine Learning</a> book for more details of the optimization for logistic regression.</p>
+<p>To make predictions, taking the classification problem on the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Default.csv">Default dataset</a>, the probability of default given balance predicted by a logistic regression model is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{P}(\text{default} = \text{Yes} \mid \text{balance}, \beta_0, \beta_1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \times \text{balance})}}.
+\]</div>
+<div class="section" id="example-explanation-of-system-transparency">
+<h3><span class="section-number">3.2.3.1. </span>Example explanation of system transparency<a class="headerlink" href="#example-explanation-of-system-transparency" title="Permalink to this headline">¶</a></h3>
+<p>Let us to see the curve of the logistic function on the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Default.csv">Default dataset</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;balance&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;default2&quot;</span><span class="p">,</span> <span class="n">logistic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability of default&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Balance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/logistic-regression_7_0.png" src="../_images/logistic-regression_7_0.png" />
+</div>
+</div>
+<p>We can see an S-shaped curve with the vertical axis ranging from 0 to 1, indicating the probability of a positive outcome (<code class="docutils literal notranslate"><span class="pre">default</span></code>) with respect to the horizontal axis <span class="math notranslate nohighlight">\(x\)</span> (<code class="docutils literal notranslate"><span class="pre">balance</span></code>).</p>
+<p>In practice, we can use the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> or <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package to fit a logistic regression model and make predictions.</p>
+<p>Let us fit a logistic regression model using the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API for logistic regression</a> first.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;newton-cg&quot;</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">default2</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coefficients: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept :&quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogisticRegression(solver=&#39;newton-cg&#39;)
+classes:  [0 1]
+coefficients:  [[0.00549891]]
+intercept : [-10.65132548]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us plot the fitted logistic regression model and study the system transparency.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">prob</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="n">xmin</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">xmax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">xmin</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">xmax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span>
+    <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">xmin</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">xmax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span>
+    <span class="o">-</span><span class="n">clf</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">/</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ymin</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ymax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">xmin</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">xmax</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span>
+    <span class="mi">1500</span><span class="p">,</span>
+    <span class="n">ymin</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_data_interval</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ymax</span><span class="o">=</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability of default&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Balance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=-</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/logistic-regression_11_0.png" src="../_images/logistic-regression_11_0.png" />
+</div>
+</div>
+<p>In the above example, we learnt a logistic regression model <span class="math notranslate nohighlight">\(f(x)\)</span> with two parameters, <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>, from the data, where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta_0 = -10.65133019 \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta_1 = 0.00549892 \)</span></p></li>
+</ul>
+<p>Using these two estimated parameters, we can examine the system logic of the logistic regression model to reveal its system transparency.</p>
+<div class="important admonition">
+<p class="admonition-title">System transparency</p>
+<ul class="simple">
+<li><p>When <code class="docutils literal notranslate"><span class="pre">balance</span></code>=1500 , the predicted probability of <code class="docutils literal notranslate"><span class="pre">default</span></code> is</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ f(1500) = \frac{1}{1 + e^{\beta_0 + \beta_1 \times 1500}} = \frac{1}{1 + e^{-10.65133019 + 0.00549892 \times 1500}} = 0.08294763. \]</div>
+<ul class="simple">
+<li><p>When the probability of <code class="docutils literal notranslate"><span class="pre">default</span></code> 0.5 (the commonly used threshold for binary classification), the corresponding balance can be calculated using the <em>log odds</em> equation above:</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight" id="equation-cb300f37-e10d-4c22-8728-21abfa1c7be7">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-cb300f37-e10d-4c22-8728-21abfa1c7be7" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\begin{aligned}
+\ln \left(\frac{\pi}{1-\pi}\right) &amp;= \beta_0 + \beta_1 \times x \\
+\ln \left(\frac{0.5}{1-0.5}\right) &amp;= \beta_0 + \beta_1 \times x \\
+x &amp; = \frac{- \beta_0}{\beta_1} \\
+x &amp; = \frac{- (-10.65133019)}{0.00549892} \\
+x &amp; = 1936.9858426745614.
+\end{aligned}
+\end{align}\]</div>
+<p>Therefore, to produce result <code class="docutils literal notranslate"><span class="pre">Yes</span></code>, i.e. for the probability of <code class="docutils literal notranslate"><span class="pre">default</span></code> <span class="math notranslate nohighlight">\(&gt;\)</span> 0.5, the <code class="docutils literal notranslate"><span class="pre">balance</span></code> should be greater than 1936.9858426745614. Likewise, to produce result <code class="docutils literal notranslate"><span class="pre">No</span></code>, i.e. the probability of <code class="docutils literal notranslate"><span class="pre">default</span></code> <span class="math notranslate nohighlight">\(&lt;\)</span> 0.5, the <code class="docutils literal notranslate"><span class="pre">balance</span></code> should be less than 1936.9858426745614.</p>
+</div>
+<p>Let us fit a logistic regression model using the [<code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> API for logistic regression] next.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">logit</span><span class="p">(</span><span class="s2">&quot;default2 ~ balance&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary2</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.079823
+         Iterations 10
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Coef.</th>
+      <th>Std.Err.</th>
+      <th>z</th>
+      <th>P&gt;|z|</th>
+      <th>[0.025</th>
+      <th>0.975]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>-10.651331</td>
+      <td>0.361169</td>
+      <td>-29.491287</td>
+      <td>3.723665e-191</td>
+      <td>-11.359208</td>
+      <td>-9.943453</td>
+    </tr>
+    <tr>
+      <th>balance</th>
+      <td>0.005499</td>
+      <td>0.000220</td>
+      <td>24.952404</td>
+      <td>2.010855e-137</td>
+      <td>0.005067</td>
+      <td>0.005931</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can see that the estimated parameters are the same as those from the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API. Note the two last columns, “[0.025” and “0.975]”. These are Confidence Intervals, the very concept we covered in the last chapter on Linear Regression! Now, let us fit a logistic regression model using <code class="docutils literal notranslate"><span class="pre">student</span></code> status as the input variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">logit</span><span class="p">(</span><span class="s2">&quot;default2 ~ student&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary2</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.145434
+         Iterations 7
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Coef.</th>
+      <th>Std.Err.</th>
+      <th>z</th>
+      <th>P&gt;|z|</th>
+      <th>[0.025</th>
+      <th>0.975]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>-3.504128</td>
+      <td>0.070713</td>
+      <td>-49.554094</td>
+      <td>0.000000</td>
+      <td>-3.642723</td>
+      <td>-3.365532</td>
+    </tr>
+    <tr>
+      <th>student[T.Yes]</th>
+      <td>0.404887</td>
+      <td>0.115019</td>
+      <td>3.520177</td>
+      <td>0.000431</td>
+      <td>0.179454</td>
+      <td>0.630320</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The coefficient associated with <code class="docutils literal notranslate"><span class="pre">student</span></code> is positive, indicating that the probability of <code class="docutils literal notranslate"><span class="pre">default</span></code> is higher for students than non-students.</p>
+</div>
+</div>
+<div class="section" id="multiple-logistic-regression">
+<h2><span class="section-number">3.2.4. </span>Multiple logistic regression<a class="headerlink" href="#multiple-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>The logistic regression model can be extended to multiple features. A generalised logistic regression model for an instance <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, x_2, \dots, x_D]^\top\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_D x_D.
+\]</div>
+<p>Let us fit a multiple logistic regression model using the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API first.</p>
+<p>Let us plot the fitted multiple logistic regression model and study the system transparency.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;balance&quot;</span><span class="p">,</span> <span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="s2">&quot;student2&quot;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">default2</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;newton-cg&quot;</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coefficients: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept :&quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogisticRegression(max_iter=1000, penalty=&#39;none&#39;, solver=&#39;newton-cg&#39;)
+classes:  [0 1]
+coefficients:  [[ 5.73593136e-03  3.01131944e-06 -6.47265842e-01]]
+intercept : [-10.86719778]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us fit a multiple logistic regression model using the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> API next.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">logit</span><span class="p">(</span><span class="s2">&quot;default2 ~ balance + income + student&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">est</span><span class="o">.</span><span class="n">summary2</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.078577
+         Iterations 10
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Coef.</th>
+      <th>Std.Err.</th>
+      <th>z</th>
+      <th>P&gt;|z|</th>
+      <th>[0.025</th>
+      <th>0.975]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>-10.869045</td>
+      <td>0.492273</td>
+      <td>-22.079320</td>
+      <td>4.995499e-108</td>
+      <td>-11.833882</td>
+      <td>-9.904209</td>
+    </tr>
+    <tr>
+      <th>student[T.Yes]</th>
+      <td>-0.646776</td>
+      <td>0.236257</td>
+      <td>-2.737595</td>
+      <td>6.189022e-03</td>
+      <td>-1.109831</td>
+      <td>-0.183721</td>
+    </tr>
+    <tr>
+      <th>balance</th>
+      <td>0.005737</td>
+      <td>0.000232</td>
+      <td>24.736506</td>
+      <td>4.331521e-135</td>
+      <td>0.005282</td>
+      <td>0.006191</td>
+    </tr>
+    <tr>
+      <th>income</th>
+      <td>0.000003</td>
+      <td>0.000008</td>
+      <td>0.369808</td>
+      <td>7.115254e-01</td>
+      <td>-0.000013</td>
+      <td>0.000019</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Similar parameters are estimated as using the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API.</p>
+</div>
+<div class="section" id="evaluation-of-logistic-regression">
+<h2><span class="section-number">3.2.5. </span>Evaluation of logistic regression<a class="headerlink" href="#evaluation-of-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>The evaluation of logistic regression is similar to the evaluation of linear regression. The main difference is that the evaluation metrics are different. For example, the mean squared error (MSE) is not a good metric for classification. Here we introduce two common metrics for classification: accuracy and area under <a class="reference external" href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">receiver operating characteristic</a> (ROC) curve, i.e. AUC (or more precisely, AUROC).</p>
+<div class="section" id="accuracy">
+<h3><span class="section-number">3.2.5.1. </span>Accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h3>
+<p>The accuracy is the fraction of correct predictions. It is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\text{accuracy} = \frac{\text{number of correct predictions}}{\text{total number of predictions}}.
+\]</div>
+<p>Let us compute the training accuracy of the multiple logistic regression model trained using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">accuarcy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuarcy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy:  0.9732
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="area-under-the-roc-curve-auc">
+<h3><span class="section-number">3.2.5.2. </span>Area under the ROC curve (AUC)<a class="headerlink" href="#area-under-the-roc-curve-auc" title="Permalink to this headline">¶</a></h3>
+<p>The receiver operating characteristic (ROC) curve is a plot of the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings. The TPR and FPR are defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\text{TPR} &amp;= \frac{\text{number of true positives}}{\text{number of positives}} \\
+\text{FPR} &amp;= \frac{\text{number of false positives}}{\text{number of negatives}}
+\end{aligned}
+\end{split}\]</div>
+<p>The area under the ROC curve (AUC) is a popular measure of classifier performance. The AUC is defined as the area under the ROC curve. It is a number between 0 and 1, where 0.5 is the random guess and 1 is the perfect prediction. The AUC is a good metric for evaluating the classification since it considers all possible classification thresholds.</p>
+<p>Let us plot the ROC curve of the multiple logistic regression model trained using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_prob</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_train</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: &quot;</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">)</span>
+
+<span class="n">clf_disp</span> <span class="o">=</span> <span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC:  0.9495528423841241
+</pre></div>
+</div>
+<img alt="../_images/logistic-regression_26_1.png" src="../_images/logistic-regression_26_1.png" />
+</div>
+</div>
+<p>We can see clearly the trade-off between TPR and FPR. The AUC is 0.95, indicating that the model is good.</p>
+</div>
+</div>
+<div class="section" id="exercise">
+<h2><span class="section-number">3.2.6. </span>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. Logistic regression is a <strong>classification</strong> algorithm.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    a. True
+    
+    b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>a. True</strong></p>
+</div>
+<p><strong>2</strong>. All the following exercises will use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Weekly.csv">Weekly</a> dataset.</p>
+<p>Load the dataset, convert the categories to numerical values, and fit a logistic regression model using <strong>Volume</strong> variable as a predictor and <strong>Direction</strong> variable as the response using <strong>scikit-learn or statsmodel</strong>. Find out the fitted model’s <strong>weight</strong> and <strong>bias</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.gridspec</span> <span class="kn">import</span> <span class="n">GridSpec</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+
+<span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Weekly.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Direction</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;newton-cg&quot;</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Direction</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coefficients: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept :&quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>coefficients:  [[-0.0213956]]
+intercept : [0.25689958]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>3</strong>. Plot the <strong>ROC curve</strong> and find out the <strong>training accuracy</strong> and <strong>AUC</strong> of the fitted model from <strong>Exercise 2</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">RocCurveDisplay</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">accuarcy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuarcy</span><span class="p">)</span>
+
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_train</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: &quot;</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">)</span>
+
+<span class="n">clf_disp</span> <span class="o">=</span> <span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># From the ROC curve we can say that the result is almost random as it is almost close to 50%.</span>
+<span class="c1"># The model from Exercise-2 has not learnt anything at all.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy:  0.5555555555555556
+AUC:  0.5142783962844069
+</pre></div>
+</div>
+<img alt="../_images/logistic-regression_39_1.png" src="../_images/logistic-regression_39_1.png" />
+</div>
+</div>
+<p><strong>4</strong>. Train another logistic regression model using <strong>Direction</strong> as a response and all the other features as predictors. Print out all the <strong>parameter values</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Direction&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Direction</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;newton-cg&quot;</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coefficients: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept :&quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>coefficients:  [[ 3.68499531e-03 -8.79798988e-02  4.30642927e-02  1.39939415e-02
+  -1.71848458e-02  6.21529052e-02  7.95810174e-02  7.22163008e+00]]
+intercept : [-7.36798384]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>5</strong>. Plot the <strong>ROC curve</strong> and find out the <strong>training accuracy</strong> and <strong>AUC</strong> metrics of the fitted model from <strong>Exercise 4</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">accuarcy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuarcy</span><span class="p">)</span>
+
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_train</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: &quot;</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">)</span>
+
+<span class="n">clf_disp</span> <span class="o">=</span> <span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># The model from Exercise 4 learnt very well on the training dataset.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy:  0.9972451790633609
+AUC:  0.9999931698654464
+</pre></div>
+</div>
+<img alt="../_images/logistic-regression_47_1.png" src="../_images/logistic-regression_47_1.png" />
+</div>
+</div>
+<p><strong>6</strong>. You might notice that the model with all variables is much better than the model from <strong>Exercise 2</strong>. Use the skills you have learnt to perform further analysis on the data to explain why. <strong>Hint</strong>: Consider correlations (See section <a class="reference external" href="https://pykale.github.io/transparentML/02-linear-reg/multi-linear-regression.html#interpreting-the-results">2.2.4</a>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corr_matrix</span><span class="p">)</span>
+<span class="c1"># Here from the correlation result we can see that, &quot;Today&quot; has a 0.72 correlation with &quot;Direction&quot;</span>
+<span class="c1"># which is the main reason for getting high performance</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Direction</span>
+
+<span class="c1"># model with out &quot;Today&quot;</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Direction&quot;</span><span class="p">,</span> <span class="s2">&quot;Today&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">clf_disp</span> <span class="o">=</span> <span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="c1"># Without today feature the model performed very bad</span>
+
+<span class="c1"># model with only &quot;Today&quot;</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Today&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">clf_disp</span> <span class="o">=</span> <span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="c1"># with today feature the model performed very well</span>
+<span class="c1"># from this experiment we analyzed the important of correlation between feature and target variable</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>               Year      Lag1      Lag2      Lag3      Lag4      Lag5  \
+Year       1.000000 -0.032289 -0.033390 -0.030006 -0.031128 -0.030519   
+Lag1      -0.032289  1.000000 -0.074853  0.058636 -0.071274 -0.008183   
+Lag2      -0.033390 -0.074853  1.000000 -0.075721  0.058382 -0.072499   
+Lag3      -0.030006  0.058636 -0.075721  1.000000 -0.075396  0.060657   
+Lag4      -0.031128 -0.071274  0.058382 -0.075396  1.000000 -0.075675   
+Lag5      -0.030519 -0.008183 -0.072499  0.060657 -0.075675  1.000000   
+Volume     0.841942 -0.064951 -0.085513 -0.069288 -0.061075 -0.058517   
+Today     -0.032460 -0.075032  0.059167 -0.071244 -0.007826  0.011013   
+Direction -0.022200 -0.050004  0.072696 -0.022913 -0.020549 -0.018168   
+
+             Volume     Today  Direction  
+Year       0.841942 -0.032460  -0.022200  
+Lag1      -0.064951 -0.075032  -0.050004  
+Lag2      -0.085513  0.059167   0.072696  
+Lag3      -0.069288 -0.071244  -0.022913  
+Lag4      -0.061075 -0.007826  -0.020549  
+Lag5      -0.058517  0.011013  -0.018168  
+Volume     1.000000 -0.033078  -0.017995  
+Today     -0.033078  1.000000   0.720025  
+Direction -0.017995  0.720025   1.000000  
+</pre></div>
+</div>
+<img alt="../_images/logistic-regression_51_1.png" src="../_images/logistic-regression_51_1.png" />
+<img alt="../_images/logistic-regression_51_2.png" src="../_images/logistic-regression_51_2.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./03-logistic-reg"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="regress-to-classify.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">3.1. </span>Regression model for classification?</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="quiz-sum-ref.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Quiz and summary</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

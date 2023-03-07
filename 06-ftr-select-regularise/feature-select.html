@@ -1,0 +1,1370 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6.1. Feature selection &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.2. Regularisation" href="regularisation.html" />
+    <link rel="prev" title="6. Feature Selection and Regularisation" href="overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/06-ftr-select-regularise/feature-select.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F06-ftr-select-regularise/feature-select.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/06-ftr-select-regularise/feature-select.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/06-ftr-select-regularise/feature-select.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/06-ftr-select-regularise/feature-select.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#best-subset-selection">
+   6.1.1. Best subset selection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stepwise-selection">
+   6.1.2. Stepwise selection
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forward-stepwise-selection">
+     6.1.2.1. Forward stepwise selection
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#backward-stepwise-selection">
+     6.1.2.2. Backward stepwise selection
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choosing-the-best-model">
+   6.1.3. Choosing the best model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   6.1.4. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Feature selection</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#best-subset-selection">
+   6.1.1. Best subset selection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stepwise-selection">
+   6.1.2. Stepwise selection
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forward-stepwise-selection">
+     6.1.2.1. Forward stepwise selection
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#backward-stepwise-selection">
+     6.1.2.2. Backward stepwise selection
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choosing-the-best-model">
+   6.1.3. Choosing the best model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   6.1.4. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="feature-selection">
+<h1><span class="section-number">6.1. </span>Feature selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Feature_selection">Feature selection</a> is the process of selecting a subset of relevant features (predictors, variables) for use in model construction. Feature selection methods are an important part of any data science workflow because they allow us to reduce the complexity of our models, making them easier to interpret, and more robust to the effects of collinearity.</p>
+<p>We will study feature selection in the context of linear regression models. The same principles apply to other types of models such as classification and clustering models.</p>
+<div class="section" id="best-subset-selection">
+<h2><span class="section-number">6.1.1. </span>Best subset selection<a class="headerlink" href="#best-subset-selection" title="Permalink to this headline">¶</a></h2>
+<p>Let us consider the problem of selecting the best subset of features (predictors) for the classical linear regression model covered in the previous chapter <a class="reference internal" href="../02-linear-reg/overview.html"><span class="doc">Linear Regression</span></a>. To perform this best feature subset selection, we can fit a separate least squares regression for each possible combination of the <span class="math notranslate nohighlight">\(D\)</span> predictors. That is, we fit</p>
+<ul class="simple">
+<li><p>all <span class="math notranslate nohighlight">\(\left(\begin{array}{c} D \\ 1 \end{array}\right)=D\)</span> models that contain exactly one predictor,</p></li>
+<li><p>all <span class="math notranslate nohighlight">\(\left(\begin{array}{c} D \\ 2 \end{array}\right)=D(D − 1)/2\)</span> models that contain exactly two predictors, and</p></li>
+<li><p>all <span class="math notranslate nohighlight">\(\left(\begin{array}{c} D \\ d \end{array}\right)\)</span> models that contain exactly <span class="math notranslate nohighlight">\(d\)</span> predictors,  for <span class="math notranslate nohighlight">\(d = 3, \cdots, D\)</span>.</p></li>
+</ul>
+<p>We then look at all of the resulting models, with the goal of identifying the one that is best.</p>
+<div class="proof algorithm admonition" id="alg:best-subset">
+<p class="admonition-title"><span class="caption-number">Algorithm 6.1 </span> (Best subset selection)</p>
+<div class="algorithm-content section" id="proof-content">
+<ul class="simple">
+<li><p>Let <span class="math notranslate nohighlight">\(\mathcal{M}_0\)</span> denote the null model, which contains no predictors. This model simply predicts the sample mean for each observation.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(d = 1, 2, \cdots, D\)</span>:</p>
+<ul>
+<li><p>Fit all <span class="math notranslate nohighlight">\(\left(\begin{array}{c} D \\ d \end{array}\right)\)</span> models that contain exactly <span class="math notranslate nohighlight">\(d\)</span> predictors, where <span class="math notranslate nohighlight">\(D\)</span>  is the total number of predictors.</p></li>
+<li><p>Choose the best among these <span class="math notranslate nohighlight">\(\left(\begin{array}{c} D \\ d \end{array}\right)\)</span> models, denoted <span class="math notranslate nohighlight">\(\mathcal{M}_d\)</span>. Here best is defined using some criterion, such as <span class="math notranslate nohighlight">\(\mathrm{R}^2\)</span> for linear regression (or AUC for binary classification).</p></li>
+</ul>
+</li>
+<li><p>Select the single best model from <span class="math notranslate nohighlight">\(\mathcal{M}_0\)</span>, <span class="math notranslate nohighlight">\(\mathcal{M}_1\)</span>, <span class="math notranslate nohighlight">\(\cdots\)</span>, <span class="math notranslate nohighlight">\(\mathcal{M}_D\)</span> using cross-validation.</p></li>
+</ul>
+</div>
+</div><p>As you can imagine, the best subset selection algorithm above is computationally very expensive. For example, if we have <span class="math notranslate nohighlight">\(D = 100\)</span> predictors, then we would have to fit <span class="math notranslate nohighlight">\(2^{100} = 1.3 \times 10^{30}\)</span> models! Thus, for computational reasons, best subset selection can only be applied to problems with a very small number of predictors, making it practically useless for most real-world applications.</p>
+<p>Best subset selection may also suffer from statistical problems when <span class="math notranslate nohighlight">\(D\)</span>  is large. The larger the search space, the higher the chance of finding models that look good on the training (known/seen) data, even though they might not have any predictive power on test (unknown/unseen) data. Thus, an enormous search space can lead to high variance of the coefficient estimates and <a class="reference external" href="https://en.wikipedia.org/wiki/Overfitting">overfitting</a>, where the model performs well on the training data but poorly on the test data.</p>
+<p>For both reasons above, stepwise methods, which explore a far more restricted set of models, are attractive alternatives to best subset selection.</p>
+</div>
+<div class="section" id="stepwise-selection">
+<h2><span class="section-number">6.1.2. </span>Stepwise selection<a class="headerlink" href="#stepwise-selection" title="Permalink to this headline">¶</a></h2>
+<p>There are two main types of stepwise methods: forward stepwise selection and backward stepwise selection. In forward stepwise selection, we begin with the null model that contains no predictors, and then consider adding predictors one at a time until all <span class="math notranslate nohighlight">\(D\)</span> predictors have been added. In backward stepwise selection, we begin with the full model that contains all <span class="math notranslate nohighlight">\(D\)</span> predictors, and then consider removing predictors one at a time until we are left with the null model that contains no predictors.</p>
+<div class="section" id="forward-stepwise-selection">
+<h3><span class="section-number">6.1.2.1. </span>Forward stepwise selection<a class="headerlink" href="#forward-stepwise-selection" title="Permalink to this headline">¶</a></h3>
+<p>Forward stepwise selection is a computationally efficient alternative to best subset selection. While the best subset selection procedure considers all <span class="math notranslate nohighlight">\(2^D\)</span> possible models containing subsets of the <span class="math notranslate nohighlight">\(D\)</span> predictors, forward stepwise considers a much smaller set of models. Forward stepwise selection begins with a model containing no predictors, and then adds predictors to the model, one-at-a-time, until all of the predictors are in the model. In particular, at each step the predictor (feature, variable) that gives the greatest additional improvement to the fit is added to the model. This is called a <a class="reference external" href="https://en.wikipedia.org/wiki/Greedy_algorithm">greedy</a> search because at each step we choose the best option available, without looking ahead.</p>
+<div class="proof algorithm admonition" id="alg:forward-stepwise">
+<p class="admonition-title"><span class="caption-number">Algorithm 6.2 </span> (Forward stepwise selection)</p>
+<div class="algorithm-content section" id="proof-content">
+<ul class="simple">
+<li><p>Let <span class="math notranslate nohighlight">\(\mathcal{M}_0\)</span> denote the null model, which contains no predictors. This model simply predicts the sample mean for each observation.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(d = 1, 2, \ldots, D\)</span>:</p>
+<ul>
+<li><p>Fit all <span class="math notranslate nohighlight">\(D - d + 1\)</span> models that contain all of the predictors in <span class="math notranslate nohighlight">\(\mathcal{M}_{d-1}\)</span> plus one additional predictor.</p></li>
+<li><p>Choose the best among these <span class="math notranslate nohighlight">\(D - d + 1\)</span> models, denoted <span class="math notranslate nohighlight">\(\mathcal{M}_d\)</span>. Here best is defined using some criterion such as <span class="math notranslate nohighlight">\(\mathrm{R}^2\)</span> for linear regression.</p></li>
+</ul>
+</li>
+<li><p>Select the single best model from <span class="math notranslate nohighlight">\(\mathcal{M}_0\)</span>, <span class="math notranslate nohighlight">\(\mathcal{M}_1\)</span>, <span class="math notranslate nohighlight">\(\cdots\)</span>, <span class="math notranslate nohighlight">\(\mathcal{M}_D\)</span> using cross-validation.</p></li>
+</ul>
+</div>
+</div><p>Unlike best subset selection, which involved fitting <span class="math notranslate nohighlight">\(2^D\)</span> models, forward stepwise selection involves fitting one null model, along with <span class="math notranslate nohighlight">\(D − d\)</span> models in the <span class="math notranslate nohighlight">\(d\)</span>th iteration, for <span class="math notranslate nohighlight">\(d = 0, \dots, D − 1\)</span>. This amounts to a total of <span class="math notranslate nohighlight">\(1 + \sum_{d=0}^{D-1}(D-d) = 1 + D(D+1)/2\)</span> models. This is a substantial difference: when <span class="math notranslate nohighlight">\(D = 20\)</span>, best subset selection requires fitting <strong>1,048,576</strong> models, whereas forward stepwise selection requires fitting only <strong>211</strong> models.</p>
+<p>Forward stepwise selection’s computational advantage over best subset selection is clear. Though forward stepwise tends to do well in practice, it is not guaranteed to find the best possible model out of all <span class="math notranslate nohighlight">\(2^D\)</span> models containing subsets of the <span class="math notranslate nohighlight">\(D\)</span>  predictors. For example, suppose that in a given dataset with <span class="math notranslate nohighlight">\(D\)</span>  = 3 predictors, the best possible one-predictor model contains <span class="math notranslate nohighlight">\(x_1\)</span>, and the best possible two-predictor model instead contains <span class="math notranslate nohighlight">\(x_2\)</span> and <span class="math notranslate nohighlight">\(x_3\)</span>. Then forward stepwise selection will fail to select the best possible two-predictor model, because <span class="math notranslate nohighlight">\(\mathcal{M}_1\)</span> will contain <span class="math notranslate nohighlight">\(x_1\)</span>, so <span class="math notranslate nohighlight">\(\mathcal{M}_2\)</span> must also contain <span class="math notranslate nohighlight">\(x_1\)</span> together with one additional predictor. This is common for stepwise methods (and greedy algorithms in general), which are guaranteed to find only a local optimum, not a global optimum.</p>
+</div>
+<div class="section" id="backward-stepwise-selection">
+<h3><span class="section-number">6.1.2.2. </span>Backward stepwise selection<a class="headerlink" href="#backward-stepwise-selection" title="Permalink to this headline">¶</a></h3>
+<p>Backward stepwise selection is similar to forward stepwise selection, except that it begins with the full model that contains all <span class="math notranslate nohighlight">\(D\)</span>  predictors, and then removes the least useful predictor, one-at-a-time, until the model contains no predictors.</p>
+<div class="proof algorithm admonition" id="alg:backward-stepwise">
+<p class="admonition-title"><span class="caption-number">Algorithm 6.3 </span> (Backward stepwise selection)</p>
+<div class="algorithm-content section" id="proof-content">
+<ul class="simple">
+<li><p>Let <span class="math notranslate nohighlight">\(\mathcal{M}_0\)</span> denote the null model, which contains no predictors. This model simply predicts the sample mean for each observation.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(d = D, D-1, \cdots, 1\)</span>:</p>
+<ul>
+<li><p>Consider all <span class="math notranslate nohighlight">\(d\)</span> models that contain all but one of the predictors in <span class="math notranslate nohighlight">\(\mathcal{M}_{d}\)</span>, for a total of <span class="math notranslate nohighlight">\(d-1\)</span> predictors.</p></li>
+<li><p>Choose the best among these <span class="math notranslate nohighlight">\( d \)</span> models, denoted <span class="math notranslate nohighlight">\(\mathcal{M}_{d-1}\)</span>. Here best is defined using some criterion such as <span class="math notranslate nohighlight">\(\mathrm{R}^2\)</span> for linear regression.</p></li>
+</ul>
+</li>
+<li><p>Select the single best model from <span class="math notranslate nohighlight">\(\mathcal{M}_0\)</span>, <span class="math notranslate nohighlight">\(\mathcal{M}_1\)</span>, <span class="math notranslate nohighlight">\(\cdots\)</span>, <span class="math notranslate nohighlight">\(\mathcal{M}_D\)</span> using cross-validation.</p></li>
+</ul>
+</div>
+</div><p>Like forward stepwise selection, the backward selection approach searches through only <span class="math notranslate nohighlight">\(1 + D(D + 1)/2\)</span> models, and so can be applied in settings where <span class="math notranslate nohighlight">\(D\)</span>  is too large to apply best subset selection. Also like forward stepwise selection, backward stepwise selection is a <em>greedy</em> algorithm, and so is not guaranteed to find the best possible model out of all <span class="math notranslate nohighlight">\(2^D\)</span> models containing subsets of the <span class="math notranslate nohighlight">\(D\)</span>  predictors.</p>
+</div>
+</div>
+<div class="section" id="choosing-the-best-model">
+<h2><span class="section-number">6.1.3. </span>Choosing the best model<a class="headerlink" href="#choosing-the-best-model" title="Permalink to this headline">¶</a></h2>
+<p>Best subset selection, forward selection, and backward selection result in the creation of a set of models, each of which contains a subset of the <span class="math notranslate nohighlight">\(D\)</span>  predictors. To apply these methods, we need a way to determine which of these models is best. We can use either a validation set approach or a cross-validation approach introduced in <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html"><span class="doc">Cross-validation</span></a> to estimate the test error directly and then choose the best model.</p>
+<!-- **Example: feature selection using `scikit-learn`** -->
+<p><strong>Example.</strong> Here we use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Credit.csv">Credit dataset</a> (click to explore) to study feature selection on real-world data. To select features, we use the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFECV.html"><code class="docutils literal notranslate"><span class="pre">RFECV</span></code> API</a> from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> for recursive feature elimination with cross-validation (RFECV), which is a backward stepwise selection approach. The <code class="docutils literal notranslate"><span class="pre">RFECV</span></code> API takes a model as input and performs feature selection on the model. Here we use a linear regression model as an example. The <code class="docutils literal notranslate"><span class="pre">RFECV</span></code> API will fit a linear regression model on the data with different numbers of features and select the best model based on the cross-validation error.</p>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFECV</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set a random seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Load the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Credit.csv">Credit dataset</a> dataset, convert the values of variables (predictors) <code class="docutils literal notranslate"><span class="pre">Student</span></code>, <code class="docutils literal notranslate"><span class="pre">Own</span></code>, <code class="docutils literal notranslate"><span class="pre">Married</span></code>, and <code class="docutils literal notranslate"><span class="pre">Region</span></code> from category to numbers (‘0’ and ‘1’), and inspect the first three rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">credit_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Credit.csv&quot;</span>
+
+<span class="n">credit_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">credit_url</span><span class="p">)</span>
+<span class="n">credit_df</span><span class="p">[</span><span class="s2">&quot;Student2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Student</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;No&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">credit_df</span><span class="p">[</span><span class="s2">&quot;Own2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Own</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;No&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">credit_df</span><span class="p">[</span><span class="s2">&quot;Married2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Married</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;No&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">credit_df</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Region</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;West&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;East&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">credit_df</span><span class="p">[</span><span class="s2">&quot;West&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Region</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;West&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;East&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<span class="n">credit_df</span><span class="p">[</span><span class="s2">&quot;East&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Region</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;East&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;West&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<span class="n">credit_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Income</th>
+      <th>Limit</th>
+      <th>Rating</th>
+      <th>Cards</th>
+      <th>Age</th>
+      <th>Education</th>
+      <th>Own</th>
+      <th>Student</th>
+      <th>Married</th>
+      <th>Region</th>
+      <th>Balance</th>
+      <th>Student2</th>
+      <th>Own2</th>
+      <th>Married2</th>
+      <th>South</th>
+      <th>West</th>
+      <th>East</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>14.891</td>
+      <td>3606</td>
+      <td>283</td>
+      <td>2</td>
+      <td>34</td>
+      <td>11</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>South</td>
+      <td>333</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>106.025</td>
+      <td>6645</td>
+      <td>483</td>
+      <td>3</td>
+      <td>82</td>
+      <td>15</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>West</td>
+      <td>903</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>104.593</td>
+      <td>7075</td>
+      <td>514</td>
+      <td>4</td>
+      <td>71</td>
+      <td>11</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>West</td>
+      <td>580</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Drop categorical variables, which have been converted to numerical variables, and the <code class="docutils literal notranslate"><span class="pre">Balance</span></code> variable, which is the target variable. We also drop the <code class="docutils literal notranslate"><span class="pre">Income</span></code> variable, which will make the problem slightly more interesting than otherwise (otherwise, the optimal is selecting all variables).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Own&quot;</span><span class="p">,</span> <span class="s2">&quot;Student&quot;</span><span class="p">,</span> <span class="s2">&quot;Married&quot;</span><span class="p">,</span> <span class="s2">&quot;Region&quot;</span><span class="p">,</span> <span class="s2">&quot;Balance&quot;</span><span class="p">,</span> <span class="s2">&quot;Income&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">credit_df</span><span class="o">.</span><span class="n">Balance</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us perform feature selection for <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html">linear regression</a> using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s <code class="docutils literal notranslate"><span class="pre">RFECV</span></code> API, where we create the RFE object and compute a cross-validated score.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">min_features_to_select</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Minimum number of features to consider</span>
+<span class="n">num_folds</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">rfecv</span> <span class="o">=</span> <span class="n">RFECV</span><span class="p">(</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">regr</span><span class="p">,</span>
+    <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="n">num_folds</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span><span class="p">,</span>  <span class="c1"># Proportional to the R^2 of the prediction</span>
+    <span class="n">min_features_to_select</span><span class="o">=</span><span class="n">min_features_to_select</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">rfecv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_folds</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Optimal number of features for fold </span><span class="si">%d</span><span class="s2">: </span><span class="si">%d</span><span class="s2">&quot;</span>
+        <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rfecv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s2">&quot;split</span><span class="si">%d</span><span class="s2">_test_score&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimal number of features on average: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rfecv</span><span class="o">.</span><span class="n">n_features_</span><span class="p">)</span>
+
+<span class="c1"># Plot number of features VS. cross-validation scores</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of features selected&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cross validation score (MSE)&quot;</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="o">-</span><span class="n">rfecv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s2">&quot;split</span><span class="si">%s</span><span class="s2">_test_score&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_folds</span><span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">min_features_to_select</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_features_to_select</span><span class="p">),</span>
+    <span class="n">scores</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal number of features for fold 1: 10
+Optimal number of features for fold 2: 9
+Optimal number of features for fold 3: 11
+Optimal number of features for fold 4: 10
+Optimal number of features for fold 5: 11
+Optimal number of features for fold 6: 10
+Optimal number of features for fold 7: 10
+Optimal number of features for fold 8: 11
+Optimal number of features for fold 9: 8
+Optimal number of features for fold 10: 11
+Optimal number of features on average: 10
+</pre></div>
+</div>
+<img alt="../_images/feature-select_13_1.png" src="../_images/feature-select_13_1.png" />
+</div>
+</div>
+<p>Let us take a look at the mean and standard deviation (variance) of the cross-validation scores for each number of features.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">std_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of features selected&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cross validation score (MSE)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">min_features_to_select</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_features_to_select</span><span class="p">),</span>
+    <span class="n">mean_scores</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">min_features_to_select</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_features_to_select</span><span class="p">),</span>
+    <span class="n">mean_scores</span> <span class="o">-</span> <span class="n">std_scores</span><span class="p">,</span>
+    <span class="n">mean_scores</span> <span class="o">+</span> <span class="n">std_scores</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/feature-select_15_0.png" src="../_images/feature-select_15_0.png" />
+</div>
+</div>
+<p>From the outputs above, we can observe the large variance (inconsistency) across the 10 folds, where the optimal number of features varies from 8 to 11. The variance across folds is also a measure of the stability of the model. The lower the variance, the more stable the model is. Furthermore, if we repeated cross-validation using a different set of cross-validation folds (changing the random seed in <code class="docutils literal notranslate"><span class="pre">np.random.seed(2022)</span></code> at the top from 2022 to another number), then the precise model with the lowest estimated test error would change.</p>
+<p>When there are multiple models with similar cross-validation errors, we can select a model using the <em>one-standard-error</em> rule. We first calculate the standard error of the estimated test MSE for each model size (number of selected features), and then select the smallest model (smallest number of selected features) for which the estimated test error is within one standard error of the lowest point on the curve. The rationale here is that if a set of models appear to be more or less equally good, then we might as well choose the simplest model, i.e. the model with the smallest number of predictors.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">6.1.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1</strong>. Suppose we have a dataset with <span class="math notranslate nohighlight">\(13\)</span> predictors/features. Now calculate how many models we need to fit for the <strong>best subset selection</strong> and <strong>forward stepwise selection</strong> methods.</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong><span class="math notranslate nohighlight">\(8192\)</span> for best subset selection method and only <span class="math notranslate nohighlight">\(92\)</span> for forward stepwise selection method</strong></p>
+</div>
+<p><strong>2</strong>. <strong>Forward and backward stepwise selection</strong> guarantee the best possible model out of all <span class="math notranslate nohighlight">\(2^D\)</span> models containing subsets of the <span class="math notranslate nohighlight">\(D\)</span> predictors.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   a. True
+
+   b. False
+</pre></div>
+</div>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p><strong>b. False. We can only expect to find a local optimum, not a global optimum.</strong></p>
+</div>
+<p><strong>3</strong>. All the following exercises use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Carseats.csv">Carseats</a> dataset to study feature selection on real-world data.</p>
+<p><strong>a</strong>. Load the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Carseats.csv">Carseats</a> dataset, convert the values of variables (predictors) from category to numbers, and inspect the first five rows. <strong>(Use <span class="math notranslate nohighlight">\(2022\)</span> as the random seed value)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+
+<span class="n">carseat_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Carseats.csv&quot;</span>
+
+<span class="n">carseat_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">carseat_url</span><span class="p">)</span>
+<span class="c1"># converting categories</span>
+<span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;ShelveLoc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;ShelveLoc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;Urban&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;Urban&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">carseat_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+      <th>CompPrice</th>
+      <th>Income</th>
+      <th>Advertising</th>
+      <th>Population</th>
+      <th>Price</th>
+      <th>ShelveLoc</th>
+      <th>Age</th>
+      <th>Education</th>
+      <th>Urban</th>
+      <th>US</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9.50</td>
+      <td>138</td>
+      <td>73</td>
+      <td>11</td>
+      <td>276</td>
+      <td>120</td>
+      <td>0</td>
+      <td>42</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11.22</td>
+      <td>111</td>
+      <td>48</td>
+      <td>16</td>
+      <td>260</td>
+      <td>83</td>
+      <td>1</td>
+      <td>65</td>
+      <td>10</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.06</td>
+      <td>113</td>
+      <td>35</td>
+      <td>10</td>
+      <td>269</td>
+      <td>80</td>
+      <td>2</td>
+      <td>59</td>
+      <td>12</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7.40</td>
+      <td>117</td>
+      <td>100</td>
+      <td>4</td>
+      <td>466</td>
+      <td>97</td>
+      <td>2</td>
+      <td>55</td>
+      <td>14</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.15</td>
+      <td>141</td>
+      <td>64</td>
+      <td>3</td>
+      <td>340</td>
+      <td>128</td>
+      <td>0</td>
+      <td>38</td>
+      <td>13</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>b. Now try to use this <strong>pre-processed</strong> data from <strong>Exercise 3(a)</strong> above to perform <strong>feature selection</strong> for linear regression using scikit-learn’s <strong>RFECV API</strong> and find the <strong>optimal</strong> number of features per fold and on average. Finally, plot the number of features selected versus cross-validation scores. Here, the number of folds <span class="math notranslate nohighlight">\(k=10\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFECV</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Sales&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">carseat_df</span><span class="o">.</span><span class="n">Sales</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">regr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">min_features_to_select</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Minimum number of features to consider</span>
+<span class="n">num_folds</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">rfecv</span> <span class="o">=</span> <span class="n">RFECV</span><span class="p">(</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">regr</span><span class="p">,</span>
+    <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="n">num_folds</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span><span class="p">,</span>  <span class="c1"># Proportional to the R^2 of the prediction</span>
+    <span class="n">min_features_to_select</span><span class="o">=</span><span class="n">min_features_to_select</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">rfecv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_folds</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Optimal number of features for fold </span><span class="si">%d</span><span class="s2">: </span><span class="si">%d</span><span class="s2">&quot;</span>
+        <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rfecv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s2">&quot;split</span><span class="si">%d</span><span class="s2">_test_score&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimal number of features on average: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rfecv</span><span class="o">.</span><span class="n">n_features_</span><span class="p">)</span>
+
+<span class="c1"># Plot number of features VS. cross-validation scores</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of features selected&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cross validation score (MSE)&quot;</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="o">-</span><span class="n">rfecv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s2">&quot;split</span><span class="si">%s</span><span class="s2">_test_score&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_folds</span><span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">min_features_to_select</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_features_to_select</span><span class="p">),</span>
+    <span class="n">scores</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal number of features for fold 1: 9
+Optimal number of features for fold 2: 9
+Optimal number of features for fold 3: 9
+Optimal number of features for fold 4: 9
+Optimal number of features for fold 5: 9
+Optimal number of features for fold 6: 8
+Optimal number of features for fold 7: 8
+Optimal number of features for fold 8: 7
+Optimal number of features for fold 9: 9
+Optimal number of features for fold 10: 8
+Optimal number of features on average: 9
+</pre></div>
+</div>
+<img alt="../_images/feature-select_29_1.png" src="../_images/feature-select_29_1.png" />
+</div>
+</div>
+<p><strong>c</strong>. Finally, find the <strong>mean</strong> and <strong>standard deviation</strong> of the cross-validation scores from <strong>Exercise 3(b)</strong> above for each number of features.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">std_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of features selected&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cross validation score (MSE)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">min_features_to_select</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_features_to_select</span><span class="p">),</span>
+    <span class="n">mean_scores</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">min_features_to_select</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_features_to_select</span><span class="p">),</span>
+    <span class="n">mean_scores</span> <span class="o">-</span> <span class="n">std_scores</span><span class="p">,</span>
+    <span class="n">mean_scores</span> <span class="o">+</span> <span class="n">std_scores</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># From the outputs above, we can observe the some variance (inconsistency) across the 10 folds,</span>
+<span class="c1"># where the optimal number of features varies from 8 to 10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/feature-select_33_0.png" src="../_images/feature-select_33_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./06-ftr-select-regularise"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">6. </span>Feature Selection and Regularisation</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="regularisation.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">6.2. </span>Regularisation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

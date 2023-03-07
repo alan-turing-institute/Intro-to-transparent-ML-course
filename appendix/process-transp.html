@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Process transparency &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliography" href="bibliography.html" />
+    <link rel="prev" title="System transparency" href="system-transp.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-trees-ensembles/overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/classification-trees.html">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-trees-ensembles/quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/appendix/process-transp.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2Fappendix/process-transp.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/appendix/process-transp.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-relevant-information">
+   What relevant information?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-such-info">
+   Why such info?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-manage-such-info">
+   How to manage such info?
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Process transparency</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-relevant-information">
+   What relevant information?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-such-info">
+   Why such info?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-manage-such-info">
+   How to manage such info?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="process-transparency">
+<h1>Process transparency<a class="headerlink" href="#process-transparency" title="Permalink to this headline">¶</a></h1>
+<p>Now let us consider process transparency. We aim to answer three questions:</p>
+<ul class="simple">
+<li><p>What information falls under the category of process transparency.</p></li>
+<li><p>Why stakeholders can be interested in such information.</p></li>
+<li><p>How such information can be managed and communicated.</p></li>
+</ul>
+<p><a class="reference internal" href="#fig10-ai-transparency"><span class="std std-numref">Fig. 3</span></a> summarises process transparency in the three key questions above.</p>
+<div class="figure align-default" id="fig10-ai-transparency">
+<img alt="../_images/fig10-ai-transparency.png" src="../_images/fig10-ai-transparency.png" />
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">The what, why, and how of process transparency <span id="id1">[<a class="reference internal" href="bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#fig10-ai-transparency" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="what-relevant-information">
+<h2>What relevant information?<a class="headerlink" href="#what-relevant-information" title="Permalink to this headline">¶</a></h2>
+<p>Process transparency concerns access to any information about an ML system’s design, development, and deployment apart from the system’s logic. As with system logic information, such process information is important for addressing and providing assurance about concerns raised by AI systems. Correspondingly, there is a growing amount of work on how process information can be recorded, managed, and made accessible in practice.</p>
+<p>We can categorise process information regarding ML systems along two dimensions:</p>
+<ul class="simple">
+<li><p><strong>Different lifecycle phases</strong>: Process information can relate to (i) the design and development or (ii) the deployment of an ML system. In both areas, more specific lifecycle phases can be distinguished, each of them associated with unique aspects of information.</p></li>
+<li><p><strong>Different levels of information</strong>: In considering a given lifecycle phase, different levels of process information can be distinguished, corresponding to the kinds of questions that the information serves to answer.</p></li>
+</ul>
+<p>These two dimensions lead to a typology for process information whose general structure can be
+represented in the form of a matrix, as illustrated in <a class="reference internal" href="#fig11-ai-transparency"><span class="std std-numref">Fig. 4</span></a>.</p>
+<div class="figure align-default" id="fig11-ai-transparency">
+<img alt="../_images/fig11-ai-transparency.png" src="../_images/fig11-ai-transparency.png" />
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Process transparency matrix <span id="id2">[<a class="reference internal" href="bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#fig11-ai-transparency" title="Permalink to this image">¶</a></p>
+</div>
+<p>Let us study the different levels of information below. For each lifecycle phase of an ML system, there are various aspects of information that can be of interest to internal or external stakeholders. These aspects of information can answer questions at different levels of abstraction. The following four levels of information can be distinguished, moving from more concrete to more abstract questions:</p>
+<ul class="simple">
+<li><p><strong>Substantive information</strong> relates to questions about substantive aspects of activities within a given lifecycle phase for an ML system. Examples of such information include: the content of problem definition or system requirement statements; the content of or summary statistics for datasets used during the ML system’s development and operation; source code or other formal representations of the ML system; and the results of tests conducted to assess system performance or compliance.</p></li>
+<li><p><strong>Procedural information</strong> answers questions about the procedures that were followed in performing the activities within a given lifecycle phase. Examples include descriptions of: the process that led to the agreed problem definition or system requirements (eg the actors and the steps involved); the procedures employed to collect and assemble the data used during the ML system’s development or operation; the nature of data quality checks or processing steps carried out; the process followed to select the type of ML method used for developing models; or the procedures used to conduct system tests.</p></li>
+<li><p><strong>Governance information</strong> answers questions about governance arrangements for activities conducted within a lifecycle phase. This information may take the form of statements of accountability and liability, or descriptions of the structure of relevant oversight mechanisms (including, where relevant, the role of risk and compliance teams, ethics review boards, audit teams, senior managers, or board members).</p></li>
+<li><p><strong>Information on adherence to norms and standards</strong> refers to compliance with norms or standards in the design, development, and deployment of an ML system. Such norms or standards may touch on substantive, procedural, or governance questions.</p></li>
+</ul>
+<p>The distinction between these four levels of information remains unaffected by the complexities of sourcing data for ML systems or technology supply chains. Where firms rely on third-party providers, all four levels of information can be applied to activities carried out within and outside the firm. Additionally, relevant governance information in such cases can include information about accountability structures and mechanisms that govern the relationship between third-party providers and the firm employing the ML system in question. These four levels of information, combined with the typology of lifecycle phases, lead to a more concrete version of the matrix we introduced at the beginning of this section to map out different types of process information.</p>
+<p><a class="reference internal" href="#fig12-ai-transparency"><span class="std std-numref">Fig. 5</span></a> incorporates specific categories into <a class="reference internal" href="#fig11-ai-transparency"><span class="std std-numref">Fig. 4</span></a>.</p>
+<div class="figure align-default" id="fig12-ai-transparency">
+<img alt="../_images/fig12-ai-transparency.png" src="../_images/fig12-ai-transparency.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Detailed process transparency matrix <span id="id3">[<a class="reference internal" href="bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#fig12-ai-transparency" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="why-such-info">
+<h2>Why such info?<a class="headerlink" href="#why-such-info" title="Permalink to this headline">¶</a></h2>
+<p>Process information, like system logic information, can help to address concerns related to AI
+systems (ensuring the trustworthiness and responsible use of these systems) as well as to provide
+assurance that concerns have been addressed adequately (demonstrating trustworthiness and
+responsible use). In the following paragraphs, we illustrate the importance of process transparency
+in addressing each of the six areas of concern as in <a class="reference internal" href="system-transp.html#fig9-ai-transparency"><span class="std std-numref">Fig. 2</span></a>.</p>
+<ul class="simple">
+<li><p><strong>System performance</strong>: Information about the content of system requirement specifications, about the quality and origin of data used during an ML system’s development or operation, or about validation procedures is crucial for understanding the effectiveness, reliability, and robustness of ML systems. This information can be of interest to those involved in or making decisions about the development and use of an ML system, as well as those seeking assurance about the system’sm performance (eg members of audit teams, board members, regulators or customers).</p></li>
+<li><p><strong>System compliance</strong>: Process information is crucial to assessing ML systems’ adherence to compliance requirements. For example, information about the quality of data used and system tests conducted is essential for a holistic understanding of potential risks of unlawful discrimination. Similarly, where ML systems use personal data, information about the provenance, content, and quality of this data is important for data protection assessments. Process information can be of interest to those ensuring system compliance or can demonstrate system compliance to stakeholders.</p></li>
+<li><p><strong>Competent use and human oversight</strong>: Information about an ML system’s intended purpose, system requirements specifications, or system performance measurements can be essential to ensuring competent use and preventing the inappropriate repurposing of ML systems. This information can also be crucial to determine what forms of human oversight are needed and to enable overseers to exercise their role effectively.</p></li>
+<li><p><strong>Providing explanations</strong>: Explanations of an ML system’s outputs can involve system logic information as well as process information. Indeed, a complete understanding of a particular decision requires both. <a class="reference internal" href="#fig13-ai-transparency"><span class="std std-numref">Fig. 6</span></a> illustrates this using the example of a loan eligibility decision. In terms of process information, decision recipients seeking to understand an outcome may want to know the content of the input data about them that an ML system used. This knowledge is a precondition, for example, for being able to identify erroneous decisions.</p></li>
+</ul>
+<div class="figure align-default" id="fig13-ai-transparency">
+<img alt="../_images/fig13-ai-transparency.png" src="../_images/fig13-ai-transparency.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">The combined relevance of process and system logic information in explaining system outputs <span id="id4">[<a class="reference internal" href="bibliography.html#id8" title="Florian Ostmann and Cosmina Dorobantu. AI in financial services. Alan Turing Institute. doi, 2021. https://www.turing.ac.uk/sites/default/files/2021-06/ati_ai_in_financial_services_lores.pdf.">Ostmann and Dorobantu, 2021</a>]</span> (maybe redraw later).</span><a class="headerlink" href="#fig13-ai-transparency" title="Permalink to this image">¶</a></p>
+</div>
+<ul class="simple">
+<li><p><strong>Responsiveness</strong>: Telling users about ways in which they can ask for information, help, or redress is important to reassure them of the existence of pathways for expressing such requests. In addition, internal stakeholders may need access to different forms of process information, such as the data used during an ML system’s operation, to be able to respond to customer requests. Finally, stakeholders seeking assurance about the responsible use of ML systems may be interested in information about how issues of responsiveness are managed.</p></li>
+<li><p><strong>Social and economic impact</strong>: Various types of process information may be needed to manage and provide assurance regarding the social and economic impacts of an ML system. For example, information about system test results can be important for understanding an ML system’s potential financial exclusion implications. Similarly, information about how firms communicate personal data use to customers can be of interest to stakeholders seeking assurance in relation to concerns regarding consumer empowerment.</p></li>
+</ul>
+</div>
+<div class="section" id="how-to-manage-such-info">
+<h2>How to manage such info?<a class="headerlink" href="#how-to-manage-such-info" title="Permalink to this headline">¶</a></h2>
+<p>The appropriate level of detail and technical sophistication in providing process information will depend on the purpose that the information is meant to serve. For example, actors involved directly in the validation of an ML system are likely to need a system requirements statement. Customers or other stakeholders interested in ensuring that the right procedures have been followed in validating an ML system will likely need less detailed information, expressed in easy-to-understand language.</p>
+<p>Existing best practices within firms – even if they are not specifically designed for ML systems – can guide the process of identifying suitable ways of recording and presenting process information. We consider three areas of research and development related to managing and communicating process information below.</p>
+<p><strong>Recording and presenting process information for ML systems</strong>: Recent years have seen a rapidly growing literature on topics such as documentation, assurance, traceability, and audit trails for ML systems. Contributions to this literature often give examples of how different aspects of process information can be recorded and made accessible to different stakeholders. In many cases, these examples involve proposals for different ‘documentation artefacts’ and templates that can be used to structure process information in practice.</p>
+<p>Some contributions to this debate are focused on subsets of process information or the information needs of particular stakeholders. Increasingly, however, contributions adopt a holistic perspective on documentation needs, covering all phases of an ML system’s lifecycle as well as the information needs of all relevant stakeholders. An approach that is growing in popularity – especially in the context of high-stakes applications of ML/AI – is the use of ‘argument-based assurance cases’, often following a specified template, in support of claims about an ML system’s properties.</p>
+<p>Recent years have also seen an increase in the number of open-source tools for testing ML systems and examining their properties. These tools can be useful for generating some of the process information that is of interest to stakeholders.</p>
+<p><strong>Emerging norms and standards</strong>: A second evolving area with relevance to managing and communicating process information consists of work on standards for ML systems and on professional standards. Several national and international bodies are currently working to develop standards for ML systems. These standards serve as a useful point of reference though their applicability to real-world use cases will depend on context.</p>
+<p>In addition, recent years have seen growing support of initiatives to professionalise the field of data science. Efforts in this space are aimed at establishing commonly agreed curricula for data science courses and possible forms of professional accreditation for data scientists. For example, a group of professional bodies led by the Royal Statistical Society (RSS) is currently working to develop commonly agreed professional standards for data science.Concurrently, some professional bodies in the financial services space are turning their attention to codes of conduct for the use of data and emerging technologies.</p>
+<p><strong>Mechanisms for verifying process information</strong>: A third area of emerging work concerns the verifiability of process information for ML systems. This includes forms of independent certification for relevant norms and standards. Currently, declarations of adherence to norms and standards take the form of self-declared adherence (‘self-certification’). However, in some contexts, stakeholders may place greater trust in such declarations if they are supported by independently administered certification or labelling schemes.</p>
+<p>There is also an emerging literature on the role of auditors in examining system design, development, and deployment processes (including evaluation). In contrast to certification, auditors may verify process information at a more detailed level. ML system auditors can be internal or external to the firm that is employing a given ML system.</p>
+<p>Finally, growing research and development efforts are being dedicated to technical solutions that automate the generation and recording of process information. Software-generated ‘audit trails’ and related concepts can contribute to the reliability and verifiability of some types of process information, while at the same time reducing the cost of recording and making the information available to stakeholders.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="system-transp.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">System transparency</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="bibliography.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bibliography</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

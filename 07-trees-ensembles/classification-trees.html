@@ -1,0 +1,1650 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7.2. Classification trees &#8212; Transparent ML Intro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.3. Ensemble learning" href="ensembles.html" />
+    <link rel="prev" title="7.1. Regression trees" href="regression-trees.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q7H15RJEMG"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-Q7H15RJEMG');
+                </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/transparentml-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Transparent ML Intro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/pykale/transparentML/discussions">
+   Discussion forum
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-prereq/overview.html">
+   Prerequisites
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/linear-algebra-and-notations.html">
+     Linear algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/basic-python.html">
+     Python basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/numerical-programming.html">
+     Numerical programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/graphics.html">
+     Graphics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/loading-data.html">
+     Loading data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-prereq/quiz-sum-ref.html">
+     Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Primary
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-intro/overview.html">
+   1. Intro ML &amp; transparency
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/what-is-ml.html">
+     1.1. What is ML?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-systems.html">
+     1.2. ML systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-process.html">
+     1.3. ML process
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/ml-transp.html">
+     1.4. ML transparency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/knn.html">
+     1.5. K-NN classifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/organisation.html">
+     1.6. Organisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-intro/quiz-sum-ref.html">
+     1.7. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../02-linear-reg/overview.html">
+   2. Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/simple-linear-regression.html">
+     2.1. Simple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/multi-linear-regression.html">
+     2.2. Multiple linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/extension-limitation.html">
+     2.3. Extensions &amp; limitations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../02-linear-reg/quiz-sum-ref.html">
+     2.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-logistic-reg/overview.html">
+   3. Logistic regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/regress-to-classify.html">
+     3.1. Regress to classify?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/logistic-regression.html">
+     3.2. Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-logistic-reg/quiz-sum-ref.html">
+     3.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-hypo-test-sw-dev/overview.html">
+   4. Hypothesis test &amp; software dev
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/hypothesis-testing.html">
+     4.1. Hypothesis testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/software-development.html">
+     4.2. Software development
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-hypo-test-sw-dev/quiz-sum-ref.html">
+     4.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-cross-val-bootstrap/overview.html">
+   5. Cross validation &amp; bootstrap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/cross-validation.html">
+     5.1. Cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/bootstrap.html">
+     5.2. Bootstrap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-cross-val-bootstrap/quiz-sum-ref.html">
+     5.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Secondary
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-ftr-select-regularise/overview.html">
+   6. Feature selection/regularisation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/feature-select.html">
+     6.1. Feature selection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/regularisation.html">
+     6.2. Regularisation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-ftr-select-regularise/quiz-sum-ref.html">
+     6.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="overview.html">
+   7. Trees &amp; ensembles
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="regression-trees.html">
+     7.1. Regression trees
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     7.2. Classification trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ensembles.html">
+     7.3. Ensemble learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quiz-sum-ref.html">
+     7.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-glm-svm/overview.html">
+   8. GLM &amp; SVM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/glm.html">
+     8.1. Generalised linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/support-vec-classifier.html">
+     8.2. Support vector classifiers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/svm.html">
+     8.3. Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-glm-svm/quiz-sum-ref.html">
+     8.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-pca-clustering/overview.html">
+   9. PCA &amp; clustering
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/pca.html">
+     9.1. Principal comp. analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/clustering.html">
+     9.2. Clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-pca-clustering/quiz-sum-ref.html">
+     9.3. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-deep-cnn-rnn/overview.html">
+   10. Neural nets &amp; deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/multilayer-nn.html">
+     10.1. Multilayer neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/convolutional-nn.html">
+     10.2. Convolutional neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/recurrent-nn.html">
+     10.3. Recurrent neural nets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-deep-cnn-rnn/quiz-sum-ref.html">
+     10.4. Quiz &amp; summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/system-transp.html">
+   System transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/process-transp.html">
+   Process transparency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/07-trees-ensembles/classification-trees.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course//issues/new?title=Issue%20on%20page%20%2F07-trees-ensembles/classification-trees.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/alan-turing-institute/Intro-to-transparent-ML-course/edit/main/content/07-trees-ensembles/classification-trees.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alan-turing-institute/Intro-to-transparent-ML-course/main?urlpath=tree/content/07-trees-ensembles/classification-trees.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alan-turing-institute/Intro-to-transparent-ML-course/blob/main/content/07-trees-ensembles/classification-trees.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gini-index">
+   7.2.1. Gini index
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#entropy">
+   7.2.2. Entropy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-trees-for-heart-disease-diagnosis">
+   7.2.3. Classification trees for heart disease diagnosis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-trees-for-car-seat-sales">
+   7.2.4. Classification trees for car seat sales
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   7.2.5. Exercises
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Classification trees</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gini-index">
+   7.2.1. Gini index
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#entropy">
+   7.2.2. Entropy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-trees-for-heart-disease-diagnosis">
+   7.2.3. Classification trees for heart disease diagnosis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-trees-for-car-seat-sales">
+   7.2.4. Classification trees for car seat sales
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercises">
+   7.2.5. Exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="classification-trees">
+<h1><span class="section-number">7.2. </span>Classification trees<a class="headerlink" href="#classification-trees" title="Permalink to this headline">¶</a></h1>
+<p>Classification trees are very similar to regression trees, except that the target variable is categorical. In regression trees, we used the mean of the target variable in each region as the prediction. In classification trees, we use the most common class in each region as the prediction. Besides the most common class, we are also interested in the proportion of each class in each region. This is because the proportion of each class in each region is a measure of the <strong>purity</strong> of the region. A region is pure if it contains only one class. A region is impure if it contains multiple classes.</p>
+<div class="section" id="gini-index">
+<h2><span class="section-number">7.2.1. </span>Gini index<a class="headerlink" href="#gini-index" title="Permalink to this headline">¶</a></h2>
+<p>Although classification accuracy is a good measure for classification performance, a popular cost function (splitting criterion) for classification trees is the <a class="reference external" href="https://en.wikipedia.org/wiki/Gini_coefficient"><strong>Gini index</strong></a>, a measure of the impurity of a region (not just feature regions in machine learning, but also regions in society in economics, e.g. to measure income/wealth inequality). This is because classification accuracy is not sufficiently sensitive for building classification trees.</p>
+<p>The Gini index is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+G = 1 - \sum_{c=1}^C p_c^2 = \sum_{c=1}^C p_c (1 - p_c),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_c\)</span> is the proportion of class <span class="math notranslate nohighlight">\(c\)</span> in the region. The Gini index is zero if the region is pure, and is one if the region is impure. The Gini index is a measure of the probability of misclassification. The Gini index is also known as the <strong>Gini impurity</strong>.</p>
+</div>
+<div class="section" id="entropy">
+<h2><span class="section-number">7.2.2. </span>Entropy<a class="headerlink" href="#entropy" title="Permalink to this headline">¶</a></h2>
+<p>Another popular cost function (splitting criterion) for classification trees is the <a class="reference external" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)"><strong>entropy</strong></a>, which is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+H = - \sum_{c=1}^C p_c \log_2 p_c,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_c\)</span> is the proportion of class <span class="math notranslate nohighlight">\(c\)</span> in the region. The entropy is zero if the region is pure, and is one if the region is impure.</p>
+<p>When building classification trees, either the Gini index or the entropy are typically used to evaluate the quality of a particular split, and the split that produces the lowest cost is chosen. The Gini index and the entropy are very similar, and the Gini index is slightly faster to compute.</p>
+</div>
+<div class="section" id="classification-trees-for-heart-disease-diagnosis">
+<h2><span class="section-number">7.2.3. </span>Classification trees for heart disease diagnosis<a class="headerlink" href="#classification-trees-for-heart-disease-diagnosis" title="Permalink to this headline">¶</a></h2>
+<p>Get ready by importing the APIs needed from respective libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set a random seed for reproducibility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Heart.csv">Heart dataset</a> (click to explore) to predict whether a patient has heart disease or not. The target variable is <code class="docutils literal notranslate"><span class="pre">AHD</span></code>, which is a binary variable that indicates whether a patient has heart disease or not.</p>
+<p>Load the dataset and <em>remove the rows with missing values</em>. Inspect the first few rows of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heart_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Heart.csv&quot;</span>
+
+<span class="n">heart_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">heart_url</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">heart_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>Age</th>
+      <th>Sex</th>
+      <th>ChestPain</th>
+      <th>RestBP</th>
+      <th>Chol</th>
+      <th>Fbs</th>
+      <th>RestECG</th>
+      <th>MaxHR</th>
+      <th>ExAng</th>
+      <th>Oldpeak</th>
+      <th>Slope</th>
+      <th>Ca</th>
+      <th>Thal</th>
+      <th>AHD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>63</td>
+      <td>1</td>
+      <td>typical</td>
+      <td>145</td>
+      <td>233</td>
+      <td>1</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0</td>
+      <td>2.3</td>
+      <td>3</td>
+      <td>0.0</td>
+      <td>fixed</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>67</td>
+      <td>1</td>
+      <td>asymptomatic</td>
+      <td>160</td>
+      <td>286</td>
+      <td>0</td>
+      <td>2</td>
+      <td>108</td>
+      <td>1</td>
+      <td>1.5</td>
+      <td>2</td>
+      <td>3.0</td>
+      <td>normal</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>67</td>
+      <td>1</td>
+      <td>asymptomatic</td>
+      <td>120</td>
+      <td>229</td>
+      <td>0</td>
+      <td>2</td>
+      <td>129</td>
+      <td>1</td>
+      <td>2.6</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>reversable</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>37</td>
+      <td>1</td>
+      <td>nonanginal</td>
+      <td>130</td>
+      <td>250</td>
+      <td>0</td>
+      <td>0</td>
+      <td>187</td>
+      <td>0</td>
+      <td>3.5</td>
+      <td>3</td>
+      <td>0.0</td>
+      <td>normal</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>41</td>
+      <td>0</td>
+      <td>nontypical</td>
+      <td>130</td>
+      <td>204</td>
+      <td>0</td>
+      <td>2</td>
+      <td>172</td>
+      <td>0</td>
+      <td>1.4</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>normal</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Take a look at the structure of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heart_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 297 entries, 0 to 301
+Data columns (total 15 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   Unnamed: 0  297 non-null    int64  
+ 1   Age         297 non-null    int64  
+ 2   Sex         297 non-null    int64  
+ 3   ChestPain   297 non-null    object 
+ 4   RestBP      297 non-null    int64  
+ 5   Chol        297 non-null    int64  
+ 6   Fbs         297 non-null    int64  
+ 7   RestECG     297 non-null    int64  
+ 8   MaxHR       297 non-null    int64  
+ 9   ExAng       297 non-null    int64  
+ 10  Oldpeak     297 non-null    float64
+ 11  Slope       297 non-null    int64  
+ 12  Ca          297 non-null    float64
+ 13  Thal        297 non-null    object 
+ 14  AHD         297 non-null    object 
+dtypes: float64(2), int64(10), object(3)
+memory usage: 37.1+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Use the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.factorize.html"><code class="docutils literal notranslate"><span class="pre">factorize</span></code> method</a> from the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library to convert categorical variables to numerical variables. This is because the <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> library only accepts numerical variables. <code class="docutils literal notranslate"><span class="pre">ChestPain</span></code> is a categorical variable that indicates the type of chest pain. <code class="docutils literal notranslate"><span class="pre">Thal</span></code> is a categorical variable that indicates the type of thalassemia.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heart_df</span><span class="o">.</span><span class="n">ChestPain</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">heart_df</span><span class="o">.</span><span class="n">ChestPain</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">heart_df</span><span class="o">.</span><span class="n">Thal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">heart_df</span><span class="o">.</span><span class="n">Thal</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Get the feature matrix <code class="docutils literal notranslate"><span class="pre">X</span></code> and the target vector <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">heart_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;AHD&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">heart_df</span><span class="o">.</span><span class="n">AHD</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Fit a classification tree to the data using the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class from the <code class="docutils literal notranslate"><span class="pre">sklearn.tree</span></code> module. Set the <code class="docutils literal notranslate"><span class="pre">max_leaf_nodes</span></code> parameter to 6. This will limit the number of leaf nodes to 6. Set the <code class="docutils literal notranslate"><span class="pre">max_features</span></code> parameter to 3. This will limit the number of features to consider when looking for the best split to 3. It will randomly select these 3 features at each split.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(max_features=3, max_leaf_nodes=6)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(max_features=3, max_leaf_nodes=6)</pre></div></div></div></div></div></div></div>
+</div>
+<p>Compute the accuracy of the classification tree on the training data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8047138047138047
+</pre></div>
+</div>
+</div>
+</div>
+<p>Visualise the classification tree using the <code class="docutils literal notranslate"><span class="pre">plot_tree</span></code> function from the <code class="docutils literal notranslate"><span class="pre">sklearn.tree</span></code> module. Set the <code class="docutils literal notranslate"><span class="pre">filled</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">True</span></code> to colour the nodes in the tree according to the majority class in each region. Set the <code class="docutils literal notranslate"><span class="pre">feature_names</span></code> parameter to the list of feature names. Set the <code class="docutils literal notranslate"><span class="pre">class_names</span></code> parameter to the list of class names.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plot_tree</span><span class="p">(</span>
+    <span class="n">clf</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/classification-trees_17_0.png" src="../_images/classification-trees_17_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="classification-trees-for-car-seat-sales">
+<h2><span class="section-number">7.2.4. </span>Classification trees for car seat sales<a class="headerlink" href="#classification-trees-for-car-seat-sales" title="Permalink to this headline">¶</a></h2>
+<p>Next, let us study the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Carseats.csv">Carseats dataset</a> (click to explore). In this dataset, we want to predict whether a car seat will be <code class="docutils literal notranslate"><span class="pre">High</span></code> or <code class="docutils literal notranslate"><span class="pre">Low</span></code> based on the <code class="docutils literal notranslate"><span class="pre">Sales</span></code> and <code class="docutils literal notranslate"><span class="pre">Price</span></code> of the car seat.</p>
+<p>Load the dataset. <code class="docutils literal notranslate"><span class="pre">Sales</span></code> is a continuous variable so we recode it as a binary variable <code class="docutils literal notranslate"><span class="pre">High</span></code> by thresholding it at 8 using the <code class="docutils literal notranslate"><span class="pre">map()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library. <code class="docutils literal notranslate"><span class="pre">High</span></code> takes on a value of ‘Y’ if the Sales variable exceeds 8, ‘N’ otherwise. We also convert categorical variables to numerical variables using the <code class="docutils literal notranslate"><span class="pre">factorize</span></code> method from the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library as above.</p>
+<p>Inspect the first few rows of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carseats_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Carseats.csv&quot;</span>
+
+<span class="n">carseats_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">carseats_url</span><span class="p">)</span>
+<span class="n">carseats_df</span><span class="p">[</span><span class="s2">&quot;High&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">Sales</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">8</span> <span class="k">else</span> <span class="s2">&quot;N&quot;</span><span class="p">)</span>
+<span class="n">carseats_df</span><span class="o">.</span><span class="n">ShelveLoc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">carseats_df</span><span class="o">.</span><span class="n">ShelveLoc</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">carseats_df</span><span class="o">.</span><span class="n">Urban</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">Urban</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">carseats_df</span><span class="o">.</span><span class="n">US</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">US</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;Yes&quot;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">carseats_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+      <th>CompPrice</th>
+      <th>Income</th>
+      <th>Advertising</th>
+      <th>Population</th>
+      <th>Price</th>
+      <th>ShelveLoc</th>
+      <th>Age</th>
+      <th>Education</th>
+      <th>Urban</th>
+      <th>US</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9.50</td>
+      <td>138</td>
+      <td>73</td>
+      <td>11</td>
+      <td>276</td>
+      <td>120</td>
+      <td>0</td>
+      <td>42</td>
+      <td>17</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11.22</td>
+      <td>111</td>
+      <td>48</td>
+      <td>16</td>
+      <td>260</td>
+      <td>83</td>
+      <td>1</td>
+      <td>65</td>
+      <td>10</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.06</td>
+      <td>113</td>
+      <td>35</td>
+      <td>10</td>
+      <td>269</td>
+      <td>80</td>
+      <td>2</td>
+      <td>59</td>
+      <td>12</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7.40</td>
+      <td>117</td>
+      <td>100</td>
+      <td>4</td>
+      <td>466</td>
+      <td>97</td>
+      <td>2</td>
+      <td>55</td>
+      <td>14</td>
+      <td>1</td>
+      <td>1</td>
+      <td>N</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.15</td>
+      <td>141</td>
+      <td>64</td>
+      <td>3</td>
+      <td>340</td>
+      <td>128</td>
+      <td>0</td>
+      <td>38</td>
+      <td>13</td>
+      <td>1</td>
+      <td>0</td>
+      <td>N</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Take a look at the structure of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carseats_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 400 entries, 0 to 399
+Data columns (total 12 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   Sales        400 non-null    float64
+ 1   CompPrice    400 non-null    int64  
+ 2   Income       400 non-null    int64  
+ 3   Advertising  400 non-null    int64  
+ 4   Population   400 non-null    int64  
+ 5   Price        400 non-null    int64  
+ 6   ShelveLoc    400 non-null    int64  
+ 7   Age          400 non-null    int64  
+ 8   Education    400 non-null    int64  
+ 9   Urban        400 non-null    int64  
+ 10  US           400 non-null    int64  
+ 11  High         400 non-null    object 
+dtypes: float64(1), int64(10), object(1)
+memory usage: 37.6+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Split the dataset into training (200 samples) and test sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Sales&quot;</span><span class="p">,</span> <span class="s2">&quot;High&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">carseats_df</span><span class="o">.</span><span class="n">High</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">train_size</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For this dataset, let us use ‘entropy’ as the split criterion at each node to fit a classification tree to the training data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criteria</span> <span class="o">=</span> <span class="s2">&quot;entropy&quot;</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">min_sample_leaf</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">clf_gini</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+    <span class="n">criterion</span><span class="o">=</span><span class="n">criteria</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="n">min_sample_leaf</span>
+<span class="p">)</span>
+<span class="n">clf_gini</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf_gini</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.895
+</pre></div>
+</div>
+</div>
+</div>
+<p>Visualise the classification tree.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># one attractive feature of a tree is visulization.</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>  <span class="c1"># customize according to the size of your tree</span>
+<span class="n">plot_tree</span><span class="p">(</span>
+    <span class="n">clf_gini</span><span class="p">,</span>
+    <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">],</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/classification-trees_27_0.png" src="../_images/classification-trees_27_0.png" />
+</div>
+</div>
+<p>Build the confusion matrix to evaluate the model in accuracy for both training and test datasets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">clf_gini</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_train</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train Accuracy is &quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_train</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf_gini</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test Accuracy is &quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      No  Yes
+No   111   13
+Yes    8   68
+Train Accuracy is  89.5
+     No  Yes
+No   46   15
+Yes  13   23
+Test Accuracy is  71.1340206185567
+</pre></div>
+</div>
+</div>
+</div>
+<p>The test accuracy of the fitted model is significantly lower than the training accuracy, an indication of overfitting. You can go back and change the hyperparameters in the training process to reduce the dimension (flexibility) of the parameter space and reduce overfitting.</p>
+<p>Compute more metrics such as precision, recall, f1-score, etc.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           N       0.75      0.78      0.77        59
+           Y       0.64      0.61      0.62        38
+
+    accuracy                           0.71        97
+   macro avg       0.70      0.69      0.69        97
+weighted avg       0.71      0.71      0.71        97
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">7.2.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p><strong>1.</strong> All the following exercises use the <a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Caravan.csv">Caravan</a> dataset.</p>
+<p>Load the <strong>Caravan</strong> dataset and inspect the first five rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">caravan_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pykale/transparentML/raw/main/data/Caravan.csv&quot;</span>
+<span class="n">caravan_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">caravan_url</span><span class="p">)</span>
+<span class="n">caravan_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MOSTYPE</th>
+      <th>MAANTHUI</th>
+      <th>MGEMOMV</th>
+      <th>MGEMLEEF</th>
+      <th>MOSHOOFD</th>
+      <th>MGODRK</th>
+      <th>MGODPR</th>
+      <th>MGODOV</th>
+      <th>MGODGE</th>
+      <th>MRELGE</th>
+      <th>...</th>
+      <th>APERSONG</th>
+      <th>AGEZONG</th>
+      <th>AWAOREG</th>
+      <th>ABRAND</th>
+      <th>AZEILPL</th>
+      <th>APLEZIER</th>
+      <th>AFIETS</th>
+      <th>AINBOED</th>
+      <th>ABYSTAND</th>
+      <th>Purchase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>33</td>
+      <td>1</td>
+      <td>3</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1</td>
+      <td>3</td>
+      <td>7</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>6</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>4</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9</td>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>4</td>
+      <td>5</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>40</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>10</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>7</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 86 columns</p>
+</div></div></div>
+</div>
+<p><strong>2.</strong> Now, split the Caravan dataset into train and test sets using the proportion 80:20 and fit a <strong>DecisionTreeClassifier</strong> with <span class="math notranslate nohighlight">\(8\)</span> <strong>maximum leaf nodes</strong> and <span class="math notranslate nohighlight">\(6\)</span> <strong>maximum features</strong>. Calculate the testing accuracy and AUC of the fitted model. (Use <span class="math notranslate nohighlight">\(2022\)</span> as the random seed value)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+
+<span class="n">X2</span> <span class="o">=</span> <span class="n">caravan_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Purchase&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">caravan_df</span><span class="o">.</span><span class="n">Purchase</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.20</span><span class="p">)</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2022</span><span class="p">)</span>
+
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuarcy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuarcy</span><span class="p">)</span>
+
+
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: &quot;</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy:  0.9399141630901288
+AUC:  0.5891454664057404
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Now, train another <strong>DecisionTreeClassifier</strong> using <strong>entropy</strong> as the split criterion at each node to fit a classification tree with a <strong>maximum depth</strong> of <span class="math notranslate nohighlight">\(4\)</span> and a <strong>minimum sample leaf</strong> of <span class="math notranslate nohighlight">\(3\)</span> on the training data and find out the <strong>testing accuracy</strong> and <strong>AUC</strong>. (Use <span class="math notranslate nohighlight">\(2022\)</span> as the random seed value)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+
+
+<span class="n">criteria</span> <span class="o">=</span> <span class="s2">&quot;entropy&quot;</span>
+<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">min_sample_leaf</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">clf_gini</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+    <span class="n">criterion</span><span class="o">=</span><span class="n">criteria</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="n">min_sample_leaf</span>
+<span class="p">)</span>
+<span class="n">clf_gini</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf_gini</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuarcy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: &quot;</span><span class="p">,</span> <span class="n">accuarcy</span><span class="p">)</span>
+
+
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">clf_gini</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: &quot;</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy:  0.9399141630901288
+AUC:  0.7402804957599478
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Compare the performance of the trained models in <strong>Exercise 3</strong> with <strong>Exercise 2</strong>.</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>In terms of testing accuracy, the Exercise 2 model outperformed the Exercise 3 model, but accuracy is not the only metric to evaluate the models. When we look at the AUC score, which more comprehensively evaluates a model in imbalanced tasks, the Exercise 3 model outperforms the Exercise 2 model. Therefore, in this case we can see the Exercise 3 model is better than the Exercise 2 model.</p>
+</div>
+<p><strong>5.</strong> Create a <strong>confusion matrix</strong> and a <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html"><strong>classification report</strong></a> to help you evaluate the model you trained in <strong>Exercise 3</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Compare your answer with the reference solution below</em></p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf_gini</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion matrix</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cm</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Confusion matrix
+        No  Yes
+No   1093   68
+Yes     2    2
+              precision    recall  f1-score   support
+
+          No       0.94      1.00      0.97      1095
+         Yes       0.50      0.03      0.05        70
+
+    accuracy                           0.94      1165
+   macro avg       0.72      0.51      0.51      1165
+weighted avg       0.91      0.94      0.91      1165
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>a</strong>. What is the testing accuracy of the model trained in <strong>Exercise 3</strong>?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>The testing accuracy of the model trained in Exercise 3 is 0.94.</p>
+</div>
+<p><strong>b</strong>. Does the model predicted well?</p>
+<p><em>Compare your answer with the solution below</em></p>
+<div class="toggle docutils container">
+<p>If we only consider the test accuracy, we may conclude that the model learned the task effectively, but this is not the whole story. In fact, due to the class imbalance in the training data, this model is biased towards the “NO” class. If we look at the confusion matrix, we see that it predicts “NO” for almost all samples, and has a poor recall and precision rate for the “YES” class. Again, this shows that accuracy alone is also not always a good metric for evaluating models. Considering AUC, recall, and precision as well as showing the confusion matrix, we can get a much better picture.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./07-trees-ensembles"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="regression-trees.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">7.1. </span>Regression trees</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="ensembles.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7.3. </span>Ensemble learning</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Haiping Lu and Shuo Zhou<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
