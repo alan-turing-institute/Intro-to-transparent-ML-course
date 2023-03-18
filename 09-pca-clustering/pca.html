@@ -52,8 +52,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/pykale/transparentML/main/content/transparentml-logo.png"/>
@@ -1630,7 +1628,7 @@ Explained variance ratio:  [0.93 0.07]
 </div>
 <div class="section" id="exercises">
 <h2><span class="section-number">9.1.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
-<p><strong>1</strong>. Load the <strong>miceprotein dataset</strong> from <strong>sklearn.datasets</strong> using <strong>fetch_openml</strong> where the dataset contains <strong>gene expressions</strong> of <strong>mice brains</strong> and show the first 5 rows of the data. Hint: See <a class="reference external" href="https://scikit-learn.org/stable/datasets/loading_other_datasets.html#:~:text=gene%20expressions%20in%20mice%20brains">here</a> for further help.</p>
+<p><strong>1</strong>. Load the <strong>mice protein dataset</strong> from <strong>sklearn.datasets</strong> using <strong>fetch_openml</strong> where the dataset contains <strong>gene expressions</strong> of <strong>mice brains</strong> and show the first 5 rows of the data. Hint: See <a class="reference external" href="https://scikit-learn.org/stable/datasets/loading_other_datasets.html#:~:text=gene%20expressions%20in%20mice%20brains">here</a> for further help.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
@@ -1650,7 +1648,7 @@ Explained variance ratio:  [0.93 0.07]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/sklearn/datasets/_openml.py:932: FutureWarning: The default value of `parser` will change from `&#39;liac-arff&#39;` to `&#39;auto&#39;` in 1.4. You can set `parser=&#39;auto&#39;` to silence this warning. Therefore, an `ImportError` will be raised from 1.4 if the dataset is dense and pandas is not installed. Note that the pandas parser may return different data types. See the Notes Section in fetch_openml&#39;s API doc for details.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/sklearn/datasets/_openml.py:968: FutureWarning: The default value of `parser` will change from `&#39;liac-arff&#39;` to `&#39;auto&#39;` in 1.4. You can set `parser=&#39;auto&#39;` to silence this warning. Therefore, an `ImportError` will be raised from 1.4 if the dataset is dense and pandas is not installed. Note that the pandas parser may return different data types. See the Notes Section in fetch_openml&#39;s API doc for details.
   warn(
 </pre></div>
 </div>
@@ -1821,7 +1819,7 @@ Explained variance ratio:  [0.93 0.07]
 <p>5 rows × 77 columns</p>
 </div></div></div>
 </div>
-<p><strong>2.</strong> Using StandardScaler, standardise the loaded mouse protein dataset from <strong>Exercise 1</strong>.</p>
+<p><strong>2.</strong> Using StandardScaler, standardise the loaded mice protein dataset from <strong>Exercise 1</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
@@ -1841,7 +1839,7 @@ Explained variance ratio:  [0.93 0.07]
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Now, run <strong>PCA</strong> from <strong>sklearn</strong> explaining at least <span class="math notranslate nohighlight">\(95\%\)</span> variance on the <strong>standardised mouse protein dataset</strong> and display the <strong>top ten eigenvalues</strong>.</p>
+<p><strong>3.</strong> Now, run <strong>PCA</strong> from <strong>sklearn</strong> explaining at least <span class="math notranslate nohighlight">\(95\%\)</span> variance on the <strong>standardised mice protein dataset</strong> and display the <strong>top ten eigenvalues</strong>. Hint: Each eigenvalue represents the captured/explained variance in the direction of the respective eigenvector.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
@@ -1852,31 +1850,26 @@ Explained variance ratio:  [0.93 0.07]
 <p><em>Compare your answer with the reference solution below</em></p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">cov_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 
-<span class="k">for</span> <span class="n">eigenvector</span> <span class="ow">in</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">eigenvector</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov_matrix</span><span class="p">,</span> <span class="n">eigenvector</span><span class="p">)))</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The first 10 explained variance/eigenvalues are: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23.04876913576254
-13.358730172070146
-7.586459786950799
-7.161540399168171
-3.2824168810598997
-3.042339638744958
-2.36732540129829
-2.2552750062859226
-1.830754540428051
-1.2787183994614408
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The first 10 explained variance/eigenvalues are: 
+ [23.09059993 13.38297469  7.60022832  7.17453775  3.28837408  3.04786113
+  2.37162182  2.25936806  1.83407714  1.28103912]
 </pre></div>
 </div>
 </div>
 </div>
-<p><strong>4.</strong> Using the fitted PCA model in <strong>Exercise 3</strong>, find out the <strong>proportion of explained variance (PVE)</strong> and its <strong>ratio</strong> for the top 10 principal components.</p>
+<p><strong>4.</strong> Using the fitted PCA model in <strong>Exercise 3</strong>, find out the <strong>explained variance ratio</strong> for the top 10 principal components.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code below to answer the question</span>
@@ -1887,25 +1880,21 @@ Explained variance ratio:  [0.93 0.07]
 <p><em>Compare your answer with the reference solution below</em></p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The first 10 explained variance are: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
     <span class="s2">&quot;The first 10 explained variance ratio are: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The first 10 explained variance are: 
- [23.09059993 13.38297469  7.60022832  7.17453775  3.28837408  3.04786113
-  2.37162182  2.25936806  1.83407714  1.28103912]
-The first 10 explained variance ratio are: 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The first 10 explained variance ratio are: 
  [0.29933466 0.17349    0.09852545 0.09300702 0.04262879 0.0395109
  0.03074449 0.02928929 0.02377603 0.01660673]
 </pre></div>
 </div>
 </div>
 </div>
-<p><strong>5.</strong> After observing the <strong>PVE</strong> from <strong>Exercise 4</strong> carefuly, find out how many <strong>principal components</strong> should we take to preserve <span class="math notranslate nohighlight">\(70\%\)</span> of variance of the data?</p>
+<p><strong>5.</strong> After observing the <strong>explained variance ratio</strong> from <strong>Exercise 4</strong> carefully, find out how many <strong>principal components</strong> should we take to preserve <span class="math notranslate nohighlight">\(70\%\)</span> of variance of the data?</p>
 <div class="toggle docutils container">
 <p><strong>The first 5 principal components.</strong></p>
 </div>
