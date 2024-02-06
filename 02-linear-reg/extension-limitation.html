@@ -904,7 +904,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-Int64Index: 392 entries, 0 to 396
+Index: 392 entries, 0 to 396
 Data columns (total 9 columns):
  #   Column        Non-Null Count  Dtype  
 ---  ------        --------------  -----  
@@ -1003,8 +1003,8 @@ memory usage: 30.6+ KB
 y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon.
 \]</div>
 <p>This model can be extended to include an interaction term between <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7d37dda3-6ba9-4955-abd7-78f6c20d1d4b">
-<span class="eqno">(2.22)<a class="headerlink" href="#equation-7d37dda3-6ba9-4955-abd7-78f6c20d1d4b" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-15e540ff-4e77-4051-9442-6b2d80504a74">
+<span class="eqno">(2.22)<a class="headerlink" href="#equation-15e540ff-4e77-4051-9442-6b2d80504a74" title="Permalink to this equation">¶</a></span>\[\begin{align}
 y &amp;= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2 + \epsilon \\
 &amp;= \beta_0 + (\beta_1 + \beta_3 x_2) x_1 + \beta_2 x_2 + \epsilon \\
 &amp;= \beta_0 + \tilde{\beta}_1 x_1 + \beta_2 x_2 + \epsilon,
@@ -1142,8 +1142,8 @@ dtype: float64
 </div>
 </div>
 <p>The figure shows a strong relationship between <code class="docutils literal notranslate"><span class="pre">mpg</span></code> and <code class="docutils literal notranslate"><span class="pre">horsepower</span></code>, but it is clearly not linear. We can use a polynomial regression to fit a nonlinear model to the data. We can fit a polynomial regression of degree 2 (quadratic) to the data using the following regression:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7c58c0a9-c314-44bc-997c-392cee980bff">
-<span class="eqno">(2.23)<a class="headerlink" href="#equation-7c58c0a9-c314-44bc-997c-392cee980bff" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-20acda6a-17da-40cb-8d1f-ef92306ab695">
+<span class="eqno">(2.23)<a class="headerlink" href="#equation-20acda6a-17da-40cb-8d1f-ef92306ab695" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \textrm{mpg} = \beta_0 + \beta_1 \times \textrm{horsepower} + \beta_2 \times \textrm{horsepower}^2 + \epsilon.
 \end{equation}\]</div>
 <p>Run the following code to display the relationship between <code class="docutils literal notranslate"><span class="pre">mpg</span></code> (gas mileage in miles per gallon) and <span class="math notranslate nohighlight">\(\textrm{horsepower}^2\)</span> as well as <span class="math notranslate nohighlight">\(\textrm{horsepower}^5\)</span> (Figure 3.8 of the textbook) for cars in the <code class="docutils literal notranslate"><span class="pre">Auto</span></code> dataset.</p>
@@ -1789,10 +1789,10 @@ chas
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   31.47</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 18 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>1.57e-56</td>
+  <th>Date:</th>             <td>Tue, 06 Feb 2024</td> <th>  Prob (F-statistic):</th> <td>1.57e-56</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:27:27</td>     <th>  Log-Likelihood:    </th> <td> -1653.3</td>
+  <th>Time:</th>                 <td>21:47:13</td>     <th>  Log-Likelihood:    </th> <td> -1653.3</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   506</td>      <th>  AIC:               </th> <td>   3335.</td>
@@ -2147,7 +2147,7 @@ np.power(medv, 3)     1.046510e-12
 <span class="n">boston_df</span><span class="p">[</span><span class="s2">&quot;resid1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">crim</span> <span class="o">-</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">pred1</span>
 
 
-<span class="n">boston_df</span><span class="p">[</span><span class="s2">&quot;ptratio2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">nox</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">boston_df</span><span class="p">[</span><span class="s2">&quot;ptratio2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">boston_df</span><span class="o">.</span><span class="n">ptratio</span><span class="o">**</span><span class="mi">2</span>
 <span class="c1"># Quadratic fit</span>
 <span class="n">X2</span> <span class="o">=</span> <span class="n">boston_df</span><span class="p">[[</span><span class="s2">&quot;ptratio&quot;</span><span class="p">,</span> <span class="s2">&quot;ptratio2&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">regr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>

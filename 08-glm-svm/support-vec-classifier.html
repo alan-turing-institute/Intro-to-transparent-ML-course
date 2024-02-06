@@ -1044,7 +1044,7 @@ y_n(\beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + \cdots + \beta_D x_{nD}) &gt; 0,
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input:  [-1.19276461 -0.20487651]
 Intercept:  0.5729441305210916  Coefficients:  [-0.73273926 -0.70326681]
-Prediction score:  1.5910124372951466
+Prediction score:  1.5910124372951457
 Prediction:  1
 </pre></div>
 </div>
@@ -1057,8 +1057,8 @@ Prediction:  1
 <li><p>For the data point <span class="math notranslate nohighlight">\([-1.19276461, -0.20487651]\)</span> marked by a black circle, its prediction score is <span class="math notranslate nohighlight">\( -0.7327 \times -1.19276461 + -0.7033 \times -0.20487651 + 0.5729 \approx 1.5910 \)</span>, which is positive. So the predicted label is <span class="math notranslate nohighlight">\( 1 \)</span>.</p></li>
 <li><p>According to the definition, the data points on the hyperplane satisfies <span class="math notranslate nohighlight">\( \beta_0 + \beta_1 x_{1} + \beta_2 x_{2} = 0 \)</span>, i.e. <span class="math notranslate nohighlight">\( 0.5729 -0.7327 \times x_1 -0.7033 \times x_2 = 0 \)</span>. To get a data point <span class="math notranslate nohighlight">\( \mathbf{x} = [x_1, x_2]^\top \)</span> of class <span class="math notranslate nohighlight">\( 1 \)</span>, the relationship between <span class="math notranslate nohighlight">\( x_1 \)</span> and <span class="math notranslate nohighlight">\( x_2 \)</span> should satisfy:</p></li>
 </ul>
-<div class="amsmath math notranslate nohighlight" id="equation-fafe19d0-bbfd-49c1-8829-70697219d713">
-<span class="eqno">(8.6)<a class="headerlink" href="#equation-fafe19d0-bbfd-49c1-8829-70697219d713" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8b21e3a2-06d5-41ea-b335-253d7cd768ee">
+<span class="eqno">(8.6)<a class="headerlink" href="#equation-8b21e3a2-06d5-41ea-b335-253d7cd768ee" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \begin{aligned}
 \beta_0 + \beta_1 x_{1} + \beta_2 x_{2} &amp; &gt; 0 \\
 \beta_1 x_{1} &amp; &gt; - \beta_0 - \beta_2 x_{2} \\
@@ -1102,14 +1102,14 @@ x_1 &amp; &gt; 0.7819 - 0.9598 \times x_2.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean_fit_time&#39;: array([0.00063744, 0.00061395, 0.00061688, 0.00061214, 0.00064116,
-        0.00064161, 0.00078113]),
- &#39;std_fit_time&#39;: array([4.25035803e-05, 1.49883390e-05, 1.74196387e-05, 1.57331877e-05,
-        2.05083776e-05, 1.59670864e-05, 6.27727685e-05]),
- &#39;mean_score_time&#39;: array([0.00045214, 0.00044293, 0.00045364, 0.00043995, 0.00044925,
-        0.00045009, 0.00047281]),
- &#39;std_score_time&#39;: array([2.32205988e-05, 1.38860351e-05, 3.19539695e-05, 1.40586321e-05,
-        1.13883499e-05, 1.14623560e-05, 8.43641371e-06]),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean_fit_time&#39;: array([0.00062509, 0.00059333, 0.00060616, 0.00058961, 0.0006043 ,
+        0.00060968, 0.00071616]),
+ &#39;std_fit_time&#39;: array([5.51738713e-05, 1.59484744e-05, 4.06034890e-05, 9.75711832e-06,
+        1.19714620e-05, 2.83186278e-05, 3.28737292e-05]),
+ &#39;mean_score_time&#39;: array([0.00053644, 0.00053582, 0.0005198 , 0.0005259 , 0.00051839,
+        0.0005187 , 0.00051785]),
+ &#39;std_score_time&#39;: array([2.98166241e-05, 2.88937744e-05, 1.10245328e-05, 1.28700990e-05,
+        7.40561267e-06, 1.33923347e-05, 2.53218041e-06]),
  &#39;param_C&#39;: masked_array(data=[0.001, 0.01, 0.1, 1, 5, 10, 100],
               mask=[False, False, False, False, False, False, False],
         fill_value=&#39;?&#39;,

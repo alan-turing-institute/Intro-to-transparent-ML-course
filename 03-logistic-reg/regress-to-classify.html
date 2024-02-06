@@ -852,7 +852,19 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/regress-to-classify_5_0.png" src="../_images/regress-to-classify_5_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2099/1659466026.py:39: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(data=df, y=&quot;balance&quot;, x=&quot;default&quot;, orient=&quot;v&quot;, ax=ax2, palette=c_palette)
+/tmp/ipykernel_2099/1659466026.py:40: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(data=df, y=&quot;income&quot;, x=&quot;default&quot;, orient=&quot;v&quot;, ax=ax3, palette=c_palette)
+</pre></div>
+</div>
+<img alt="../_images/regress-to-classify_5_1.png" src="../_images/regress-to-classify_5_1.png" />
 </div>
 </div>
 <p>In the left-hand panel, the individuals who defaulted in a given month are shown in orange, and those who did not in blue. (The overall default rate is about 3%, so we have plotted only a fraction of the individuals who did not default.) In the centre and right-hand panels, two pairs of boxplots are shown. The first shows the distribution of balance split by the binary default variable; the second is a similar plot for income.</p>
@@ -1184,7 +1196,19 @@ y = \begin{cases} 1 &amp; \text{if stroke}, \\ 0 &amp; \text{if drug overdose}. 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/regress-to-classify_18_0.png" src="../_images/regress-to-classify_18_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2099/3770042660.py:12: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(data=df, y=&quot;Volume&quot;, x=&quot;Direction&quot;, orient=&quot;v&quot;, ax=ax2, palette=c_palette)
+/tmp/ipykernel_2099/3770042660.py:13: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(data=df, y=&quot;Today&quot;, x=&quot;Direction&quot;, orient=&quot;v&quot;, ax=ax3, palette=c_palette)
+</pre></div>
+</div>
+<img alt="../_images/regress-to-classify_18_1.png" src="../_images/regress-to-classify_18_1.png" />
 </div>
 </div>
 <p><strong>3</strong>. Use a linear regression model for binary classification on the <strong><a class="reference external" href="https://github.com/pykale/transparentML/blob/main/data/Weekly.csv">Weekly</a></strong> dataset and explain why you should not perform classification using a regression method. <strong>Hint</strong>: See section <a class="reference external" href="https://pykale.github.io/transparentML/03-logistic-reg/regress-to-classify.html#will-the-binary-case-work">3.1.2.2</a>.</p>

@@ -895,10 +895,10 @@ const thebe_selector_output = ".output, .cell_output"
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   457.3</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 18 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Tue, 06 Feb 2024</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:29:10</td>     <th>  Log-Likelihood:    </th> <td> -49743.</td> 
+  <th>Time:</th>                 <td>21:48:58</td>     <th>  Log-Likelihood:    </th> <td> -49743.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  8645</td>      <th>  AIC:               </th> <td>9.957e+04</td>
@@ -1154,7 +1154,21 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/glm_13_0.png" src="../_images/glm_13_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2345/623161877.py:4: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2345/623161877.py:17: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(
+</pre></div>
+</div>
+<img alt="../_images/glm_13_2.png" src="../_images/glm_13_2.png" />
 </div>
 </div>
 <p>This figure corresponds to Figure 4.14 in the textbook. Intuitively, when the expected number of bikers is small, its variance should be small as well. For example, at 2 AM during a heavy December snow storm, we expect that extremely few people will use a bike, and moreover that there should be little variance associated with the number of users during those conditions. This is borne out in the data: between 1 AM and 4 AM, in December, January, and February, when it is raining, there are 5.05 users, on average, with a standard deviation of 3.73. By contrast, between 7 AM and 10 AM, in April, May, and June, when skies are clear, there are 243.59 users, on average, with a standard deviation of 131.7. The mean-variance relationship is displayed in the left-hand panel of the figure above. This is a major violation of the assumptions of a linear model, which state that <span class="math notranslate nohighlight">\(y = \sum_{d=1}^{D}x_d\beta_d + \epsilon\)</span>, where <span class="math notranslate nohighlight">\(\epsilon\)</span> is a mean-zero error term with variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> that is constant, and not a function of the features (covariates). Therefore, the heteroscedasticity of the data calls into question the suitability of a linear regression model.</p>
@@ -1225,10 +1239,10 @@ const thebe_selector_output = ".output, .cell_output"
   <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>   <td>    39</td>   
 </tr>
 <tr>
-  <th>Date:</th>            <td>Sat, 18 Mar 2023</td> <th>  Pseudo R-squ.:     </th>   <td>0.7459</td>   
+  <th>Date:</th>            <td>Tue, 06 Feb 2024</td> <th>  Pseudo R-squ.:     </th>   <td>0.7459</td>   
 </tr>
 <tr>
-  <th>Time:</th>                <td>17:29:13</td>     <th>  Log-Likelihood:    </th> <td>-1.4054e+05</td>
+  <th>Time:</th>                <td>21:49:00</td>     <th>  Log-Likelihood:    </th> <td>-1.4054e+05</td>
 </tr>
 <tr>
   <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td>-5.5298e+05</td>
